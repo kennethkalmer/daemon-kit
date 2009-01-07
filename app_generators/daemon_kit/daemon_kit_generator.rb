@@ -29,9 +29,12 @@ class DaemonKitGenerator < RubiGen::Base
       # m.file     "file",         "some_file_copied"
       # m.file_copy_each ["path/to/file", "path/to/file2"]
       
+      # Readme
+      m.template  "README", "README"
+      
       # Executables
       m.directory "bin"
-      m.template  "bin/daemon.erb", "bin/#{daemon_name}.rb", script_options
+      m.template  "bin/daemon.erb", "bin/#{daemon_name}", script_options
       m.directory "libexec"
       m.template  "libexec/daemon.erb", "libexec/#{daemon_name}.rb"
 

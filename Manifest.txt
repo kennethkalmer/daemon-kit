@@ -1,7 +1,7 @@
 History.txt
 Manifest.txt
 PostInstall.txt
-README.rdoc
+README.textile
 Rakefile
 bin/daemon-kit
 config/website.yml.sample

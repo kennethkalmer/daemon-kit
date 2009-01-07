@@ -38,7 +38,7 @@ module DaemonKit
     def load_initializer
       gem 'daemon_kit'
     rescue Gem::LoadError => e
-      $stderr.puts %(Missing the daemon-kit gem. Please `gem install daemon_kit`)
+      $stderr.puts %(Missing the daemon-kit gem. Please 'gem install daemon_kit')
     end
   end
 end

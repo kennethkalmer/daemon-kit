@@ -45,7 +45,7 @@ module DaemonKit
     end
     
     def set_load_path
-      %w().each do |d|
+      configuration.load_paths.each do |d|
         $:.unshift( "#{DAEMON_ROOT}/#{d}" ) if File.directory?( "#{DAEMON_ROOT}/#{d}" )
       end
     end
@@ -74,6 +74,13 @@ module DaemonKit
       end
       
       DaemonKit.logger = logger
+
+      trap("USR1") do
+        DaemonKit.logger.level == Logger::DEBUG ? Logger::INFO : Logger::DEBUG
+      end
+      trap("USR2") do
+        DaemonKit.logger.level = Logger::DEBUG
+      end
     end
     
   end
@@ -81,16 +88,18 @@ module DaemonKit
   # Holds our various configuration values
   class Configuration
     attr_reader :root_path
-
+    
+    attr_accessor :load_paths
     attr_accessor :log_level
     attr_accessor :log_path
     attr_accessor :logger
 
     def initialize
       set_root_path!
-
-      self.log_level = default_log_level
-      self.log_path  = default_log_path
+      
+      self.load_paths = default_load_paths
+      self.log_level  = default_log_level
+      self.log_path   = default_log_path
     end
 
     def set_root_path!
@@ -123,6 +132,10 @@ module DaemonKit
     end
     
     private
+
+    def default_load_paths
+      [ 'lib' ]
+    end
     
     def default_log_path
       File.join(root_path, 'log', "#{environment}.log")

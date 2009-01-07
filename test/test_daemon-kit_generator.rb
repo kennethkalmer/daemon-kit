@@ -29,9 +29,10 @@ class TestDaemonKitGenerator < Test::Unit::TestCase
 
   def test_generator_without_options
     run_generator('daemon_kit', [APP_ROOT], sources)
-    
+
+    assert_generated_file   "README"
     assert_directory_exists "bin"
-    assert_generated_file   "bin/#{daemon_name}.rb"
+    assert_generated_file   "bin/#{daemon_name}"
     assert_directory_exists "config"
     assert_generated_file   "config/boot.rb"
     assert_generated_file   "config/environment.rb"
