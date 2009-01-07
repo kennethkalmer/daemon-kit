@@ -7,4 +7,4 @@ rescue LoadError
 end
 
 $:.unshift(File.dirname(__FILE__) + '/../lib')
-require 'daemon-kit'
+require 'daemon_kit'
