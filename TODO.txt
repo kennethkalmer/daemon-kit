@@ -1,0 +1,19 @@
+DaemonKit TODO List
+===================
+
+This is purely a drop in the bucket of what has to come...
+
+* Easy way to trap signals
+* Error handling to the degree Rails does
+* Easy configuration of an ORM of choice, including patching it if needed (ActiveRecourd *cough*)
+* Improved generators for creating skeleton daemons:
+  * Jabber bot
+  * Evented jabber bot
+  * Empty periodic event loop
+  * Empty periodic loop (non-evented)
+  * Queue (SQS, AMQP, etc) pollers
+* Rake tasks for generating:
+  * god configs
+* Pre-built capistrano configs for easy deployment
+* Support for dropping privileges
+* Support for chroot'ing

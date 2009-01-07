@@ -6,6 +6,14 @@ h2. DESCRIPTION:
 
 Daemon Kit aims to simplify creating Ruby daemons by providing a sound application skeleton (through a generator), task specific generators (jabber bot, etc) and robust environment management code.
 
+Using simple built-in generators it is easy to created evented and non-evented daemons that perform a multitude of different tasks.
+
+Supported generators:
+
+* Evented and non-evented Jabber Bot (coming next)
+* Evented and non-evented loops (coming soon)
+* Queue poller (SQS, AMQP, etc) (coming soon)
+
 h2. FEATURES/PROBLEMS:
 
 * Build it
