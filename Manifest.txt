@@ -9,6 +9,9 @@ app_generators/daemon_kit/templates/README
 app_generators/daemon_kit/templates/bin/daemon.erb
 app_generators/daemon_kit/templates/config/boot.rb
 app_generators/daemon_kit/templates/config/environment.rb
+app_generators/daemon_kit/templates/config/environments/development.rb
+app_generators/daemon_kit/templates/config/environments/production.rb
+app_generators/daemon_kit/templates/config/environments/test.rb
 app_generators/daemon_kit/templates/libexec/daemon.erb
 bin/daemon_kit
 config/website.yml.sample

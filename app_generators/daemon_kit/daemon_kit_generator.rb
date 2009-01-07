@@ -42,6 +42,8 @@ class DaemonKitGenerator < RubiGen::Base
       m.directory "config"
       m.file      "config/boot.rb", "config/boot.rb"
       m.template  "config/environment.rb", "config/environment.rb"
+      m.directory "config/environments"
+      %w{ development test production }.each { |f| m.file "config/environments/#{f}.rb", "config/environments/#{f}.rb" }
 
       # Libraries
       m.directory "lib"

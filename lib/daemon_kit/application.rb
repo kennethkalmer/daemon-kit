@@ -11,11 +11,11 @@ module DaemonKit
       def run( file )
         raise DaemonNotFound.new( file ) unless File.exist?( file )
         
-        app_name = DaemonKit.config.daemon_name || File.basename( file )
+        app_name = DaemonKit.configuration.daemon_name || File.basename( file )
         options = { :backtrace => true, :log_output => true, :app_name => app_name }
 
-        options[:multiple] = DaemonKit.config.multiple
-        options[:force_kill_wait] = DaemonKit.config.force_kill_wait if DaemonKit.config.force_kill_wait
+        options[:multiple] = DaemonKit.configuration.multiple
+        options[:force_kill_wait] = DaemonKit.configuration.force_kill_wait if DaemonKit.configuration.force_kill_wait
 
         Daemons.run( file, options )
       end

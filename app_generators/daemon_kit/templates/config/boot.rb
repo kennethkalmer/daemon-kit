@@ -1,7 +1,7 @@
 # Don't change this file!
 # Configure your daemon in config/environment.rb
 
-DAEMON_ROOT = "#{File.dirname(__FILE_)}/.." unless defined?( DAEMON_ROOT )
+DAEMON_ROOT = "#{File.dirname(__FILE__)}/.." unless defined?( DAEMON_ROOT )
 
 module DaemonKit
   class << self
@@ -16,9 +16,12 @@ module DaemonKit
     end
 
     def pick_boot
-      (vendor_kit? ? VerdorBoot : GemBoot).new
+      (vendor_kit? ? VendorBoot : GemBoot).new
     end
-    
+
+    def vendor_kit?
+      File.exists?( "#{DAEMON_ROOT}/vendor/daemon_kit" )
+    end
   end
 
   class Boot
@@ -28,17 +31,22 @@ module DaemonKit
     end
   end
 
-  class VendorBoot
+  class VendorBoot < Boot
     def load_initializer
       require "#{DAEMON_ROOT}/vendor/daemon_kit/lib/daemon_kit/initializer"
     end
   end
   
-  class GemBoot
+  class GemBoot < Boot
     def load_initializer
-      gem 'daemon_kit'
+      require 'rubygems'
+      gem 'daemon-kit'
+      require 'daemon_kit/initializer'
     rescue Gem::LoadError => e
       $stderr.puts %(Missing the daemon-kit gem. Please 'gem install daemon_kit')
+      exit 1
     end
   end
 end
+
+DaemonKit.boot!

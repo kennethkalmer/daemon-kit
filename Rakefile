@@ -5,6 +5,7 @@ require File.dirname(__FILE__) + '/lib/daemon_kit'
 # Generate all the Rake tasks
 # Run 'rake -T' to see list of generated tasks (from gem root directory)
 $hoe = Hoe.new('daemon-kit', DaemonKit::VERSION) do |p|
+  p.summary = 'Daemon Kit aims to simplify creating Ruby daemons by providing a sound application skeleton (through a generator), task specific generators (jabber bot, etc) and robust environment management code.'
   p.developer('Kenneth Kalmer', 'kenneth.kalmer@gmail.com')
   p.changes              = p.paragraphs_of("History.txt", 0..1).join("\n\n")
   p.post_install_message = 'PostInstall.txt' # TODO remove if post-install message not required

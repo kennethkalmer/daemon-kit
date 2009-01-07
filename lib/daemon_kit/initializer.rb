@@ -3,6 +3,9 @@ require 'pathname'
 
 DAEMON_ENV = (ENV['DAEMON_ENV'] || 'development').dup unless defined?(DAEMON_ENV)
 
+$:.unshift File.dirname(__FILE__) + '/..'
+require 'daemon_kit'
+
 module DaemonKit
 
   class << self
@@ -14,6 +17,15 @@ module DaemonKit
     def logger=( logger )
       @logger = logger
     end
+
+    def configuration
+      @configuration
+    end
+
+    def configuration=( configuration )
+      @configuration = configuration
+    end
+    
     
   end
   
@@ -36,6 +48,8 @@ module DaemonKit
     end
 
     def process
+      DaemonKit.configuration = @configuration
+      
       set_load_path
       load_gems
       load_patches
@@ -54,6 +68,9 @@ module DaemonKit
     end
 
     def load_patches
+      if !!configuration.force_kill_wait
+        require 'daemon_kit/patches/force_kill_wait'
+      end
     end
 
     def load_environment
@@ -87,12 +104,29 @@ module DaemonKit
   
   # Holds our various configuration values
   class Configuration
+    # Root to the daemon
     attr_reader :root_path
-    
+
+    # List of load paths
     attr_accessor :load_paths
+
+    # The log level to use, defaults to DEBUG
     attr_accessor :log_level
+
+    # Path to the log file, defaults to 'log/<environment>.log'
     attr_accessor :log_path
+
+    # Provide a custom logger to use
     attr_accessor :logger
+
+    # The application name
+    attr_accessor :daemon_name
+
+    # Allow multiple copies to run?
+    attr_accessor :multiple
+
+    # Use the force kill patch? Give the number of seconds
+    attr_accessor :force_kill_wait
 
     def initialize
       set_root_path!
@@ -100,6 +134,9 @@ module DaemonKit
       self.load_paths = default_load_paths
       self.log_level  = default_log_level
       self.log_path   = default_log_path
+
+      self.multiple = false
+      self.force_kill_wait = false
     end
 
     def set_root_path!
@@ -142,7 +179,7 @@ module DaemonKit
     end
 
     def default_log_level
-      environment == 'production' ? :info : :debug
+      environment == 'production' ? Logger::INFO : Logger::DEBUG
     end
   end
   
