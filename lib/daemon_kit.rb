@@ -3,7 +3,7 @@ $:.unshift(File.dirname(__FILE__)) unless
 
 require 'rubygems'
 
-require 'daemon_kit/initializer'
+require 'daemon_kit/application'
 
 module DaemonKit
   VERSION = '0.0.1'
