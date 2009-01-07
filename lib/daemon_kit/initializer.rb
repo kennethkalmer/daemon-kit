@@ -36,25 +36,32 @@ module DaemonKit
 
     attr_reader :configuration
     
-    def self.run( command = :process, configuration = Configuration.new )
+    def self.run( configuration = Configuration.new )
       yield configuration if block_given?
       initializer = new configuration
-      initializer.send( command )
+      initializer.before_daemonize
       initializer
+    end
+
+    def self.continue!
+      initializer = new DaemonKit.configuration
+      initializer.after_daemonize
     end
     
     def initialize( configuration )
       @configuration = configuration
     end
 
-    def process
+    def before_daemonize
       DaemonKit.configuration = @configuration
       
       set_load_path
       load_gems
       load_patches
       load_environment
+    end
 
+    def after_daemonize
       initialize_logger
     end
     

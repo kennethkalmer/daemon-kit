@@ -1,6 +1,10 @@
 # Change this file to be a wrapper around your daemon code.
 
+# Don't remove this line
+DaemonKit::Application.running!
+
+# Sample loop to show process
 loop do
-  DaemonKit.logger "I'm running"
+  DaemonKit.logger.info "I'm running"
   sleep 60
 end

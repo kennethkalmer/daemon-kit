@@ -20,6 +20,12 @@ module DaemonKit
         Daemons.run( file, options )
       end
       
+      # Call this from inside a daemonized process to complete the
+      # initialization process
+      def running!
+        DaemonKit::Initializer.continue!
+      end
+      
     end
     
   end
