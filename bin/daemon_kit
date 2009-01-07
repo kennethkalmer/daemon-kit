@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'rubigen'
+
+if %w(-v --version).include? ARGV.first
+  require 'daemon_kit'
+  puts "#{File.basename($0)} #{DaemonKit::VERSION}"
+  exit(0)
+end
+
+require 'rubigen/scripts/generate'
+RubiGen::Base.use_application_sources! :rubygems
+RubiGen::Base.prepend_sources(*[
+  RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "app_generators")),
+  RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "daemon_generators")),
+  RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "rubygems_generators"))
+])
+RubiGen::Scripts::Generate.new.run(ARGV, :generator => 'daemon_kit')
