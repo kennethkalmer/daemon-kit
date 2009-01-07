@@ -17,3 +17,6 @@ This is purely a drop in the bucket of what has to come...
 * Pre-built capistrano configs for easy deployment
 * Support for dropping privileges
 * Support for chroot'ing
+* Improved and cleaned up logging
+* Plenty of docs, seriously a lot of docs
+* Specs & features, tons of them too

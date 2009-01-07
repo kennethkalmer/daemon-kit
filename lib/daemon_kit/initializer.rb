@@ -47,6 +47,11 @@ module DaemonKit
       initializer = new DaemonKit.configuration
       initializer.after_daemonize
     end
+
+    def self.shutdown
+      DaemonKit.logger.warn "Shutting down"
+      exit
+    end
     
     def initialize( configuration )
       @configuration = configuration
@@ -63,6 +68,7 @@ module DaemonKit
 
     def after_daemonize
       initialize_logger
+      initialize_signal_traps
     end
     
     def set_load_path
@@ -72,6 +78,7 @@ module DaemonKit
     end
 
     def load_gems
+      
     end
 
     def load_patches
@@ -99,11 +106,29 @@ module DaemonKit
       
       DaemonKit.logger = logger
 
-      trap("USR1") do
-        DaemonKit.logger.level == Logger::DEBUG ? Logger::INFO : Logger::DEBUG
-      end
-      trap("USR2") do
+      configuration.trap("USR1") {
+        DaemonKit.logger.level = DaemonKit.logger.debug? ? Logger::INFO : Logger::DEBUG
+        DaemonKit.logger.info "Log level changed to #{DaemonKit.logger.debug? ? 'DEBUG' : 'INFO' }"
+      }
+      configuration.trap("USR2") {
         DaemonKit.logger.level = Logger::DEBUG
+        DaemonKit.logger.info "Log level changed to DEBUG"
+      }
+
+      DaemonKit.logger.info "DaemonKit up and running in #{DAEMON_ENV} mode"
+    end
+
+    def initialize_signal_traps
+      log_terminate = Proc.new { DaemonKit::Initializer.shutdown }
+      configuration.trap( 'INT' , log_terminate )
+      configuration.trap( 'TERM', log_terminate )
+
+      configuration.signal_traps.each do |signal, traps|
+        DaemonKit.logger.info "Setting up signal traps for #{signal}"
+        
+        traps.each do |trap|
+          Signal.trap( signal ) { trap.call }
+        end
       end
     end
     
@@ -135,6 +160,9 @@ module DaemonKit
     # Use the force kill patch? Give the number of seconds
     attr_accessor :force_kill_wait
 
+    # Collection of signal traps
+    attr_reader :signal_traps
+
     def initialize
       set_root_path!
       
@@ -144,8 +172,30 @@ module DaemonKit
 
       self.multiple = false
       self.force_kill_wait = false
+
+      @signal_traps = {}
     end
 
+    def environment
+      ::DAEMON_ENV
+    end
+
+    # The path to the current environment's file (<tt>development.rb</tt>, etc.). By
+    # default the file is at <tt>config/environments/#{environment}.rb</tt>.
+    def environment_path
+      "#{root_path}/config/environments/#{environment}.rb"
+    end
+    
+    # Add a trap for the specified signal, can be code block or a proc
+    def trap( signal, proc = nil, &block )
+      return if proc.nil? && !block_given?
+
+      @signal_traps[signal] ||= []
+      @signal_traps[signal] << ( proc || block )
+    end
+    
+    private
+    
     def set_root_path!
       raise "DAEMON_ROOT is not set" unless defined?(::DAEMON_ROOT)
       raise "DAEMON_ROOT is not a directory" unless defined?(::DAEMON_ROOT)
@@ -164,18 +214,6 @@ module DaemonKit
       Object.const_set(:RELATIVE_DAEMON_ROOT, ::DAEMON_ROOT.dup) unless defined?(::RELATIVE_DAEMON_ROOT)
       ::DAEMON_ROOT.replace @root_path
     end
-
-    def environment
-      ::DAEMON_ENV
-    end
-
-    # The path to the current environment's file (<tt>development.rb</tt>, etc.). By
-    # default the file is at <tt>config/environments/#{environment}.rb</tt>.
-    def environment_path
-      "#{root_path}/config/environments/#{environment}.rb"
-    end
-    
-    private
 
     def default_load_paths
       [ 'lib' ]
