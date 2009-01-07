@@ -123,13 +123,13 @@ module DaemonKit
       configuration.trap( 'INT' , log_terminate )
       configuration.trap( 'TERM', log_terminate )
 
-      configuration.signal_traps.each do |signal, traps|
-        DaemonKit.logger.info "Setting up signal traps for #{signal}"
-        
-        traps.each do |trap|
-          Signal.trap( signal ) { trap.call }
-        end
-      end
+      #configuration.signal_traps.each do |signal, traps|
+      #  DaemonKit.logger.info "Setting up signal traps for #{signal}"
+      #  
+      #  traps.each do |trap|
+      #    
+      #  end
+      #end
     end
     
   end
@@ -161,7 +161,7 @@ module DaemonKit
     attr_accessor :force_kill_wait
 
     # Collection of signal traps
-    attr_reader :signal_traps
+    #attr_reader :signal_traps
 
     def initialize
       set_root_path!
@@ -173,7 +173,7 @@ module DaemonKit
       self.multiple = false
       self.force_kill_wait = false
 
-      @signal_traps = {}
+      #@signal_traps = {}
     end
 
     def environment
@@ -190,8 +190,9 @@ module DaemonKit
     def trap( signal, proc = nil, &block )
       return if proc.nil? && !block_given?
 
-      @signal_traps[signal] ||= []
-      @signal_traps[signal] << ( proc || block )
+      #@signal_traps[signal] ||= []
+      #@signal_traps[signal] << ( proc || block )
+      Signal.trap( signal ) { (proc || block).call }
     end
     
     private

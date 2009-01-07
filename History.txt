@@ -1,4 +1,5 @@
 == 0.1.0 (not released yet)
 
+* Flexible UNIX signal trap configuration
 * Basic generator completed
 * 1 small step for man, 1 giant leap for mankind
