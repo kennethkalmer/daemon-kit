@@ -1,0 +1,26 @@
+# Jabber configuration file
+
+# The configuration specifies the following keys:
+# * jabber_id  - Identidy (username) of the user
+# * password   - Password used to authenticate
+# * resource   - Multiple connections can be made with the same credentials and different resources
+# * masters    - Array of Jabber ID's whose messages will be processed
+# * supporters - Additional 'buddies' to keep on roster, but messages won't be processed
+
+defaults: &defaults
+  jabber_id: <%= name %>@gmail.com
+  password: secret
+  resource: daemon_kit
+  masters: 
+    - you@gmail.com
+  supporters:
+    - someone@gmail.com
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

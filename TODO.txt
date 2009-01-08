@@ -3,11 +3,11 @@ DaemonKit TODO List
 
 This is purely a drop in the bucket of what has to come...
 
-* Easy way to trap signals
+* [DONE] Easy way to trap signals 
 * Error handling to the degree Rails does
 * Easy configuration of an ORM of choice, including patching it if needed (ActiveRecourd *cough*)
 * Improved generators for creating skeleton daemons:
-  * Jabber bot
+  * [DONE] Jabber bot
   * Evented jabber bot
   * Empty periodic event loop
   * Empty periodic loop (non-evented)
@@ -20,3 +20,5 @@ This is purely a drop in the bucket of what has to come...
 * Improved and cleaned up logging
 * Plenty of docs, seriously a lot of docs
 * Specs & features, tons of them too
+* Some level of thread safety, or mechanisms to ease thread safety
+* DON'T FORGET 1.9 SUPPORT

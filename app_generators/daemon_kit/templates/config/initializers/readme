@@ -1,0 +1,11 @@
+# You can place files in here to be loaded before the code is daemonized.
+#
+# DaemonKit looks for a file named '<config.daemon_name>.rb' and loads
+# that file with as if inside a DaemonKit::Initializer block.
+# 
+# These files are mostly useful for operations that should fail blatantly
+# before daemonizing, like loading gems.
+#
+# Be careful not to open any form of IO in here and expecting it to be
+# open inside the running daemon since all IO instances are closed when
+# daemonizing (including STDIN, STDOUT & STDERR).

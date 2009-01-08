@@ -97,6 +97,8 @@ module DaemonKit
       config = configuration
       
       eval(IO.read(configuration.environment_path), binding, configuration.environment_path)
+      
+      eval(IO.read(configuration.daemon_initializer), binding, configuration.daemon_initializer) if File.exist?( configuration.daemon_initializer )
     end
 
     def initialize_logger
@@ -179,6 +181,10 @@ module DaemonKit
     # default the file is at <tt>config/environments/#{environment}.rb</tt>.
     def environment_path
       "#{root_path}/config/environments/#{environment}.rb"
+    end
+
+    def daemon_initializer
+      "#{root_path}/config/initializers/#{self.daemon_name}.rb"
     end
     
     # Add a trap for the specified signal, can be code block or a proc

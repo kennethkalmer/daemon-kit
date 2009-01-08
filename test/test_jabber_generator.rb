@@ -1,12 +1,11 @@
 require File.join(File.dirname(__FILE__), "test_generator_helper.rb")
 
-class TestDaemonKitGenerator < Test::Unit::TestCase
+
+class TestJabberGenerator < Test::Unit::TestCase
   include RubiGen::GeneratorTestHelper
-  
-  attr_reader :daemon_name
+
   def setup
     bare_setup
-    @daemon_name = File.basename(File.expand_path(APP_ROOT))
   end
 
   def teardown
@@ -28,39 +27,23 @@ class TestDaemonKitGenerator < Test::Unit::TestCase
   #   bare_teardown - place this in teardown method to destroy the TMP_ROOT or APP_ROOT folder after each test
 
   def test_generator_without_options
-    run_generator('daemon_kit', [APP_ROOT], sources)
-
-    assert_generated_file   "README"
-    assert_directory_exists "bin"
-    assert_generated_file   "bin/#{daemon_name}"
+    name = "myapp"
+    run_generator('jabber', [name], sources)
     assert_directory_exists "config"
-    assert_generated_file   "config/boot.rb"
-    assert_generated_file   "config/environment.rb"
-    assert_generated_file   "config/environments/development.rb"
-    assert_generated_file   "config/environments/test.rb"
-    assert_generated_file   "config/environments/production.rb"
+    assert_generated_file   "config/jabber.yml"
     assert_directory_exists "config/initializers"
-    assert_generated_file   "config/initializers/readme"
-    assert_directory_exists "lib"
+    assert_generated_file   "config/initializers/myapp.rb"
     assert_directory_exists "libexec"
-    assert_generated_file   "libexec/#{daemon_name}.rb"
-    assert_directory_exists "log"
-    assert_directory_exists "spec"
-    assert_directory_exists "tasks"
-    assert_directory_exists "vendor"
-    assert_directory_exists "tmp"
+    assert_generated_file   "libexec/myapp.rb"
   end
 
   private
   def sources
-    [
-     RubiGen::PathSource.new(:test, File.join(File.dirname(__FILE__),"..", generator_path)),
-     RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "daemon_generators")),
-     RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "rubygems_generators"))
+    [RubiGen::PathSource.new(:test, File.join(File.dirname(__FILE__),"..", generator_path))
     ]
   end
 
   def generator_path
-    "app_generators"
+    "daemon_generators"
   end
 end

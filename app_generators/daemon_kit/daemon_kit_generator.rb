@@ -3,10 +3,13 @@ class DaemonKitGenerator < RubiGen::Base
   DEFAULT_SHEBANG = File.join(Config::CONFIG['bindir'],
                               Config::CONFIG['ruby_install_name'])
 
+  VALID_GENERATORS = ['default', 'jabber']
+  
   default_options :shebang => DEFAULT_SHEBANG,
   :author => nil
 
   attr_reader :daemon_name
+  attr_reader :installer
 
   def initialize(runtime_args, runtime_options = {})
     super
@@ -17,6 +20,13 @@ class DaemonKitGenerator < RubiGen::Base
   end
 
   def manifest
+    # ensure some sanity
+    unless VALID_GENERATORS.include?( installer )
+      $stderr.puts "Invalid generator: '#{installer}'."
+      $stderr.puts "Valid generators are: #{VALID_GENERATORS.join(', ')}"
+      exit 1
+    end
+          
     script_options = { :chmod => 0755, :shebang => options[:shebang] == DEFAULT_SHEBANG ? nil : options[:shebang] }
     
     record do |m|
@@ -32,11 +42,17 @@ class DaemonKitGenerator < RubiGen::Base
       # Readme
       m.template  "README", "README"
       
-      # Executables
+      # Executable
       m.directory "bin"
       m.template  "bin/daemon.erb", "bin/#{daemon_name}", script_options
-      m.directory "libexec"
-      m.template  "libexec/daemon.erb", "libexec/#{daemon_name}.rb"
+
+      # Generator
+      if installer == "default"
+        m.directory "libexec"
+        m.template  "libexec/daemon.erb", "libexec/#{daemon_name}.rb"
+      else
+        m.dependency installer, [daemon_name], :destination => destination_root, :collision => :force
+      end
 
       # Config/Environment
       m.directory "config"
@@ -44,6 +60,8 @@ class DaemonKitGenerator < RubiGen::Base
       m.template  "config/environment.rb", "config/environment.rb"
       m.directory "config/environments"
       %w{ development test production }.each { |f| m.file "config/environments/#{f}.rb", "config/environments/#{f}.rb" }
+      m.directory "config/initializers"
+      m.file      "config/initializers/readme", "config/initializers/readme"
 
       # Libraries
       m.directory "lib"
@@ -65,9 +83,9 @@ class DaemonKitGenerator < RubiGen::Base
   protected
     def banner
       <<-EOS
-Creates a ...
+Creates a preconfigured environment for writing Ruby daemon processes.
 
-USAGE: #{spec.name} name
+USAGE: #{spec.name} /path/to/your/daemon [options]
 EOS
     end
 
@@ -79,6 +97,15 @@ EOS
       # opts.on("-a", "--author=\"Your Name\"", String,
       #         "Some comment about this option",
       #         "Default: none") { |o| options[:author] = o }
+      opts.on("-i", "--install=generator", String,
+              "Select a generator to use (other than the default).",
+              "Available generators: #{VALID_GENERATORS.join(', ')}",
+              "Defaults to: default") do |installer|
+        options[:installer] = installer
+      end
+      opts.on("-r", "--ruby=path", String,
+              "Path to the Ruby binary of your choice (otherwise scripts use env, dispatchers current path).",
+              "Default: #{DEFAULT_SHEBANG}") { |x| options[:shebang] = x }
       opts.on("-v", "--version", "Show the #{File.basename($0)} version number and quit.")
     end
 
@@ -87,6 +114,9 @@ EOS
       # Templates can access these value via the attr_reader-generated methods, but not the
       # raw instance variable value.
       # @author = options[:author]
+      require 'pp'
+      pp options
+      @installer = options[:installer] || 'default'
     end
 
 end
