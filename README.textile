@@ -2,7 +2,7 @@ h1. Daemon Kit
 
 * http://daemon-kit.rubyforge.org/ (coming soon)
 
-h2. DESCRIPTION:
+h2. Description
 
 Daemon Kit aims to simplify creating Ruby daemons by providing a sound application skeleton (through a generator), task specific generators (jabber bot, etc) and robust environment management code.
 
@@ -14,34 +14,48 @@ Supported generators:
 * Evented and non-evented loops (coming soon)
 * Queue poller (SQS, AMQP, etc) (coming soon)
 
-h2. FEATURES/PROBLEMS:
+h2. Features/Problems
 
 * Build it
+* Review TODO.txt
 
-h2. SYNOPSIS:
+h2. Synopsis
 
   $ daemon-kit [/path/to/your/daemon] [options]
 
-h2. REQUIREMENTS:
+The above command generates a skeleton daemon environment for you to adapt.
+
+  $ daemon-kit [/path/to/your/daemon] -i jabber
+
+Use the 'jabber' generator instead of the default one.
+
+h2. Generators
+
+Currently only two generators exist, a 'default' generator and a 'jabber' generator.
+
+The default generator creates a simple daemon with an infinite loop inside that you can adapt.
+
+The jabber generator creates a simple daemon that leverages the "xmpp4r-simple":http://xmpp4r-simple.rubyforge.org/ gem to process inbound messages. The daemon will manage the roster and other little tasks, leaving you to provide the hooks for processing messages, presence notifications and subscription request.
+
+h2. Requirements
 
 * Ruby 1.8.6
-* daemons
+* daemons 1.0.10
+* xmpp4r-simple 0.8.8 (if using the 'jabber' generator)
+* eventmachine 0.12.2 (if using any of the evented generators)
+* rspec 1.1.11 (for writing/running your specs)
 
-h2. INSTALL:
+h2. Install
 
-Unstable development releases
+  $ git clone git://github.com/kennethkalmer/daemon-kit.git
+  $ rake gem
+  $ gem install pkg/daemon-kit-X.X.X.gem
 
-* sudo gem install kennethkalmer-daemon-kit -s http://gems.github.com
-
-Stable releases (coming soon)
-
-* sudo gem install daemon-kit
-
-h2. LICENSE:
+h2. License
 
 (The MIT License)
 
-Copyright (c) 2009 Kenneth Kalmer
+Copyright (c) 2009 Kenneth Kalmer (Internet Exchange CC, Clear Planet Information Solutions Pty Ltd)
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

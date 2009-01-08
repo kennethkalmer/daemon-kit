@@ -6,5 +6,5 @@ require 'rubygems'
 require 'daemon_kit/application'
 
 module DaemonKit
-  VERSION = '0.0.1'
+  VERSION = '0.0.9'
 end
