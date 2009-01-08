@@ -41,6 +41,7 @@ class DaemonKitGenerator < RubiGen::Base
       
       # Readme
       m.template  "README", "README"
+      m.template  "Rakefile", "Rakefile"
       
       # Executable
       m.directory "bin"
@@ -114,8 +115,6 @@ EOS
       # Templates can access these value via the attr_reader-generated methods, but not the
       # raw instance variable value.
       # @author = options[:author]
-      require 'pp'
-      pp options
       @installer = options[:installer] || 'default'
     end
 

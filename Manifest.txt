@@ -7,6 +7,7 @@ TODO.txt
 app_generators/daemon_kit/USAGE
 app_generators/daemon_kit/daemon_kit_generator.rb
 app_generators/daemon_kit/templates/README
+app_generators/daemon_kit/templates/Rakefile
 app_generators/daemon_kit/templates/bin/daemon.erb
 app_generators/daemon_kit/templates/config/boot.rb
 app_generators/daemon_kit/templates/config/environment.rb
@@ -30,6 +31,8 @@ lib/daemon_kit/application.rb
 lib/daemon_kit/initializer.rb
 lib/daemon_kit/jabber.rb
 lib/daemon_kit/patches/force_kill_wait.rb
+lib/daemon_kit/tasks.rb
+lib/daemon_kit/tasks/framework.rake
 rubygems_generators/install_rspec/USAGE
 rubygems_generators/install_rspec/install_rspec_generator.rb
 rubygems_generators/install_rspec/templates/spec.rb

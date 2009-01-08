@@ -1,5 +1,7 @@
-== 0.1.0 (not released yet)
+== 0.1.0 2009-01-08
 
-* Flexible UNIX signal trap configuration
+* Ability to freeze the gem/edge copies of DaemonKit
+* Simple non-evented Jabber generator
+* Flexible UNIX signal trapping configuration
 * Basic generator completed
 * 1 small step for man, 1 giant leap for mankind

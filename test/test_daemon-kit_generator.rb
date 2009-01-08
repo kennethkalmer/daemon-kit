@@ -31,6 +31,7 @@ class TestDaemonKitGenerator < Test::Unit::TestCase
     run_generator('daemon_kit', [APP_ROOT], sources)
 
     assert_generated_file   "README"
+    assert_generated_file   "Rakefile"
     assert_directory_exists "bin"
     assert_generated_file   "bin/#{daemon_name}"
     assert_directory_exists "config"
