@@ -25,7 +25,10 @@ module DaemonKit
     def configuration=( configuration )
       @configuration = configuration
     end
-    
+
+    def trap( *args, &block )
+      self.configuration.trap( *args, &block )
+    end
     
   end
   
@@ -119,17 +122,9 @@ module DaemonKit
     end
 
     def initialize_signal_traps
-      log_terminate = Proc.new { DaemonKit::Initializer.shutdown }
-      configuration.trap( 'INT' , log_terminate )
-      configuration.trap( 'TERM', log_terminate )
-
-      #configuration.signal_traps.each do |signal, traps|
-      #  DaemonKit.logger.info "Setting up signal traps for #{signal}"
-      #  
-      #  traps.each do |trap|
-      #    
-      #  end
-      #end
+      term_proc = Proc.new { DaemonKit::Initializer.shutdown }
+      configuration.trap( 'INT', term_proc )
+      configuration.trap( 'TERM', term_proc )
     end
     
   end
@@ -161,7 +156,7 @@ module DaemonKit
     attr_accessor :force_kill_wait
 
     # Collection of signal traps
-    #attr_reader :signal_traps
+    attr_reader :signal_traps
 
     def initialize
       set_root_path!
@@ -173,7 +168,7 @@ module DaemonKit
       self.multiple = false
       self.force_kill_wait = false
 
-      #@signal_traps = {}
+      @signal_traps = {}
     end
 
     def environment
@@ -189,13 +184,28 @@ module DaemonKit
     # Add a trap for the specified signal, can be code block or a proc
     def trap( signal, proc = nil, &block )
       return if proc.nil? && !block_given?
+      
+      unless @signal_traps.has_key?( signal )
+        set_trap( signal )
+      end
+      
+      @signal_traps[signal].unshift( proc || block )
+    end
+    
+    protected
 
-      #@signal_traps[signal] ||= []
-      #@signal_traps[signal] << ( proc || block )
-      Signal.trap( signal ) { (proc || block).call }
+    def run_traps( signal )
+      DaemonKit.logger.info "Running signal traps for #{signal}"
+      self.signal_traps[ signal ].each { |trap| trap.call }
     end
     
     private
+
+    def set_trap( signal )
+      DaemonKit.logger.info "Setting up trap for #{signal}"
+      @signal_traps[ signal ] = []
+      Signal.trap( signal, Proc.new { self.run_traps( signal ) } )
+    end
     
     def set_root_path!
       raise "DAEMON_ROOT is not set" unless defined?(::DAEMON_ROOT)
