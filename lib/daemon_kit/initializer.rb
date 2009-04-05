@@ -145,6 +145,12 @@ module DaemonKit
     # Path to the log file, defaults to 'log/<environment>.log'
     attr_accessor :log_path
 
+    # :system, 
+    attr_accessor :dir_mode
+
+    # Path to the log file, defaults to 'log/<environment>.log'
+    attr_accessor :dir
+
     # Provide a custom logger to use
     attr_accessor :logger
 
