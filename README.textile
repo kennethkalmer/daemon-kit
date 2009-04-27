@@ -43,6 +43,10 @@ h3. Cron Generator
 
 The cron generator creates a simple daemon that leverages the "rufus-scheduler":http://github.com/jmettraux/rufus-scheduler gem to create a simple cron-lie daemon. Please be aware that this daemon could never be a replacement for the battle-tested "cron utility":http://www.gentoo.org/doc/en/cron-guide.xml shipped standard with most *nix distributions.
 
+h3. AMQP Consumer Generator
+
+The AMQP generator creates a simple daemon that has all the stub code and configuration in place to help you write AMQP consumers quickly and effectively. The generated daemon relies on the presence of the "amqp":http://github.com/tmm1/amqp gem.
+
 h2. Requirements
 
 * Ruby 1.8.6
@@ -54,8 +58,9 @@ h3. Generator Requirements
 Depending on the generator you choose for your daemon, it might require additional gems to run.
 
 |.Generator|.Dependencies|
-|jabber|* "xmpp4r-simple":http://xmpp4r-simple.rubyforge.org/|
-|cron|* "rufus-scheduler":http://github.com/jmettraux/rufus-scheduler|
+|jabber|"xmpp4r-simple":http://xmpp4r-simple.rubyforge.org/|
+|cron|"rufus-scheduler":http://github.com/jmettraux/rufus-scheduler|
+|amqp|"amqp":http://github.com/tmm1/amqp|
 
 h2. Install
 

@@ -1,5 +1,6 @@
 == Master
 
+* AMQP consumer generator added
 * 'cron' style generator added
 * Allow configuring dir_mode and dir (pid file location) (Jim Lindley)
 

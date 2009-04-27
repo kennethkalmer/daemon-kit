@@ -17,6 +17,11 @@ app_generators/daemon_kit/templates/config/environments/test.rb
 app_generators/daemon_kit/templates/config/initializers/readme
 app_generators/daemon_kit/templates/libexec/daemon.erb
 bin/daemon_kit
+daemon_generators/amqp/USAGE
+daemon_generators/amqp/amqp_generator.rb
+daemon_generators/amqp/templates/config/amqp.yml
+daemon_generators/amqp/templates/config/initializers/amqp.rb
+daemon_generators/amqp/templates/libexec/daemon.rb
 daemon_generators/cron/USAGE
 daemon_generators/cron/cron_generator.rb
 daemon_generators/cron/templates/config/initializers/cron.rb
@@ -27,6 +32,7 @@ daemon_generators/jabber/templates/config/initializers/jabber.rb
 daemon_generators/jabber/templates/config/jabber.yml
 daemon_generators/jabber/templates/libexec/daemon.rb
 lib/daemon_kit.rb
+lib/daemon_kit/amqp.rb
 lib/daemon_kit/application.rb
 lib/daemon_kit/cron.rb
 lib/daemon_kit/initializer.rb
@@ -49,6 +55,7 @@ spec/initializer_spec.rb
 spec/spec.opts
 spec/spec_helper.rb
 tasks/rspec.rake
+test/test_amqp_generator.rb
 test/test_cron_generator.rb
 test/test_daemon-kit_generator.rb
 test/test_generator_helper.rb
