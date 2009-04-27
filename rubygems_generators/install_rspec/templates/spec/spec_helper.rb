@@ -6,5 +6,5 @@ rescue LoadError
   require 'spec'
 end
 
-$:.unshift(File.dirname(__FILE__) + '/../lib')
+require File.dirname(__FILE__) + '/../config/boot'
 require '<%= gem_name %>'
