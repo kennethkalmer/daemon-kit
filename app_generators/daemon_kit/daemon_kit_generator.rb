@@ -3,10 +3,9 @@ class DaemonKitGenerator < RubiGen::Base
   DEFAULT_SHEBANG = File.join(Config::CONFIG['bindir'],
                               Config::CONFIG['ruby_install_name'])
 
-  VALID_GENERATORS = ['default', 'jabber']
+  VALID_GENERATORS = ['default', 'jabber', 'cron']
   
-  default_options :shebang => DEFAULT_SHEBANG,
-  :author => nil
+  default_options :shebang => DEFAULT_SHEBANG, :author => nil
 
   attr_reader :daemon_name
   attr_reader :installer

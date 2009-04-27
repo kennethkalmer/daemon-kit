@@ -1,0 +1,39 @@
+# Generated cron daemon
+
+# Do your post daemonization configuration here
+# At minimum you need just the first line (without the block), or a lot
+# of strange things might start happening...
+DaemonKit::Application.running! do |config|
+  # Trap signals with blocks or procs
+  # config.trap( 'INT' ) do
+  #   # do something clever
+  # end
+  # config.trap( 'TERM', Proc.new { puts 'Going down' } )
+end
+
+# Configuration documentation available at http://rufus.rubyforge.org/rufus-scheduler/
+# An instance of the scheduler is available through
+# DaemonKit::Cron.scheduler
+
+# Some samples to get you going:
+
+# Will call #regenerate_monthly_report in 3 days from starting up
+#DaemonKit::Cron.scheduler.in("3d") do
+#  regenerate_monthly_report()
+#end
+# 
+#DaemonKit::Cron.scheduler.every "10m10s" do
+#  check_score(favourite_team) # every 10 minutes and 10 seconds
+#end
+#
+#DaemonKit::Cron.scheduler.cron "0 22 * * 1-5" do
+#  log.info "activating security system..."
+#  activate_security_system()
+#end
+
+DaemonKit::Cron.scheduler.every("1m") do
+  DaemonKit.logger.debug "Scheduled task completed at #{Time.now}"
+end
+
+# Run our 'cron' daeon
+DaemonKit::Cron.run

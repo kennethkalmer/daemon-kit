@@ -1,3 +1,8 @@
+== Master
+
+* 'cron' style generator added
+* Allow configuring dir_mode and dir (pid file location) (Jim Lindley)
+
 == 0.1.0 2009-01-08
 
 * Ability to freeze the gem/edge copies of DaemonKit

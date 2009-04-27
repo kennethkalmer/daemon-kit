@@ -5,7 +5,7 @@ This is purely a drop in the bucket of what has to come...
 
 * [DONE] Easy way to trap signals 
 * Error handling to the degree Rails does
-* Easy configuration of an ORM of choice, including patching it if needed (ActiveRecourd *cough*)
+* Easy configuration of an ORM of choice, including patching it if needed (ActiveRecord *cough*)
 * Improved generators for creating skeleton daemons:
   * [DONE] Jabber bot
   * Evented jabber bot
