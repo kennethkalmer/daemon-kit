@@ -1,4 +1,4 @@
-== Master
+== 0.1.1 2009-04-27
 
 * AMQP consumer generator added
 * 'cron' style generator added
