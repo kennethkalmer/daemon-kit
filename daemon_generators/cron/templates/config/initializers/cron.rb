@@ -5,4 +5,3 @@ rescue LoadError => e
   exit 1
 end
 
-require 'daemon_kit/cron'
