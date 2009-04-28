@@ -1,3 +1,7 @@
+== 0.1.2 2009-04-28
+
+* Added missing rubigen dependency
+
 == 0.1.1 2009-04-27
 
 * AMQP consumer generator added
