@@ -11,4 +11,5 @@ module DaemonKit
   autoload :Cron,        'daemon_kit/cron'
   autoload :Jabber,      'daemon_kit/jabber'
   autoload :AMQP,        'daemon_kit/amqp'
+  autoload :Nanite,      'daemon_kit/nanite'
 end

@@ -31,12 +31,20 @@ daemon_generators/jabber/jabber_generator.rb
 daemon_generators/jabber/templates/config/initializers/jabber.rb
 daemon_generators/jabber/templates/config/jabber.yml
 daemon_generators/jabber/templates/libexec/daemon.rb
+daemon_generators/nanite_agent/USAGE
+daemon_generators/nanite_agent/nanite_agent_generator.rb
+daemon_generators/nanite_agent/templates/config/initializers/nanite_agent.rb
+daemon_generators/nanite_agent/templates/config/nanite.yml
+daemon_generators/nanite_agent/templates/lib/actors/sample.rb
+daemon_generators/nanite_agent/templates/libexec/daemon.rb
 lib/daemon_kit.rb
 lib/daemon_kit/amqp.rb
 lib/daemon_kit/application.rb
 lib/daemon_kit/cron.rb
 lib/daemon_kit/initializer.rb
 lib/daemon_kit/jabber.rb
+lib/daemon_kit/nanite.rb
+lib/daemon_kit/nanite/agent.rb
 lib/daemon_kit/patches/force_kill_wait.rb
 lib/daemon_kit/tasks.rb
 lib/daemon_kit/tasks/framework.rake
@@ -60,3 +68,4 @@ test/test_cron_generator.rb
 test/test_daemon-kit_generator.rb
 test/test_generator_helper.rb
 test/test_jabber_generator.rb
+test/test_nanite_agent_generator.rb
