@@ -49,7 +49,7 @@ class DaemonKitGenerator < RubiGen::Base
       # Generator
       if installer == "default"
         m.directory "libexec"
-        m.template  "libexec/daemon.erb", "libexec/#{daemon_name}.rb"
+        m.template  "libexec/daemon.erb", "libexec/#{daemon_name}-daemon.rb"
       else
         m.dependency installer, [daemon_name], :destination => destination_root, :collision => :force
       end
@@ -65,6 +65,7 @@ class DaemonKitGenerator < RubiGen::Base
 
       # Libraries
       m.directory "lib"
+      m.file "lib/daemon.rb", "lib/#{daemon_name}.rb"
 
       # Tests
       m.directory "tasks"
