@@ -1,3 +1,8 @@
+== 0.1.5 2009-05-07
+
+* DaemonKit::Config class to easy the use of YAML configs internally,
+  and in generated daemons
+
 == 0.1.2 2009-04-28
 
 * Added missing rubigen dependency
