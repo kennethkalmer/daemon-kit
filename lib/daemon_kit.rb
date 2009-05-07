@@ -12,4 +12,5 @@ module DaemonKit
   autoload :Jabber,      'daemon_kit/jabber'
   autoload :AMQP,        'daemon_kit/amqp'
   autoload :Nanite,      'daemon_kit/nanite'
+  autoload :Config,      'daemon_kit/config'
 end
