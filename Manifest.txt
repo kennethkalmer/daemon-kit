@@ -15,6 +15,7 @@ app_generators/daemon_kit/templates/config/environments/development.rb
 app_generators/daemon_kit/templates/config/environments/production.rb
 app_generators/daemon_kit/templates/config/environments/test.rb
 app_generators/daemon_kit/templates/config/initializers/readme
+app_generators/daemon_kit/templates/lib/daemon.rb
 app_generators/daemon_kit/templates/libexec/daemon.erb
 bin/daemon_kit
 daemon_generators/amqp/USAGE
@@ -40,6 +41,7 @@ daemon_generators/nanite_agent/templates/libexec/daemon.rb
 lib/daemon_kit.rb
 lib/daemon_kit/amqp.rb
 lib/daemon_kit/application.rb
+lib/daemon_kit/config.rb
 lib/daemon_kit/cron.rb
 lib/daemon_kit/initializer.rb
 lib/daemon_kit/jabber.rb
@@ -66,6 +68,8 @@ tasks/rspec.rake
 test/test_amqp_generator.rb
 test/test_cron_generator.rb
 test/test_daemon-kit_generator.rb
+test/test_daemon_kit_config.rb
 test/test_generator_helper.rb
+test/test_helper.rb
 test/test_jabber_generator.rb
 test/test_nanite_agent_generator.rb

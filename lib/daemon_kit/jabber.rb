@@ -12,28 +12,24 @@ module DaemonKit
     @@message_handler = nil
     @@presence_handler = nil
     @@subscription_handler = nil
-    
+
     class << self
 
       # Deliver a message to the specified jid.
       def deliver( jid, message )
         instance.connection.deliver( jid, message )
       end
-      
+
       # Use this instead of initializing, keeps it singleton
       def instance
-        @instance ||= (
-          config = YAML.load_file( "#{DAEMON_ROOT}/config/jabber.yml" )[DAEMON_ENV]
-          raise ArgumentError, "Missing Jabber configuration for #{DAEMON_ENV} environment" if config.nil?
-          new( config )
-        )
+        @instance ||= new
         @instance.startup!
       end
       private :new
 
       def run
         DaemonKit.logger.info "Starting jabber loop"
-        
+
         loop do
           process_messages
           process_updates
@@ -47,7 +43,7 @@ module DaemonKit
           end
         end
       end
-      
+
       def process_messages
         @message_handler ||= Proc.new { |m| DaemonKit.logger.info "Received message from #{m.from}: #{m.body}" }
 
@@ -62,7 +58,7 @@ module DaemonKit
         instance.connection.presence_updates { |friend, old_presence, new_presence|
           @presence_handler.call(friend, old_presence, new_presence)
         }
-        
+
       end
 
       def process_subscriptions
@@ -70,11 +66,11 @@ module DaemonKit
 
         instance.connection.subscription_requests { |friend,presence| @subscription_handler.call(friend,presence) }
       end
-        
+
       def received_messages(&block)
         @message_handler = block
       end
-      
+
       def presence_updates(&block)
         @presence_handler = block
       end
@@ -82,10 +78,12 @@ module DaemonKit
       def subscription_requests(&block)
         @subscription_handler = block
       end
-      
+
     end
 
-    def initialize( options = {} )
+    def initialize
+      options = DaemonKit::Config.load( 'jabber' )
+
       @jabber_id  = options.delete("jabber_id")
       @password   = options.delete("password")
       @resource   = options.delete("resource") || 'daemon_kit'
@@ -103,7 +101,7 @@ module DaemonKit
 
       DaemonKit.trap( 'INT', Proc.new { self.shutdown! } )
       DaemonKit.trap( 'TERM', Proc.new { self.shutdown! } )
-      
+
       @booted = true
 
       self
@@ -141,9 +139,9 @@ module DaemonKit
     def status_line
       "#{DaemonKit.configuration.daemon_name} ready for instructions"
     end
-    
+
     private
-    
+
     def connect!
       jid = @jabber_id + '/' + @resource
 
@@ -167,6 +165,6 @@ module DaemonKit
         end
       end
     end
-    
+
   end
 end

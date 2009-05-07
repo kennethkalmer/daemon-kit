@@ -40,11 +40,18 @@ module DaemonKit
       end
     end
 
+    # Pick out a config by name
     def []( key )
       @data[ key.to_s ]
     end
 
-    def method_missing( method_name, *args )
+    # Return the internal hash structure used, optionally symbolizing
+    # the first level of keys in the hash
+    def to_h( symbolize = false )
+      symbolize ? @data.inject({}) { |m,c| m[c[0].to_sym] = c[1]; m } : @data
+    end
+
+    def method_missing( method_name, *args ) #:nodoc:
       # don't match setters
       unless method_name.to_s =~ /[\w_]+=$/
         # pick a key if we have it

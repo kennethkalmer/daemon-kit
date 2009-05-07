@@ -11,11 +11,7 @@ module DaemonKit
     class << self
 
       def instance
-        @instance ||= (
-          config = YAML.load_file( "#{DAEMON_ROOT}/config/amqp.yml" )[DAEMON_ENV]
-          raise ArgumentError, "Missing AMQP configuration for #{DAEMON_ENV} environment" if config.nil?
-          new( config )
-        )
+        @instance ||= new
       end
 
       private :new
@@ -26,7 +22,7 @@ module DaemonKit
     end
 
     def initialize( config = {} )
-      @config = config.inject({}) { |m,c| m[c[0].to_sym] = c[1]; m } # symbolize_keys 
+      @config = DaemonKit::Config.load('amqp').to_h( true )
     end
 
     def run(&block)

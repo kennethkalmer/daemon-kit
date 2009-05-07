@@ -8,11 +8,7 @@ module DaemonKit
       class << self
 
         def instance
-          @instance ||= (
-            config = YAML.load_file( "#{DAEMON_ROOT}/config/nanite.yml" )[DAEMON_ENV]
-            raise ArgumentError, "Missing nanite configuration for #{DAEMON_ENV} environment" if config.nil?
-            new( config )
-          )
+          @instance ||= new
         end
 
         private :new
@@ -23,8 +19,8 @@ module DaemonKit
 
       end
 
-      def initialize( options = {} )
-        @config = options.inject({}) { |m,c| m[c[0].to_sym] = c[1]; m } # symbolize_keys
+      def initialize
+        @config = DaemonKit::Config.load( 'nanite' )
 
         config_agent
       end
@@ -37,7 +33,7 @@ module DaemonKit
         # Start our mapper
         mapper_thread = Thread.new do
           EM.run do
-            agent = ::Nanite.start_agent( @config )
+            agent = ::Nanite.start_agent( @config.to_h( true ) )
             block.call( agent ) if block
           end
         end
