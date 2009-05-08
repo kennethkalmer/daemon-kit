@@ -4,4 +4,4 @@
 
 require File.dirname(__FILE__) + '/../config/environment'
 
-DaemonKit::Application.run( DAEMON_ROOT + '/libexec/<%= daemon_name %>.rb' )
+DaemonKit::Application.run( DAEMON_ROOT + '/libexec/<%= daemon_name %>-daemon.rb' )
