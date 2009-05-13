@@ -1,3 +1,2 @@
-$:.unshift( File.dirname(__FILE__) ) unless $:.include?( File.dirname(__FILE__) )
-
-# Your starting point for daemon specific classes
+# Your starting point for daemon specific classes. This directory is
+# already included in your load path, so no need to specify it.

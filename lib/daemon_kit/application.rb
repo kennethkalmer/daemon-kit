@@ -14,8 +14,8 @@ module DaemonKit
         app_name = DaemonKit.configuration.daemon_name || File.basename( file )
         options = { :backtrace => true, :log_output => true, :app_name => app_name }
 
-        options[:dir_mode]        = DaemonKit.configuration.dir_mode || :normal
-        options[:dir]             = DaemonKit.configuration.dir      || "log"
+        options[:dir_mode]        = DaemonKit.configuration.dir_mode
+        options[:dir]             = DaemonKit.configuration.dir
         options[:multiple]        = DaemonKit.configuration.multiple
         options[:force_kill_wait] = DaemonKit.configuration.force_kill_wait if DaemonKit.configuration.force_kill_wait
 
@@ -26,6 +26,8 @@ module DaemonKit
       # initialization process
       def running!
         DaemonKit::Initializer.continue!
+
+        yield DaemonKit.configuration if block_given?
       end
 
     end

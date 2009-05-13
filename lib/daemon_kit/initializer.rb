@@ -72,6 +72,7 @@ module DaemonKit
     def after_daemonize
       initialize_logger
       initialize_signal_traps
+      include_core_lib
     end
     
     def set_load_path
@@ -128,7 +129,12 @@ module DaemonKit
       configuration.trap( 'INT', term_proc )
       configuration.trap( 'TERM', term_proc )
     end
-    
+
+    def include_core_lib
+      if File.exists?( core_ib = File.join( DAEMON_ROOT, 'lib', configuration.daemon_name + '.rb' ) )
+        require core_lib
+      end
+    end
   end
   
   # Holds our various configuration values
@@ -168,6 +174,7 @@ module DaemonKit
 
     def initialize
       set_root_path!
+      set_daemon_defaults!
       
       self.load_paths = default_load_paths
       self.log_level  = default_log_level
@@ -236,6 +243,11 @@ module DaemonKit
 
       Object.const_set(:RELATIVE_DAEMON_ROOT, ::DAEMON_ROOT.dup) unless defined?(::RELATIVE_DAEMON_ROOT)
       ::DAEMON_ROOT.replace @root_path
+    end
+
+    def set_daemon_defaults!
+      self.dir_mode = :normal
+      self.dir      = File.join( DAEMON_ROOT, 'log' )
     end
 
     def default_load_paths
