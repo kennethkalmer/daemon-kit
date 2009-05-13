@@ -1,3 +1,12 @@
+== 0.1.6 2009-05-13
+
+* DaemonKit::Safety class to handle the trapping and logging of
+  exceptions, as well as email notifications or Hoptoad notifications.
+* New config/pre-daemonize and config/post-daemonize structure
+* New tasks to simplify upgrading daemon-kit projects
+* Fixed some other annoyances and bugs
+* Bigger TODO list
+
 == 0.1.5 2009-05-07
 
 * DaemonKit::Config class to easy the use of YAML configs internally,

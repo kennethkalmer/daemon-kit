@@ -44,11 +44,15 @@ lib/daemon_kit/amqp.rb
 lib/daemon_kit/application.rb
 lib/daemon_kit/config.rb
 lib/daemon_kit/cron.rb
+lib/daemon_kit/error_handlers/base.rb
+lib/daemon_kit/error_handlers/hoptoad.rb
+lib/daemon_kit/error_handlers/mail.rb
 lib/daemon_kit/initializer.rb
 lib/daemon_kit/jabber.rb
 lib/daemon_kit/nanite.rb
 lib/daemon_kit/nanite/agent.rb
 lib/daemon_kit/patches/force_kill_wait.rb
+lib/daemon_kit/safety.rb
 lib/daemon_kit/tasks.rb
 lib/daemon_kit/tasks/environment.rake
 lib/daemon_kit/tasks/framework.rake
