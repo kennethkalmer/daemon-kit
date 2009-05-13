@@ -23,7 +23,7 @@ class JabberGenerator < RubiGen::Base
       # m.file           "file", "some_file_copied"
       # m.file_copy_each ["path/to/file", "path/to/file2"]
       # m.file_copy_each ["path/to/file", "path/to/file2"], "some/path"
-      
+
       # Copy over our configs
       m.directory 'config'
       m.template  'config/jabber.yml', 'config/jabber.yml'
@@ -32,7 +32,7 @@ class JabberGenerator < RubiGen::Base
 
       # Copy over our daemon
       m.directory 'libexec'
-      m.template 'libexec/daemon.rb', "libexec/#{name}.rb"
+      m.template 'libexec/daemon.rb', "libexec/#{name}-daemon.rb"
     end
   end
 

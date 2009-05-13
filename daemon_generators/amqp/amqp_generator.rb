@@ -15,7 +15,7 @@ class AmqpGenerator < RubiGen::Base
     record do |m|
       # Ensure appropriate folder(s) exists
       m.directory ''
-      
+
       # Create stubs
       # m.template           "template.rb.erb", "some_file_after_erb.rb"
       # m.template_copy_each ["template.rb", "template2.rb"]
@@ -32,7 +32,7 @@ class AmqpGenerator < RubiGen::Base
 
       # Copy over our daemon
       m.directory 'libexec'
-      m.template 'libexec/daemon.rb', "libexec/#{name}.rb"
+      m.template 'libexec/daemon.rb', "libexec/#{name}-daemon.rb"
     end
   end
 

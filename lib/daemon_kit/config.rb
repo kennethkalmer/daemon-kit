@@ -29,6 +29,11 @@ module DaemonKit
         new( YAML.load_file( path ) )
       end
 
+      # Return the +config+.yml file as a raw hash.
+      def hash( config, symbolize = false )
+        self.load( config ).to_h( symbolize )
+      end
+
     end
 
     # Expects a hash, looks for DAEMON_ENV key

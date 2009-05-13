@@ -20,7 +20,7 @@ module DaemonKit
       end
 
       def initialize
-        @config = DaemonKit::Config.load( 'nanite' )
+        @config = DaemonKit::Config.load( 'nanite' ).to_h( true )
 
         config_agent
       end
@@ -33,7 +33,7 @@ module DaemonKit
         # Start our mapper
         mapper_thread = Thread.new do
           EM.run do
-            agent = ::Nanite.start_agent( @config.to_h( true ) )
+            agent = ::Nanite.start_agent( @config )
             block.call( agent ) if block
           end
         end

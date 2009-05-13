@@ -35,7 +35,7 @@ class NaniteAgentGenerator < RubiGen::Base
 
       # Copy over our daemon
       m.directory 'libexec'
-      m.template  'libexec/daemon.rb', "libexec/#{name}.rb"
+      m.template  'libexec/daemon.rb', "libexec/#{name}-daemon.rb"
     end
   end
 

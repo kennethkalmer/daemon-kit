@@ -23,7 +23,7 @@ class CronGenerator < RubiGen::Base
       # m.file           "file", "some_file_copied"
       # m.file_copy_each ["path/to/file", "path/to/file2"]
       # m.file_copy_each ["path/to/file", "path/to/file2"], "some/path"
-      
+
       # Copy over configs
       m.directory 'config'
       m.directory 'config/initializers'
@@ -31,7 +31,7 @@ class CronGenerator < RubiGen::Base
 
       # Copy over our daemon
       m.directory 'libexec'
-      m.template 'libexec/daemon.rb', "libexec/#{name}.rb"
+      m.template 'libexec/daemon.rb', "libexec/#{name}-daemon.rb"
     end
   end
 

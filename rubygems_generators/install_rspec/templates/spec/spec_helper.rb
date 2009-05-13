@@ -7,6 +7,7 @@ rescue LoadError
 end
 
 require File.dirname(__FILE__) + '/../config/boot'
+DaemonKit::Application.running!
 require '<%= gem_name %>'
 
 Spec::Runner.configure do |config|
