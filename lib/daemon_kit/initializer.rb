@@ -29,16 +29,23 @@ module DaemonKit
     def trap( *args, &block )
       self.configuration.trap( *args, &block )
     end
-    
+
+    def framework_root
+      File.join( File.dirname(__FILE__), '..', '..' )
+    end
+
+    def root
+      DAEMON_ROOT
+    end
   end
-  
+
 
   # This class does all the nightmare work of setting up a working
   # environment for your daemon.
   class Initializer
 
     attr_reader :configuration
-    
+
     def self.run( configuration = Configuration.new )
       yield configuration if block_given?
       initializer = new configuration
@@ -55,14 +62,14 @@ module DaemonKit
       DaemonKit.logger.warn "Shutting down"
       exit
     end
-    
+
     def initialize( configuration )
       @configuration = configuration
     end
 
     def before_daemonize
       DaemonKit.configuration = @configuration
-      
+
       set_load_path
       load_gems
       load_patches
@@ -76,7 +83,7 @@ module DaemonKit
       load_postdaemonize_configs
       include_core_lib
     end
-    
+
     def set_load_path
       configuration.load_paths.each do |d|
         $:.unshift( "#{DAEMON_ROOT}/#{d}" ) if File.directory?( "#{DAEMON_ROOT}/#{d}" )
@@ -84,7 +91,7 @@ module DaemonKit
     end
 
     def load_gems
-      
+
     end
 
     def load_patches
@@ -96,11 +103,11 @@ module DaemonKit
     def load_environment
       return if @environment_loaded
       @environment_loaded = true
-      
+
       config = configuration
-      
+
       eval(IO.read(configuration.environment_path), binding, configuration.environment_path)
-      
+
       eval(IO.read(configuration.daemon_initializer), binding, configuration.daemon_initializer) if File.exist?( configuration.daemon_initializer )
     end
 
@@ -120,12 +127,12 @@ module DaemonKit
 
     def initialize_logger
       return if DaemonKit.logger
-      
+
       unless logger = configuration.logger
         logger = Logger.new( configuration.log_path )
         logger.level = configuration.log_level
       end
-      
+
       DaemonKit.logger = logger
 
       configuration.trap("USR1") {
@@ -152,7 +159,7 @@ module DaemonKit
       end
     end
   end
-  
+
   # Holds our various configuration values
   class Configuration
     # Root to the daemon
@@ -167,7 +174,7 @@ module DaemonKit
     # Path to the log file, defaults to 'log/<environment>.log'
     attr_accessor :log_path
 
-    # :system, 
+    # :system,
     attr_accessor :dir_mode
 
     # Path to the log file, defaults to 'log/<environment>.log'
@@ -191,7 +198,7 @@ module DaemonKit
     def initialize
       set_root_path!
       set_daemon_defaults!
-      
+
       self.load_paths = default_load_paths
       self.log_level  = default_log_level
       self.log_path   = default_log_path
@@ -215,25 +222,25 @@ module DaemonKit
     def daemon_initializer
       "#{root_path}/config/initializers/#{self.daemon_name}.rb"
     end
-    
+
     # Add a trap for the specified signal, can be code block or a proc
     def trap( signal, proc = nil, &block )
       return if proc.nil? && !block_given?
-      
+
       unless @signal_traps.has_key?( signal )
         set_trap( signal )
       end
-      
+
       @signal_traps[signal].unshift( proc || block )
     end
-    
+
     protected
 
     def run_traps( signal )
       DaemonKit.logger.info "Running signal traps for #{signal}"
       self.signal_traps[ signal ].each { |trap| trap.call }
     end
-    
+
     private
 
     def set_trap( signal )
@@ -241,7 +248,7 @@ module DaemonKit
       @signal_traps[ signal ] = []
       Signal.trap( signal, Proc.new { self.run_traps( signal ) } )
     end
-    
+
     def set_root_path!
       raise "DAEMON_ROOT is not set" unless defined?(::DAEMON_ROOT)
       raise "DAEMON_ROOT is not a directory" unless defined?(::DAEMON_ROOT)
@@ -269,7 +276,7 @@ module DaemonKit
     def default_load_paths
       [ 'lib' ]
     end
-    
+
     def default_log_path
       File.join(root_path, 'log', "#{environment}.log")
     end
@@ -278,6 +285,6 @@ module DaemonKit
       environment == 'production' ? Logger::INFO : Logger::DEBUG
     end
   end
-  
-  
+
+
 end
