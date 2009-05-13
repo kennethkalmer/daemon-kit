@@ -80,8 +80,9 @@ module DaemonKit
     def after_daemonize
       initialize_logger
       initialize_signal_traps
-      load_postdaemonize_configs
+
       include_core_lib
+      load_postdaemonize_configs
     end
 
     def set_load_path
@@ -195,6 +196,9 @@ module DaemonKit
     # Collection of signal traps
     attr_reader :signal_traps
 
+    # Our safety net (#Safety) instance
+    attr_accessor :safety_net
+
     def initialize
       set_root_path!
       set_daemon_defaults!
@@ -205,6 +209,8 @@ module DaemonKit
 
       self.multiple = false
       self.force_kill_wait = false
+
+      self.safety_net = DaemonKit::Safety.instance
 
       @signal_traps = {}
     end

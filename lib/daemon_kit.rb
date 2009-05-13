@@ -4,7 +4,7 @@ $:.unshift(File.dirname(__FILE__)) unless
 require 'rubygems'
 
 module DaemonKit
-  VERSION = '0.1.5.1'
+  VERSION = '0.1.6'
 
   autoload :Initializer, 'daemon_kit/initializer'
   autoload :Application, 'daemon_kit/application'
@@ -13,4 +13,5 @@ module DaemonKit
   autoload :Jabber,      'daemon_kit/jabber'
   autoload :AMQP,        'daemon_kit/amqp'
   autoload :Nanite,      'daemon_kit/nanite'
+  autoload :Safety,      'daemon_kit/safety'
 end

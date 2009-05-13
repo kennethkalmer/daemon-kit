@@ -16,4 +16,8 @@ DaemonKit::Initializer.run do |config|
 
   # Force the daemon to be killed after X seconds from asking it to
   # config.force_kill_wait = 30
+
+  # Configure the safety net (see DaemonKit::Safety)
+  # config.safety_net.handler = :mail # (or :hoptoad )
+  # config.safety_net.mail.host = 'localhost'
 end
