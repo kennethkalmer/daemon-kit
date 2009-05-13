@@ -14,7 +14,8 @@ app_generators/daemon_kit/templates/config/environment.rb
 app_generators/daemon_kit/templates/config/environments/development.rb
 app_generators/daemon_kit/templates/config/environments/production.rb
 app_generators/daemon_kit/templates/config/environments/test.rb
-app_generators/daemon_kit/templates/config/initializers/readme
+app_generators/daemon_kit/templates/config/post-daemonize/readme
+app_generators/daemon_kit/templates/config/pre-daemonize/readme
 app_generators/daemon_kit/templates/lib/daemon.rb
 app_generators/daemon_kit/templates/libexec/daemon.erb
 bin/daemon_kit
@@ -49,6 +50,7 @@ lib/daemon_kit/nanite.rb
 lib/daemon_kit/nanite/agent.rb
 lib/daemon_kit/patches/force_kill_wait.rb
 lib/daemon_kit/tasks.rb
+lib/daemon_kit/tasks/environment.rake
 lib/daemon_kit/tasks/framework.rake
 rubygems_generators/install_rspec/USAGE
 rubygems_generators/install_rspec/install_rspec_generator.rb

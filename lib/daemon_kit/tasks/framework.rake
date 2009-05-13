@@ -46,10 +46,10 @@ namespace :daemon_kit do
 
       rm_rf   "vendor/daemon_kit"
       mkdir_p "vendor/daemon_kit"
-      
+
       chdir 'vendor/daemon_kit' do
         latest_revision = YAML.load(open(commits))["commits"].first["id"]
-        
+
         puts "Downloading DaemonKit from #{url}"
         File.open('daemon-kit.zip', 'wb') do |dst|
           open url do |src|
@@ -70,6 +70,30 @@ namespace :daemon_kit do
         touch "REVISION_#{latest_revision}"
       end
     end
-    
+
+  end
+
+  desc "Upgrade your local files for a daemon after upgrading daemon-kit"
+  task :upgrade => 'environment' do
+    # Run these
+    %w{ initializers }.each do |t|
+      Rake::Task["daemon_kit:upgrade:#{t}"].invoke
+    end
+
+    puts
+    puts "#{DaemonKit.configuration.daemon_name} has been upgraded."
+  end
+
+  namespace :upgrade do
+    # Upgrade the initializers
+    task :initializers do
+      if File.directory?( File.join(DAEMON_ROOT, 'config', 'initializers') )
+        mv File.join(DAEMON_ROOT, 'config', 'initializers'), File.join(DAEMON_ROOT, 'config', 'pre-daemonize')
+      end
+
+      unless File.directory?( File.join(DAEMON_ROOT, 'config', 'post-daemonize') )
+        mkdir_p File.join(DAEMON_ROOT, 'config', 'post-daemonize')
+      end
+    end
   end
 end

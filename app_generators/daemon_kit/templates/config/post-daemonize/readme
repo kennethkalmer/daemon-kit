@@ -1,0 +1,5 @@
+# You can place files in here to be loaded after the code is daemonized.
+#
+# All the files placed here will just be required into the running
+# process. This is the correct place to open any IO objects, establish
+# database connections, etc.

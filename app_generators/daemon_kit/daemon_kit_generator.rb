@@ -60,15 +60,19 @@ class DaemonKitGenerator < RubiGen::Base
       m.template  "config/environment.rb", "config/environment.rb"
       m.directory "config/environments"
       %w{ development test production }.each { |f| m.file "config/environments/#{f}.rb", "config/environments/#{f}.rb" }
-      m.directory "config/initializers"
-      m.file      "config/initializers/readme", "config/initializers/readme"
+      m.directory "config/pre-daemonize"
+      m.file      "config/pre-daemonize/readme", "config/pre-daemonize/readme"
+      m.directory "config/post-daemonize"
+      m.file      "config/post-daemonize/readme", "config/post-daemonize/readme"
 
       # Libraries
       m.directory "lib"
       m.file "lib/daemon.rb", "lib/#{daemon_name}.rb"
 
-      # Tests
+      # Tasks
       m.directory "tasks"
+
+      # Tests
       m.dependency "install_rspec", [daemon_name], :destination => destination_root, :collision => :force
 
       # Others

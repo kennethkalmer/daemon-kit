@@ -67,11 +67,13 @@ module DaemonKit
       load_gems
       load_patches
       load_environment
+      load_predaemonize_configs
     end
 
     def after_daemonize
       initialize_logger
       initialize_signal_traps
+      load_postdaemonize_configs
       include_core_lib
     end
     
@@ -100,6 +102,20 @@ module DaemonKit
       eval(IO.read(configuration.environment_path), binding, configuration.environment_path)
       
       eval(IO.read(configuration.daemon_initializer), binding, configuration.daemon_initializer) if File.exist?( configuration.daemon_initializer )
+    end
+
+    def load_predaemonize_configs
+      Dir[ File.join( DAEMON_ROOT, 'config', 'pre-daemonize', '*.rb' ) ].each do |f|
+        next if File.basename( f ) == File.basename( configuration.daemon_initializer )
+
+        require f
+      end
+    end
+
+    def load_postdaemonize_configs
+      Dir[ File.join( DAEMON_ROOT, 'config', 'post-daemonize', '*.rb' ) ].each do |f|
+        require f
+      end
     end
 
     def initialize_logger
@@ -131,7 +147,7 @@ module DaemonKit
     end
 
     def include_core_lib
-      if File.exists?( core_ib = File.join( DAEMON_ROOT, 'lib', configuration.daemon_name + '.rb' ) )
+      if File.exists?( core_lib = File.join( DAEMON_ROOT, 'lib', configuration.daemon_name + '.rb' ) )
         require core_lib
       end
     end

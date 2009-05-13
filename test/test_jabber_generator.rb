@@ -34,7 +34,7 @@ class TestJabberGenerator < Test::Unit::TestCase
     assert_directory_exists "config/initializers"
     assert_generated_file   "config/initializers/myapp.rb"
     assert_directory_exists "libexec"
-    assert_generated_file   "libexec/myapp.rb"
+    assert_generated_file   "libexec/myapp-daemon.rb"
   end
 
   private
