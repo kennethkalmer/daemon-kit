@@ -1,7 +1,7 @@
 History.txt
 Manifest.txt
 PostInstall.txt
-README.textile
+README.rdoc
 Rakefile
 TODO.txt
 app_generators/daemon_kit/USAGE

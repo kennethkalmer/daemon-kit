@@ -1,8 +1,10 @@
-h1. Daemon Kit
+= Daemon Kit
 
-* http://daemon-kit.rubyforge.org/ (coming soon)
+* http://kit.rubyforge.org/daemon (coming soon)
+* http://groups.google.com/group/daemon-kit (daemon-kit@googlegroups.com)
+* #daemon-kit on Freenode
 
-h2. Description
+== Description
 
 Daemon Kit aims to simplify creating Ruby daemons by providing a sound application skeleton (through a generator), task specific generators (jabber bot, etc) and robust environment management code.
 
@@ -14,12 +16,12 @@ Supported generators:
 * Evented and non-evented loops (coming soon)
 * Queue poller (SQS, AMQP, etc) (coming soon)
 
-h2. Features/Problems
+== Features/Problems
 
 * Build it
 * Review TODO.txt
 
-h2. Synopsis
+== Synopsis
 
   $ daemon-kit [/path/to/your/daemon] [options]
 
@@ -29,46 +31,58 @@ The above command generates a skeleton daemon environment for you to adapt.
 
 Use the 'jabber' generator instead of the default one.
 
-h2. Generators
+== Generators
 
 Currently only two generators exist, a 'default' generator and a 'jabber' generator.
 
 The default generator creates a simple daemon with an infinite loop inside that you can adapt.
 
-h3. Jabber Generator
+=== Jabber Generator
 
 The jabber generator creates a simple daemon that leverages the "xmpp4r-simple":http://xmpp4r-simple.rubyforge.org/ gem to process inbound messages. The daemon will manage the roster and other little tasks, leaving you to provide the hooks for processing messages, presence notifications and subscription request.
 
-h3. Cron Generator
+=== Cron Generator
 
 The cron generator creates a simple daemon that leverages the "rufus-scheduler":http://github.com/jmettraux/rufus-scheduler gem to create a simple cron-lie daemon. Please be aware that this daemon could never be a replacement for the battle-tested "cron utility":http://www.gentoo.org/doc/en/cron-guide.xml shipped standard with most *nix distributions.
 
-h3. AMQP Consumer Generator
+=== AMQP Consumer Generator
 
 The AMQP generator creates a simple daemon that has all the stub code and configuration in place to help you write AMQP consumers quickly and effectively. The generated daemon relies on the presence of the "amqp":http://github.com/tmm1/amqp gem.
 
-h2. Requirements
+== Requirements
 
 * Ruby 1.8.6
 * daemons 1.0.10
 * rspec 1.1.11 (for writing/running your specs)
 
-h3. Generator Requirements
+== Generator Requirements
 
 Depending on the generator you choose for your daemon, it might require additional gems to run.
 
-|.Generator|.Dependencies|
-|jabber|"xmpp4r-simple":http://xmpp4r-simple.rubyforge.org/|
-|cron|"rufus-scheduler":http://github.com/jmettraux/rufus-scheduler|
-|amqp|"amqp":http://github.com/tmm1/amqp|
+<table>
+<tr><th>Generator</th><th>\&nbsp;</th><th>Dependencies</th></tr>
+<tr><td>jabber</td><td>\&nbsp;</td><td> xmpp4r-simple[http://xmpp4r-simple.rubyforge.org] </td></tr>
+<tr><td>cron</td><td>\&nbsp;</td><td> rufus-scheduler[http://github.com/jmettraux/rufus-scheduler] </td></tr>
+<tr><td>amqp</td><td>\&nbsp;</td><td> amqp[http://github.com/tmm1/amqp] </td></tr>
+</table>
 
-h2. Install
+== Install
+
+Currently recommended to stick to the git repo:
 
   $ git clone git://github.com/kennethkalmer/daemon-kit.git
   $ rake gem
   $ gem install pkg/daemon-kit-X.X.X.gem
 
-h2. License
+Development versions are available as gems from github:
+
+  $ gem install kennethkalmer-daemon-kit -s http://gems.github.com
+
+Stable versions, when released are available directly from Rubyforge:
+
+  $ gem install daemon-kit
+
+== License
 
 (The MIT License)
 
