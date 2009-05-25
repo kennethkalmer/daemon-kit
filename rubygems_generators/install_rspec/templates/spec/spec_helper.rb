@@ -6,7 +6,7 @@ rescue LoadError
   require 'spec'
 end
 
-require File.dirname(__FILE__) + '/../config/boot'
+require File.dirname(__FILE__) + '/../config/environment'
 DaemonKit::Application.running!
 require '<%= gem_name %>'
 
