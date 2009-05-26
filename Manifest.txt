@@ -28,6 +28,13 @@ daemon_generators/cron/USAGE
 daemon_generators/cron/cron_generator.rb
 daemon_generators/cron/templates/config/initializers/cron.rb
 daemon_generators/cron/templates/libexec/daemon.rb
+daemon_generators/deploy_capistrano/USAGE
+daemon_generators/deploy_capistrano/deploy_capistrano_generator.rb
+daemon_generators/deploy_capistrano/templates/Capfile
+daemon_generators/deploy_capistrano/templates/config/deploy.rb
+daemon_generators/deploy_capistrano/templates/config/deploy/production.rb
+daemon_generators/deploy_capistrano/templates/config/deploy/staging.rb
+daemon_generators/deploy_capistrano/templates/config/environments/staging.rb
 daemon_generators/jabber/USAGE
 daemon_generators/jabber/jabber_generator.rb
 daemon_generators/jabber/templates/config/initializers/jabber.rb
@@ -44,6 +51,7 @@ lib/daemon_kit/amqp.rb
 lib/daemon_kit/application.rb
 lib/daemon_kit/config.rb
 lib/daemon_kit/cron.rb
+lib/daemon_kit/deployment/capistrano.rb
 lib/daemon_kit/error_handlers/base.rb
 lib/daemon_kit/error_handlers/hoptoad.rb
 lib/daemon_kit/error_handlers/mail.rb
@@ -75,6 +83,7 @@ test/test_amqp_generator.rb
 test/test_cron_generator.rb
 test/test_daemon-kit_generator.rb
 test/test_daemon_kit_config.rb
+test/test_deploy_capistrano_generator.rb
 test/test_generator_helper.rb
 test/test_helper.rb
 test/test_jabber_generator.rb

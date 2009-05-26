@@ -5,10 +5,13 @@ class DaemonKitGenerator < RubiGen::Base
 
   VALID_GENERATORS = ['default', 'jabber', 'cron', 'amqp', 'nanite_agent']
 
+  DEPLOYERS = ['none', 'capistrano']
+
   default_options :shebang => DEFAULT_SHEBANG, :author => nil
 
   attr_reader :daemon_name
   attr_reader :installer
+  attr_reader :deployer
 
   def initialize(runtime_args, runtime_options = {})
     super
@@ -23,6 +26,12 @@ class DaemonKitGenerator < RubiGen::Base
     unless VALID_GENERATORS.include?( installer )
       $stderr.puts "Invalid generator: '#{installer}'."
       $stderr.puts "Valid generators are: #{VALID_GENERATORS.join(', ')}"
+      exit 1
+    end
+
+    unless DEPLOYERS.include?( deployer )
+      $stderr.puts "Invalid deployment mechanism: '#{deployer}'."
+      $stderr.puts "Valid deployers are: #{DEPLOYERS.join(', ')}"
       exit 1
     end
 
@@ -75,6 +84,11 @@ class DaemonKitGenerator < RubiGen::Base
       # Tests
       m.dependency "install_rspec", [daemon_name], :destination => destination_root, :collision => :force
 
+      # Deployers
+      unless deployer == 'none'
+        m.dependency "deploy_#{deployer}", [daemon_name], :destination => destination_root, :collision => :force
+      end
+
       # Others
       m.directory "log"
       m.directory "tmp"
@@ -102,12 +116,21 @@ EOS
       # opts.on("-a", "--author=\"Your Name\"", String,
       #         "Some comment about this option",
       #         "Default: none") { |o| options[:author] = o }
+
       opts.on("-i", "--install=generator", String,
               "Select a generator to use (other than the default).",
               "Available generators: #{VALID_GENERATORS.join(', ')}",
               "Defaults to: default") do |installer|
         options[:installer] = installer
       end
+
+      opts.on("-d", "--deploy-with=config", String,
+              "Select an optional deployment mechanism.",
+              "Available deployers: #{DEPLOYERS.join(', ')}",
+              "Defaults to: none") do |deploy|
+        options[:deployer] = deploy
+      end
+
       opts.on("-r", "--ruby=path", String,
               "Path to the Ruby binary of your choice (otherwise scripts use env, dispatchers current path).",
               "Default: #{DEFAULT_SHEBANG}") { |x| options[:shebang] = x }
@@ -120,6 +143,7 @@ EOS
       # raw instance variable value.
       # @author = options[:author]
       @installer = options[:installer] || 'default'
+      @deployer  = (options[:deployer] || 'none').strip
     end
 
 end

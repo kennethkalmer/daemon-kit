@@ -53,6 +53,15 @@ class TestDaemonKitGenerator < Test::Unit::TestCase
     assert_directory_exists "tasks"
     assert_directory_exists "vendor"
     assert_directory_exists "tmp"
+
+    assert !File.exists?("#{APP_ROOT}/Capfile"), 'Capfile generated, but should not be'
+  end
+
+  def test_generator_with_capistrano_deployer
+    run_generator('daemon_kit', [APP_ROOT, '-d capistrano'], sources)
+
+    assert_generated_file "Capfile"
+    assert_generated_file "config/deploy.rb"
   end
 
   private
