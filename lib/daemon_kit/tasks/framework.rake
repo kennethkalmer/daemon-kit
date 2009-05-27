@@ -87,6 +87,8 @@ namespace :daemon_kit do
   namespace :upgrade do
     # Upgrade the initializers
     task :initializers do
+      copy_framework_template( 'config/boot.rb', 'config/boot.rb' )
+
       if File.directory?( File.join(DaemonKit.root, 'config', 'initializers') )
         mv File.join(DaemonKit.root, 'config', 'initializers'), File.join(DAEMON_ROOT, 'config', 'pre-daemonize')
         copy_framework_template( 'config', 'pre-daemonize', 'readme' )
@@ -96,6 +98,11 @@ namespace :daemon_kit do
         mkdir_p File.join(DAEMON_ROOT, 'config', 'post-daemonize')
         copy_framework_template( 'config', 'post-daemonize', 'readme' )
       end
+    end
+
+    # Upgrade the Rakefile
+    task :rakefile do
+      copy_framework_template( 'Rakefile', 'Rakefile' )
     end
   end
 end

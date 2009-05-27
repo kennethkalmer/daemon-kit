@@ -1,0 +1,14 @@
+#
+# This monit configuration file is built from the monit wiki with some
+# very basic checks on memory and CPU usage.
+#
+# See the man page at http://mmonit.com/monit/documentation/monit.html
+# for more information.
+#
+check process <%= DaemonKit.configuration.daemon_name %> with pidfile <%= DaemonKit.configuration.pid_file %>
+  group daemons
+  start program = "/usr/bin/env DAEMON_ENV=<%= DaemonKit.env %> <%= DaemonKit.root %>/bin/<%= DaemonKit.configuration.daemon_name %> start"
+  stop program  = "/usr/bin/env DAEMON_ENV=<%= DaemonKit.env %> <%= DaemonKit.root %>/bin/<%= DaemonKit.configuration.daemon_name %> stop"
+  if 5 restarts within 5 cycles then timeout
+  if cpu usage > 99% for 5 cycles then alert
+  if mem usage > 99% for 5 cycles then alert

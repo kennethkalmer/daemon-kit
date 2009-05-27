@@ -37,6 +37,10 @@ module DaemonKit
     def root
       DAEMON_ROOT
     end
+
+    def env
+      DAEMON_ENV
+    end
   end
 
 
@@ -184,6 +188,9 @@ module DaemonKit
     # Provide a custom logger to use
     attr_accessor :logger
 
+    # Path to the pid file, defaults to 'log/<daemon_name>.pid'
+    #attr_accessor :pid_file
+
     # The application name
     attr_accessor :daemon_name
 
@@ -240,6 +247,10 @@ module DaemonKit
       @signal_traps[signal].unshift( proc || block )
     end
 
+    def pid_file
+      "#{File.dirname(self.log_path)}/#{self.daemon_name}.pid"
+    end
+
     protected
 
     def run_traps( signal )
@@ -267,7 +278,7 @@ module DaemonKit
 
         # Otherwise use Pathname#realpath which respects symlinks.
         else
-          Pathname.new(::DAEMON_ROOT).realpath.to_s
+          File.expand_path( Pathname.new(::DAEMON_ROOT).realpath.to_s )
         end
 
       Object.const_set(:RELATIVE_DAEMON_ROOT, ::DAEMON_ROOT.dup) unless defined?(::RELATIVE_DAEMON_ROOT)

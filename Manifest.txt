@@ -64,6 +64,8 @@ lib/daemon_kit/safety.rb
 lib/daemon_kit/tasks.rb
 lib/daemon_kit/tasks/environment.rake
 lib/daemon_kit/tasks/framework.rake
+lib/daemon_kit/tasks/god.rake
+lib/daemon_kit/tasks/monit.rake
 rubygems_generators/install_rspec/USAGE
 rubygems_generators/install_rspec/install_rspec_generator.rb
 rubygems_generators/install_rspec/templates/spec.rb
@@ -79,6 +81,8 @@ spec/initializer_spec.rb
 spec/spec.opts
 spec/spec_helper.rb
 tasks/rspec.rake
+templates/god/god.erb
+templates/monit/monit.erb
 test/test_amqp_generator.rb
 test/test_cron_generator.rb
 test/test_daemon-kit_generator.rb

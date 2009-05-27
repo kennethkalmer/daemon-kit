@@ -1,7 +1,7 @@
 # Don't change this file!
 # Configure your daemon in config/environment.rb
 
-DAEMON_ROOT = "#{File.dirname(__FILE__)}/.." unless defined?( DAEMON_ROOT )
+DAEMON_ROOT = "#{File.expand_path(File.dirname(__FILE__))}/.." unless defined?( DAEMON_ROOT )
 
 module DaemonKit
   class << self
@@ -36,7 +36,7 @@ module DaemonKit
       require "#{DAEMON_ROOT}/vendor/daemon_kit/lib/daemon_kit/initializer"
     end
   end
-  
+
   class GemBoot < Boot
     def load_initializer
       begin
