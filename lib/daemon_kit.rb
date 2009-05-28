@@ -14,4 +14,5 @@ module DaemonKit
   autoload :AMQP,        'daemon_kit/amqp'
   autoload :Nanite,      'daemon_kit/nanite'
   autoload :Safety,      'daemon_kit/safety'
+
 end

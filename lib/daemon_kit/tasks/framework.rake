@@ -76,7 +76,7 @@ namespace :daemon_kit do
   desc "Upgrade your local files for a daemon after upgrading daemon-kit"
   task :upgrade => 'environment' do
     # Run these
-    %w{ initializers }.each do |t|
+    %w{ initializers rakefile scripts }.each do |t|
       Rake::Task["daemon_kit:upgrade:#{t}"].invoke
     end
 
@@ -102,7 +102,14 @@ namespace :daemon_kit do
 
     # Upgrade the Rakefile
     task :rakefile do
-      copy_framework_template( 'Rakefile', 'Rakefile' )
+      copy_framework_template( 'Rakefile' )
+    end
+
+    # Upgrade the scripts
+    task :scripts do
+      %w{ console destroy generate }.each do |s|
+        copy_framework_template( "script", s )
+      end
     end
   end
 end

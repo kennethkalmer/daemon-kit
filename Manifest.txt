@@ -18,6 +18,9 @@ app_generators/daemon_kit/templates/config/post-daemonize/readme
 app_generators/daemon_kit/templates/config/pre-daemonize/readme
 app_generators/daemon_kit/templates/lib/daemon.rb
 app_generators/daemon_kit/templates/libexec/daemon.erb
+app_generators/daemon_kit/templates/script/console
+app_generators/daemon_kit/templates/script/destroy
+app_generators/daemon_kit/templates/script/generate
 bin/daemon_kit
 daemon_generators/amqp/USAGE
 daemon_generators/amqp/amqp_generator.rb
@@ -49,7 +52,9 @@ daemon_generators/nanite_agent/templates/libexec/daemon.rb
 lib/daemon_kit.rb
 lib/daemon_kit/amqp.rb
 lib/daemon_kit/application.rb
+lib/daemon_kit/commands/console.rb
 lib/daemon_kit/config.rb
+lib/daemon_kit/console_daemon.rb
 lib/daemon_kit/cron.rb
 lib/daemon_kit/deployment/capistrano.rb
 lib/daemon_kit/error_handlers/base.rb
