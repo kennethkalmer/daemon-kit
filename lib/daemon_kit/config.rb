@@ -20,6 +20,7 @@ module DaemonKit
 
       # Load the +config+.yml file from DAEMON_ROOT/config
       def load( config )
+        config = config.to_s
         config += '.yml' unless config =~ /\.yml$/
 
         path = File.join( DAEMON_ROOT, 'config', config )
