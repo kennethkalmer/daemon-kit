@@ -28,5 +28,6 @@ This is purely a drop in the bucket of what has to come...
 * Altering process names (fully and temporary appending)
 * bleak_house support
 * Support for tweaking REE environment variables prior to launch (bash wrapper)
+* Clustering support (run multiple workers out of same project)
 
 * DON'T FORGET 1.9 SUPPORT
