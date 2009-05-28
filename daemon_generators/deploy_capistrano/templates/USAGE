@@ -1,0 +1,10 @@
+
+Capistrano deployment configuration generator completed
+
+Usage:
+  Review the configuration files in config/deploy.rb and
+  config/deploy/*.rb
+
+  Once you're happy with the configurations, you can review
+  a list of available capistrano commands by running `cap -T'
+

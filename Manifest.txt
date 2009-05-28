@@ -31,9 +31,9 @@ daemon_generators/cron/USAGE
 daemon_generators/cron/cron_generator.rb
 daemon_generators/cron/templates/config/initializers/cron.rb
 daemon_generators/cron/templates/libexec/daemon.rb
-daemon_generators/deploy_capistrano/USAGE
 daemon_generators/deploy_capistrano/deploy_capistrano_generator.rb
 daemon_generators/deploy_capistrano/templates/Capfile
+daemon_generators/deploy_capistrano/templates/USAGE
 daemon_generators/deploy_capistrano/templates/config/deploy.rb
 daemon_generators/deploy_capistrano/templates/config/deploy/production.rb
 daemon_generators/deploy_capistrano/templates/config/deploy/staging.rb

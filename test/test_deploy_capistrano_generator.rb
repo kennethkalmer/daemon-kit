@@ -27,8 +27,7 @@ class TestDeployCapistranoGenerator < Test::Unit::TestCase
   #   bare_teardown - place this in teardown method to destroy the TMP_ROOT or APP_ROOT folder after each test
 
   def test_generator_without_options
-    name = "myapp"
-    run_generator('deploy_capistrano', [name], sources)
+    run_generator('deploy_capistrano', ['myapp'], sources)
     assert_generated_file   "Capfile"
     assert_directory_exists "config"
     assert_generated_file   "config/deploy.rb"
