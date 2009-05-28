@@ -73,6 +73,10 @@ class DaemonKitGenerator < RubiGen::Base
       m.file      "config/pre-daemonize/readme", "config/pre-daemonize/readme"
       m.directory "config/post-daemonize"
       m.file      "config/post-daemonize/readme", "config/post-daemonize/readme"
+      m.directory "script"
+      m.file      "script/destroy", "script/destroy"
+      m.file      "script/console", "script/console"
+      m.file      "script/generate", "script/generate"
 
       # Libraries
       m.directory "lib"
