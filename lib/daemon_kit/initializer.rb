@@ -3,7 +3,15 @@ require 'pathname'
 
 DAEMON_ENV = (ENV['DAEMON_ENV'] || 'development').dup unless defined?(DAEMON_ENV)
 
-$:.unshift File.dirname(__FILE__) + '/..'
+# Absolute paths to the daemon_kit libraries added to $:
+incdir = ( File.dirname(__FILE__) + '/..' )
+absincdir = if RUBY_PLATFORM =~ /(:?mswin|mingw)/
+              File.expand_path( incdir )
+            else
+              File.expand_path( Pathname.new( incdir ).realpath.to_s )
+            end
+$:.unshift absincdir unless $:.include?( absincdir )
+
 require 'daemon_kit'
 
 module DaemonKit
@@ -26,12 +34,20 @@ module DaemonKit
       @configuration = configuration
     end
 
+    def arguments
+      @arguments
+    end
+
+    def arguments=( args )
+      @arguments = args
+    end
+
     def trap( *args, &block )
       self.configuration.trap( *args, &block )
     end
 
     def framework_root
-      File.join( File.dirname(__FILE__), '..', '..' )
+      @framework_root ||= File.join( File.dirname(__FILE__), '..', '..' ).to_absolute_path
     end
 
     def root
@@ -50,7 +66,9 @@ module DaemonKit
 
     attr_reader :configuration
 
-    def self.run( configuration = Configuration.new )
+    def self.run
+      configuration = DaemonKit.configuration || Configuration.new
+
       yield configuration if block_given?
       initializer = new configuration
       initializer.before_daemonize
@@ -87,6 +105,8 @@ module DaemonKit
 
       include_core_lib
       load_postdaemonize_configs
+
+      set_process_name
     end
 
     def set_load_path
@@ -100,9 +120,7 @@ module DaemonKit
     end
 
     def load_patches
-      if !!configuration.force_kill_wait
-        require 'daemon_kit/patches/force_kill_wait'
-      end
+
     end
 
     def load_environment
@@ -163,6 +181,10 @@ module DaemonKit
         require core_lib
       end
     end
+
+    def set_process_name
+      $0 = configuration.daemon_name
+    end
   end
 
   # Holds our various configuration values
@@ -179,23 +201,14 @@ module DaemonKit
     # Path to the log file, defaults to 'log/<environment>.log'
     attr_accessor :log_path
 
-    # :system,
-    attr_accessor :dir_mode
-
-    # Path to the log file, defaults to 'log/<environment>.log'
-    attr_accessor :dir
-
     # Provide a custom logger to use
     attr_accessor :logger
 
     # Path to the pid file, defaults to 'log/<daemon_name>.pid'
-    #attr_accessor :pid_file
+    attr_accessor :pid_file
 
     # The application name
     attr_accessor :daemon_name
-
-    # Allow multiple copies to run?
-    attr_accessor :multiple
 
     # Use the force kill patch? Give the number of seconds
     attr_accessor :force_kill_wait
@@ -207,6 +220,8 @@ module DaemonKit
     attr_accessor :safety_net
 
     def initialize
+      parse_arguments!
+
       set_root_path!
       set_daemon_defaults!
 
@@ -214,7 +229,6 @@ module DaemonKit
       self.log_level  = default_log_level
       self.log_path   = default_log_path
 
-      self.multiple = false
       self.force_kill_wait = false
 
       self.safety_net = DaemonKit::Safety.instance
@@ -248,7 +262,7 @@ module DaemonKit
     end
 
     def pid_file
-      "#{File.dirname(self.log_path)}/#{self.daemon_name}.pid"
+      @pid_file ||= "#{File.dirname(self.log_path)}/#{self.daemon_name}.pid"
     end
 
     protected
@@ -266,28 +280,55 @@ module DaemonKit
       Signal.trap( signal, Proc.new { self.run_traps( signal ) } )
     end
 
+    def parse_arguments!
+      configs = Arguments.configuration( ARGV ).first
+      @unused_arguments = {}
+
+      configs.each do |c|
+        k,v = c.split('=')
+
+        if v.nil?
+          error( "#{k} has no value" )
+          next
+        end
+
+        begin
+          if self.respond_to?( k )
+            self.send( "#{k}=", v ) # pid_file = /var/run/foo.pid
+          else
+            @unused_arguments[ k ] = v
+          end
+        rescue => e
+          error( "Couldn't set `#{k}' to `#{v}': #{e.message}" )
+        end
+      end
+    end
+
+    # DANGEROUS: Change the value of DAEMON_ENV
+    def environment=( env )
+      ::DAEMON_ENV.replace( env )
+    end
+
     def set_root_path!
       raise "DAEMON_ROOT is not set" unless defined?(::DAEMON_ROOT)
-      raise "DAEMON_ROOT is not a directory" unless defined?(::DAEMON_ROOT)
+      raise "DAEMON_ROOT is not a directory" unless File.directory?(::DAEMON_ROOT)
 
-      @root_path =
+      @root_path = ::DAEMON_ROOT.to_absolute_path
         # Pathname is incompatible with Windows, but Windows doesn't have
         # real symlinks so File.expand_path is safe.
-        if RUBY_PLATFORM =~ /(:?mswin|mingw)/
-          File.expand_path(::DAEMON_ROOT)
+        #if RUBY_PLATFORM =~ /(:?mswin|mingw)/
+        #  File.expand_path(::DAEMON_ROOT)
 
         # Otherwise use Pathname#realpath which respects symlinks.
-        else
-          File.expand_path( Pathname.new(::DAEMON_ROOT).realpath.to_s )
-        end
+        #else
+        #  File.expand_path( Pathname.new(::DAEMON_ROOT).realpath.to_s )
+        #end
 
       Object.const_set(:RELATIVE_DAEMON_ROOT, ::DAEMON_ROOT.dup) unless defined?(::RELATIVE_DAEMON_ROOT)
       ::DAEMON_ROOT.replace @root_path
     end
 
     def set_daemon_defaults!
-      self.dir_mode = :normal
-      self.dir      = File.join( DAEMON_ROOT, 'log' )
     end
 
     def default_load_paths
@@ -300,6 +341,16 @@ module DaemonKit
 
     def default_log_level
       environment == 'production' ? Logger::INFO : Logger::DEBUG
+    end
+
+    def error( msg )
+      msg = "[E] Configuration: #{msg}"
+
+      if DaemonKit.logger
+        DaemonKit.logger.error( msg )
+      else
+        STDERR.puts msg
+      end
     end
   end
 
