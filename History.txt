@@ -1,4 +1,4 @@
-== 0.1.7.2 2009-05-31
+== 0.1.7.3 2009-05-31
 
 * Removed dependency on daemons gem, now handled in house
 * New argument management
