@@ -2,7 +2,7 @@ require File.join(File.dirname(__FILE__), "test_generator_helper.rb")
 
 class TestDaemonKitGenerator < Test::Unit::TestCase
   include RubiGen::GeneratorTestHelper
-  
+
   attr_reader :daemon_name
   def setup
     bare_setup
@@ -35,6 +35,7 @@ class TestDaemonKitGenerator < Test::Unit::TestCase
     assert_directory_exists "bin"
     assert_generated_file   "bin/#{daemon_name}"
     assert_directory_exists "config"
+    assert_generated_file   "config/arguments.rb"
     assert_generated_file   "config/boot.rb"
     assert_generated_file   "config/environment.rb"
     assert_generated_file   "config/environments/development.rb"

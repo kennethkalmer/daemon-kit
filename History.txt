@@ -1,3 +1,19 @@
+== 0.1.7.2 2009-05-31
+
+* Removed dependency on daemons gem, now handled in house
+* New argument management
+* Some more docs
+
+== 0.1.7.1 2009-05-28
+
+* Fixed some minor issue with Capistrano support
+* Added support for generating dog/monit configuration files via rake
+* Initial implementation of ./script/* utilities
+
+== 0.1.7 2009-05-26
+
+* Capistrano deployment support
+
 == 0.1.6 2009-05-13
 
 * DaemonKit::Safety class to handle the trapping and logging of

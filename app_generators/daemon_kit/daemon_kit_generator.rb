@@ -65,6 +65,7 @@ class DaemonKitGenerator < RubiGen::Base
 
       # Config/Environment
       m.directory "config"
+      m.file      "config/arguments.rb", "config/arguments.rb"
       m.file      "config/boot.rb", "config/boot.rb"
       m.template  "config/environment.rb", "config/environment.rb"
       m.directory "config/environments"

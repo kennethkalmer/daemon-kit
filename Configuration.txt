@@ -1,0 +1,58 @@
+= Configuring your daemon
+
+daemon-kit provides a multitude of ways to configure your daemon, this document
+will outline the different options available to you.
+
+== Configuration files and #DaemonKit::Config
+
+#DaemonKit::Config gives you easy access to any YAML configuration
+files you have in your <em>config</em> directory.
+
+You can access the configuration files like this:
+
+  config = DaemonKit::Config.load('sample')
+
+The above snippet relies on the presence of a <em>config/sample.yml</em> file.
+
+#DaemonKit::Config is environment aware, so configuration files are
+parsed for a top-level key that is the same as the value of
+<em>DAEMON_ENV</em>, and if present is loaded into the object as the
+configuration data. If the key is not present, the whole YAML
+document is exposed as configuration data.
+
+== Command line arguments
+
+The most flexible way to configure your daemon is through command line
+arguments, or switches.
+
+DaemonKit includes a couple of its own arguments that can be used:
+
+  -e ENV (or --env ENV) to set the daemon environment
+  --pid /path/to/pidfile to set the path to a pidfile
+  -v shows the DaemonKit version
+  -h shows a useful help message
+
+=== Custom arguments
+
+It is possible for you to specify your own arguments as well, by
+updating the <em>config/arguments.rb</em> file. This file is eval'd
+inside #DaemonKit::Arguments and gives you access to the following two
+variables:
+
+* opts - Instance of OptionParser[http://www.ruby-doc.org/stdlib/libdoc/optparse/rdoc/classes/OptionParser.html]
+* @options - A standard Ruby hash that you can populate and access later
+
+Your custom arguments can be accessed like this:
+
+  DaemonKit.arguments.options
+
+=== Advanced Configuration
+
+All the writable attributes of the default #DaemonKit::Configuration
+instance call also be modified from the command line using the special
+<em>--config</em> arguments:
+
+  --config force_kill_wait=30
+
+This happens after <em>config/environment.rb</em> is processed, so all
+command line arguments will overwrite those values.

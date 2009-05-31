@@ -1,3 +1,4 @@
+Configuration.txt
 History.txt
 Manifest.txt
 PostInstall.txt
@@ -9,6 +10,7 @@ app_generators/daemon_kit/daemon_kit_generator.rb
 app_generators/daemon_kit/templates/README
 app_generators/daemon_kit/templates/Rakefile
 app_generators/daemon_kit/templates/bin/daemon.erb
+app_generators/daemon_kit/templates/config/arguments.rb
 app_generators/daemon_kit/templates/config/boot.rb
 app_generators/daemon_kit/templates/config/environment.rb
 app_generators/daemon_kit/templates/config/environments/development.rb
@@ -52,9 +54,12 @@ daemon_generators/nanite_agent/templates/libexec/daemon.rb
 lib/daemon_kit.rb
 lib/daemon_kit/amqp.rb
 lib/daemon_kit/application.rb
+lib/daemon_kit/arguments.rb
 lib/daemon_kit/commands/console.rb
 lib/daemon_kit/config.rb
 lib/daemon_kit/console_daemon.rb
+lib/daemon_kit/core_ext.rb
+lib/daemon_kit/core_ext/string.rb
 lib/daemon_kit/cron.rb
 lib/daemon_kit/deployment/capistrano.rb
 lib/daemon_kit/error_handlers/base.rb
@@ -64,7 +69,7 @@ lib/daemon_kit/initializer.rb
 lib/daemon_kit/jabber.rb
 lib/daemon_kit/nanite.rb
 lib/daemon_kit/nanite/agent.rb
-lib/daemon_kit/patches/force_kill_wait.rb
+lib/daemon_kit/pid_file.rb
 lib/daemon_kit/safety.rb
 lib/daemon_kit/tasks.rb
 lib/daemon_kit/tasks/environment.rake
@@ -81,7 +86,11 @@ script/console
 script/destroy
 script/generate
 script/txt2html
+spec/argument_spec.rb
+spec/config_spec.rb
 spec/daemon_kit_spec.rb
+spec/fixtures/env.yml
+spec/fixtures/noenv.yml
 spec/initializer_spec.rb
 spec/spec.opts
 spec/spec_helper.rb
