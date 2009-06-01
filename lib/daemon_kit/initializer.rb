@@ -18,14 +18,6 @@ module DaemonKit
 
   class << self
 
-    def logger
-      @logger
-    end
-
-    def logger=( logger )
-      @logger = logger
-    end
-
     def configuration
       @configuration
     end
@@ -46,17 +38,6 @@ module DaemonKit
       self.configuration.trap( *args, &block )
     end
 
-    def framework_root
-      @framework_root ||= File.join( File.dirname(__FILE__), '..', '..' ).to_absolute_path
-    end
-
-    def root
-      DAEMON_ROOT
-    end
-
-    def env
-      DAEMON_ENV
-    end
   end
 
 

@@ -20,4 +20,26 @@ module DaemonKit
   autoload :Jabber,      'daemon_kit/jabber'
   autoload :AMQP,        'daemon_kit/amqp'
   autoload :Nanite,      'daemon_kit/nanite'
+
+  class << self
+    def logger
+      @logger
+    end
+
+    def logger=( logger )
+      @logger = logger
+    end
+
+    def root
+      DAEMON_ROOT
+    end
+
+    def env
+      DAEMON_ENV
+    end
+
+    def framework_root
+      @framework_root ||= File.join( File.dirname(__FILE__), '..' ).to_absolute_path
+    end
+  end
 end

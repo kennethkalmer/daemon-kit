@@ -1,33 +1,57 @@
+require DaemonKit.framework_root + '/vendor/tmail'
 require 'net/smtp'
 
 module DaemonKit
   module ErrorHandlers
-    # Send an email notification of the exception via SMTP
+    # Send an email notification of the exception via SMTP.
     class Mail < Base
-      
+
       # SMTP hostname
       @host = 'localhost'
-      attr_accessor :host
-      
+
+      # SMTP port
+      @port = 25
+
       # Recipients of the notification
       @recipients = []
-      attr_accessor :recipients
 
       # Subject prefix
       @prefix = '[DAEMON-KIT]'
-      attr_accessor :prefix
 
       # Sender address
       @sender = 'daemon-kit'
-      attr_accessor :sender
+
+      # SMTP username
+      @username = nil
+
+      # SMTP password
+      @password = nil
+
+      # Authentication mechanism (:plain, :login, or :cram_md5)
+      @authentication = nil
+
+      # Use TLS?
+      @tls = false
+
+      # Domain used when talking to SMTP server
+      @domain = 'localhost.localdomain'
+
+      class << self
+        attr_accessor :host, :port, :recipients, :prefix, :sender, :username,
+        :password, :authentication, :tls, :domain
+      end
 
       def handle_exception( exception )
-        email = <<EOF
-To: #{self.recipients.map { |r| '<' + r + '>' }.join(', ')}
-From: <#{self.sender}>
-Subject: #{self.prefix} #{exception.message}
-Date: #{Time.now}
 
+        mail = TMail::Mail.new
+        mail.to = self.class.recipients
+        mail.from = self.class.sender
+        mail.subject = "#{self.class.prefix} #{exception.message}"
+        mail.set_content_type 'text', 'plain'
+        mail.mime_version = '1.0'
+        mail.date = Time.now
+
+        mail.body = <<EOF
 DaemonKit caught an exception inside #{DaemonKit.configuration.daemon_name}.
 
 Message: #{exception.message}
@@ -37,10 +61,14 @@ Backtrace:
 Environment: #{ENV.inspect}
 EOF
         begin
-          Net::SMTP.start( self.host ) do |smtp|
-            smtp.send_message( email, self.sender, self.recipients )
+          smtp = Net::SMTP.new( self.class.host, self.class.port )
+          smtp.enable_starttls_auto if self.class.tls && smtp.respond_to?(:enable_starttls_auto)
+          smtp.start( self.class.domain, self.class.username, self.class.password,
+                      self.class.authentication ) do |smtp|
+            smtp.sendmail( mail.to_s, mail.from, mail.to )
           end
-        rescue
+        rescue => e
+          DaemonKit.logger.error "Failed to send exception mail: #{e.message}" if DaemonKit.logger
         end
       end
     end
