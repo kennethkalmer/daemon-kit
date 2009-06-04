@@ -264,6 +264,8 @@ module DaemonKit
     end
 
     def parse_arguments!
+      return unless own_args?
+
       configs = Arguments.configuration( ARGV ).first
       @unused_arguments = {}
 
@@ -334,6 +336,13 @@ module DaemonKit
       else
         STDERR.puts msg
       end
+    end
+
+    # If we are executed with any of these commands, don't allow
+    # arguments to be parsed cause they will interfere with the
+    # script encapsulating DaemonKit, like capistrano
+    def own_args?
+      ![ 'cap' ].include?( File.basename( $0 ) )
     end
   end
 
