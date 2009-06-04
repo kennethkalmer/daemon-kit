@@ -50,6 +50,7 @@ module DaemonKit
         @pid_file = PidFile.new( DaemonKit.configuration.pid_file )
 
         unless @pid_file.running?
+          @pid_file.cleanup
           puts "Nothing to stop"
           exit
         end
