@@ -41,6 +41,15 @@ module DaemonKit
         :password, :authentication, :tls, :domain
       end
 
+      [ :host, :port, :recipients, :prefix, :sender, :username, :password,
+        :authentication, :tls, :domain ].each do |cm|
+        class_eval(<<-EOM, __FILE__, __LINE__)
+          def #{cm}=( val )
+            self.class.#{cm} = val
+          end
+        EOM
+      end
+
       def handle_exception( exception )
 
         mail = TMail::Mail.new

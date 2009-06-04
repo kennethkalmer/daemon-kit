@@ -1,3 +1,9 @@
+== 0.1.7.4 (Not released)
+
+* Fix bug in capistrano recipe for restarting daemons
+* Added log:truncate rake task
+* Error mails now handled by TMail
+
 == 0.1.7.3 2009-05-31
 
 * Removed dependency on daemons gem, now handled in house

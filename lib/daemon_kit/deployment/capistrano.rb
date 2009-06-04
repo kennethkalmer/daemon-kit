@@ -305,18 +305,15 @@ namespace :deploy do
   end
 
   desc <<-DESC
-    Restarts your application. This works by calling the bin/:application \
-    script under the current path with 'restart'
+    Restarts your application. This works by calling 'stop' task, \
+    followed by the 'start' task.
 
-    By default, this will be invoked via sudo as the `app' user. If \
-    you wish to run it as a different user, set the :runner variable to \
-    that user. If you are in an environment where you can't use sudo, set \
-    the :use_sudo variable to false:
-
-      set :use_sudo, false
+    See the descriptions for the 'start' and 'stop' tasks for any \
+    additional info.
   DESC
   task :restart, :except => { :no_release => true } do
-    try_runner "/usr/bin/env DAEMON_ENV=#{fetch(:daemon_env)} #{current_path}/bin/#{application} restart"
+    stop
+    start
   end
 
   namespace :rollback do
