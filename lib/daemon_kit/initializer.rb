@@ -62,7 +62,7 @@ module DaemonKit
     end
 
     def self.shutdown
-      DaemonKit.logger.warn "Shutting down"
+      DaemonKit.logger.warn "Shutting down #{DaemonKit.configuration.daemon_name}"
       exit
     end
 
@@ -88,6 +88,8 @@ module DaemonKit
       load_postdaemonize_configs
 
       set_process_name
+
+      DaemonKit.logger.info( "DaemonKit (#{DaemonKit::VERSION}) booted, now running #{DaemonKit.configuration.daemon_name}" )
     end
 
     def set_load_path
@@ -139,6 +141,8 @@ module DaemonKit
 
       DaemonKit.logger = logger
 
+      DaemonKit.logger.info "DaemonKit (#{DaemonKit::VERSION}) booting in #{DAEMON_ENV} mode"
+
       configuration.trap("USR1") {
         DaemonKit.logger.level = DaemonKit.logger.debug? ? Logger::INFO : Logger::DEBUG
         DaemonKit.logger.info "Log level changed to #{DaemonKit.logger.debug? ? 'DEBUG' : 'INFO' }"
@@ -147,8 +151,6 @@ module DaemonKit
         DaemonKit.logger.level = Logger::DEBUG
         DaemonKit.logger.info "Log level changed to DEBUG"
       }
-
-      DaemonKit.logger.info "DaemonKit up and running in #{DAEMON_ENV} mode"
     end
 
     def initialize_signal_traps
