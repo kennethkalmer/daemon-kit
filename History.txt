@@ -1,5 +1,6 @@
-== 0.1.7.4 (Not released)
+== 0.1.7.4 2009-06-05
 
+* Fixed bug with control script generator (thanks Sho Fukamachi)
 * Enhanced deploy.rb template to check for current dk gem verion,
   unless vendored
 * Fix bug in capistrano recipe for restarting daemons
