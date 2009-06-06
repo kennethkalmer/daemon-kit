@@ -1,4 +1,5 @@
 Configuration.txt
+Deployment.txt
 History.txt
 Manifest.txt
 PostInstall.txt

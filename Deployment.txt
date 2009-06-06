@@ -1,0 +1,113 @@
+= Deploying your daemons
+
+daemon-kit provides built-in support for
+Capistrano[http://www.capify.org] deployments, using a customized
+version of the standard 'deploy' recipe for Ruby on Rails
+applications.
+
+User of Vlad[http://hitsquad.rubyforge.org/vlad/]? Get in touch so we
+can discuss your contribution to daemon-kit ;)
+
+== Generating capistrano configurations
+
+When generating a new daemon, you can pass the <em>-d capistrano</em>
+argument to the <em>daemon_kit</em> command. In case you already have
+a generated daemon, run the following command inside your project:
+
+  $ ruby script/generate deploy_capistrano
+
+== Overview of generated configurations
+
+The generator creates the following files worth noticing:
+
+  config/deploy.rb
+  config/deploy/*.rb
+
+The generator also creates a new environment for you, a
+<em>staging</em> environment. Useful for testing your deployments
+before taking anything into production.
+
+== Configuring capistrano
+
+For each environment (staging & production) you only need to specify
+the target hosts in <em>config/deploy/(staging|production).rb</em>.
+
+Each of the stub files have example configuration values you can just
+edit.
+
+The rest of your configuration generally occurs in
+<em>config/deploy.rb</em>.
+
+Everything works exactly like standard capistrano, with the exception
+of the following directives:
+
+* :config_files
+* :shared_children
+
+=== :config_files
+
+Since the daemon configuration files will almost always differ between
+your development environment and your staging/production environment,
+the deployment recipe makes adequate provision for this.
+
+Use the :config_files directive to set an array of file names from the
+<em>config</em> directory that you want replaced with production
+configuration files found on the server:
+
+  set :config_files, %w{ amqp.yaml }
+
+On your target server, in the <em>:deploy_to</em> folder, create a
+<em>config</em> directory and place your configuration files in
+there. One each deploy, capistrano will rename the files in your
+deployed configuration directory with a <em>.orig</em> extension, and copy
+the files from <em>:deploy_to/config</em> into the newly deployed
+release.
+
+This makes it easy to keep production configurations out of your
+working directories or version control systems.
+
+=== :shared_children
+
+The original capistrano recipe that daemon-kit's recipe is built from
+provided support for tracking shared directories between
+deployments. This works by removing the deployed directory, and
+creating a symlink from <em>:deploy_to/shared/</em> into the correct
+location within the deployed release.
+
+You specify your list of directories with the
+<em>:shared_children</em>, each being relative to the DAEMON_ROOT.
+
+  set :shared_children, %w{ log }
+
+The daemon-kit deployment recipe makes no assumptions on shared
+directories, and gives you full control. The default only includes the
+log directory, which you can remove if you want separate log
+directories for each deployed release.
+
+== Remote dependencies
+
+By default, the deployment configuration file is configured to check
+the remote dependencies before updating the code on the target
+host. You can disable this behaviour by commenting out the following
+line:
+
+  before "deploy:update_code", "deploy:check"
+
+The only default remote dependency is the daemon-kit gem, and it will
+check for the same version you currently have installed (or a later
+one).
+
+== More capistrano resources
+
+To see a list of available commands, please run the following command
+in the root of your project:
+
+  $ cap -vT
+
+For more information on capistrano, please refer to the following list
+of online resources:
+
+* Capistrano Website[http://www.capify.org]
+* Capistrano Wiki[http://wiki.capify.org]
+* Capistrano Group[http://groups.google.com/group/capistrano]
+* #capistrano on Freenode

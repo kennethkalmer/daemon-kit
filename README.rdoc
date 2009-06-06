@@ -21,7 +21,6 @@ Supported generators:
 
 * Build it
 * Review TODO.txt
-* Review Configuration.txt
 
 == Synopsis
 
@@ -79,6 +78,11 @@ Development versions are available as gems from github:
 Stable versions, when released are available directly from Rubyforge:
 
   $ gem install daemon-kit
+
+== Further reading
+
+* Configuration.txt
+* Deployment.txt
 
 == License
 
