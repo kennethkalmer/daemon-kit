@@ -1,0 +1,92 @@
+= Logging from inside your daemon
+
+Proper logging inside your daemon process is critical, and daemon-kit
+provides you with a great logging facility to (ab)use.
+
+== Logging examples
+
+From anywhere in your code you can access the
+<em>DaemonKit.logger</em> instance, which is a configured
+DaemonKit::AbstractLogger. It is compatible with Ruby's Logger class
+but is much more verbose to help you gain some insight into your
+running process.
+
+  DaemonKit.logger.info( "Hello world" )
+
+This logs a 'Hello world' line to the log file, complete with the
+calling file name and line number. Log lines look something like this:
+
+  2009-06-07 23:21:30.248575 capd(32513) [INFO] initializer.rb:91: DaemonKit (0.1.7.4) booted, now running capd
+
+Log as much as you can, but be careful not to abuse the <em>info</em>
+level since your log files can become huge. For general processing
+hints, use the <em>debug</em> level.
+
+To log exceptions, use the special <em>exception</em> helper:
+
+  begin
+    # dangerous operation
+  rescue => e
+    DaemonKit.logger.exception( e )
+  end
+
+== Controlling logging in a running process
+
+Logging can be controlled in a running process, either via code or by
+sending UNIX signals to the running process.
+
+=== Changing log levels in your code
+
+Log levels can be toggled with the <em>level=</em> method:
+
+  DaemonKit.logger.level = :info
+
+Alternatively you can silence all the logging activity for a while
+using the silence helper:
+
+  DaemonKit.logger.silence do |logger|
+    # logger will only report :error or higher levels
+  end
+
+=== Changing log levels via UNIX signals
+
+Send your process the +USR1+ signal to toggle between <em>:debug</em>
+and <em>:info</em> log levels. Sending a +USR2+ signal will force the
+logger into <em>:debug</em> mode (+USR1+ will revert).
+
+== Support for log rotation
+
+Support for logrotate is baked right into daemon-kit. By sending your
+daemon a +HUP+ signal all the log files file be closed and re-opened
+again on first use. Here is an example logrotate configuration:
+
+  /path/to/daemon.log {
+    rotate 5
+    weekly
+    postrotate
+      kill -HUP `cat /path/to/daemon.pid`
+    endscript
+  }
+
+== Support for syslog logging
+
+If you have the
+SyslogLogger[http://seattlerb.rubyforge.org/SyslogLogger/] gem
+installed, you can have your process log to a UNIX syslog server. You
+can change the logging to syslog by either updating your
+<em>environment.rb</em> file like this:
+
+  config.log_path = :syslog
+
+Or by passing 'syslog' as the logfile argument when starting a daemon
+
+  $ ruby ./bin/daemon start -l syslog
+
+The SyslogLogger rdoc's provide configuration examples for configuring
+various UNIX syslog servers.
+
+== More logging information
+
+If you're running your daemon in the foreground (with the <em>run</em>
+command, you'll get copies of all the log messages on STDOUT, and thus
+voiding the need to tail log files the whole time.

@@ -7,19 +7,20 @@ $:.unshift( File.dirname(__FILE__).to_absolute_path ) unless
   $:.include?( File.dirname(__FILE__).to_absolute_path )
 
 module DaemonKit
-  VERSION = '0.1.7.4'
+  VERSION = '0.1.7.5'
 
-  autoload :Initializer, 'daemon_kit/initializer'
-  autoload :Application, 'daemon_kit/application'
-  autoload :Arguments,   'daemon_kit/arguments'
-  autoload :Config,      'daemon_kit/config'
-  autoload :Safety,      'daemon_kit/safety'
-  autoload :PidFile,     'daemon_kit/pid_file'
+  autoload :Initializer,    'daemon_kit/initializer'
+  autoload :Application,    'daemon_kit/application'
+  autoload :Arguments,      'daemon_kit/arguments'
+  autoload :Config,         'daemon_kit/config'
+  autoload :Safety,         'daemon_kit/safety'
+  autoload :PidFile,        'daemon_kit/pid_file'
+  autoload :AbstractLogger, 'daemon_kit/abstract_logger'
 
-  autoload :Cron,        'daemon_kit/cron'
-  autoload :Jabber,      'daemon_kit/jabber'
-  autoload :AMQP,        'daemon_kit/amqp'
-  autoload :Nanite,      'daemon_kit/nanite'
+  autoload :Cron,   'daemon_kit/cron'
+  autoload :Jabber, 'daemon_kit/jabber'
+  autoload :AMQP,   'daemon_kit/amqp'
+  autoload :Nanite, 'daemon_kit/nanite'
 
   class << self
     def logger

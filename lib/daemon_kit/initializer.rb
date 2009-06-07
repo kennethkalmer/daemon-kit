@@ -1,4 +1,3 @@
-require 'logger'
 require 'pathname'
 
 DAEMON_ENV = (ENV['DAEMON_ENV'] || 'development').dup unless defined?(DAEMON_ENV)
@@ -135,8 +134,9 @@ module DaemonKit
       return if DaemonKit.logger
 
       unless logger = configuration.logger
-        logger = Logger.new( configuration.log_path )
+        logger = AbstractLogger.new( configuration.log_path )
         logger.level = configuration.log_level
+        logger.copy_to_stdout = configuration.log_stdout
       end
 
       DaemonKit.logger = logger
@@ -144,12 +144,15 @@ module DaemonKit
       DaemonKit.logger.info "DaemonKit (#{DaemonKit::VERSION}) booting in #{DAEMON_ENV} mode"
 
       configuration.trap("USR1") {
-        DaemonKit.logger.level = DaemonKit.logger.debug? ? Logger::INFO : Logger::DEBUG
+        DaemonKit.logger.level = DaemonKit.logger.debug? ? :info : :debug
         DaemonKit.logger.info "Log level changed to #{DaemonKit.logger.debug? ? 'DEBUG' : 'INFO' }"
       }
       configuration.trap("USR2") {
-        DaemonKit.logger.level = Logger::DEBUG
+        DaemonKit.logger.level = :debug
         DaemonKit.logger.info "Log level changed to DEBUG"
+      }
+      configuration.trap("HUP") {
+        DaemonKit.logger.close
       }
     end
 
@@ -178,14 +181,17 @@ module DaemonKit
     # List of load paths
     attr_accessor :load_paths
 
+    # Custom logger instance to use
+    attr_accessor :logger
+
     # The log level to use, defaults to DEBUG
     attr_accessor :log_level
 
     # Path to the log file, defaults to 'log/<environment>.log'
     attr_accessor :log_path
 
-    # Provide a custom logger to use
-    attr_accessor :logger
+    # Duplicate log data to stdout
+    attr_accessor :log_stdout
 
     # Path to the pid file, defaults to 'log/<daemon_name>.pid'
     attr_accessor :pid_file
@@ -209,8 +215,8 @@ module DaemonKit
       set_daemon_defaults!
 
       self.load_paths = default_load_paths
-      self.log_level  = default_log_level
-      self.log_path   = default_log_path
+      self.log_level  ||= default_log_level
+      self.log_path   ||= default_log_path
 
       self.force_kill_wait = false
 
@@ -299,21 +305,13 @@ module DaemonKit
       raise "DAEMON_ROOT is not a directory" unless File.directory?(::DAEMON_ROOT)
 
       @root_path = ::DAEMON_ROOT.to_absolute_path
-        # Pathname is incompatible with Windows, but Windows doesn't have
-        # real symlinks so File.expand_path is safe.
-        #if RUBY_PLATFORM =~ /(:?mswin|mingw)/
-        #  File.expand_path(::DAEMON_ROOT)
-
-        # Otherwise use Pathname#realpath which respects symlinks.
-        #else
-        #  File.expand_path( Pathname.new(::DAEMON_ROOT).realpath.to_s )
-        #end
 
       Object.const_set(:RELATIVE_DAEMON_ROOT, ::DAEMON_ROOT.dup) unless defined?(::RELATIVE_DAEMON_ROOT)
       ::DAEMON_ROOT.replace @root_path
     end
 
     def set_daemon_defaults!
+      self.log_stdout = false
     end
 
     def default_load_paths
@@ -325,7 +323,7 @@ module DaemonKit
     end
 
     def default_log_level
-      environment == 'production' ? Logger::INFO : Logger::DEBUG
+      environment == 'production' ? :info : :debug
     end
 
     def error( msg )

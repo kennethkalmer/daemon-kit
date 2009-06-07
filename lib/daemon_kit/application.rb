@@ -33,6 +33,8 @@ module DaemonKit
         self.clean_fd
         self.redirect_io( true )
 
+        DaemonKit.configuration.log_stdout = true
+
         require file
       end
 

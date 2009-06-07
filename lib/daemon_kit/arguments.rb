@@ -58,6 +58,7 @@ module DaemonKit
       #
       #   -e value or --env value => environment
       #   --pid pidfile           => pid_file
+      #   -l path or --log path   => /path/to/log/file
       #
       def configuration( argv )
         configs = []
@@ -72,6 +73,11 @@ module DaemonKit
           if argv[i] == "-e" || argv[i] == "--env"
             argv.delete_at( i )
             configs << "environment=#{argv.delete_at(i)}"
+          end
+
+          if argv[i] == "-l" || argv[i] == "--log"
+            argv.delete_at( i )
+            configs << "log_path=#{argv.delete_at(i)}"
           end
 
           if argv[i] == "--pid"
@@ -92,7 +98,7 @@ module DaemonKit
     end
 
     attr_reader :options
-    
+
     def initialize
       @options = {}
 
@@ -118,6 +124,10 @@ module DaemonKit
         end
 
         opts.on("--pidfile PATH", "Path to the pidfile", "Defaults to log/#{DaemonKit.configuration.daemon_name}.pid") do
+          # Nothing, just here for show
+        end
+
+        opts.on("-l", "--log /path/to/logfile", "Path to the log file", "Defaults to log/[environment].log") do
           # Nothing, just here for show
         end
 

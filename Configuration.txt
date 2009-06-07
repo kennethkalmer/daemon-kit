@@ -29,6 +29,7 @@ DaemonKit includes a couple of its own arguments that can be used:
 
   -e ENV (or --env ENV) to set the daemon environment
   --pid /path/to/pidfile to set the path to a pidfile
+  -l path (or --log path) to set the path for the log file
   -v shows the DaemonKit version
   -h shows a useful help message
 

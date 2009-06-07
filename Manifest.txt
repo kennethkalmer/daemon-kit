@@ -1,6 +1,7 @@
 Configuration.txt
 Deployment.txt
 History.txt
+Logging.txt
 Manifest.txt
 PostInstall.txt
 README.rdoc
@@ -53,6 +54,7 @@ daemon_generators/nanite_agent/templates/config/nanite.yml
 daemon_generators/nanite_agent/templates/lib/actors/sample.rb
 daemon_generators/nanite_agent/templates/libexec/daemon.rb
 lib/daemon_kit.rb
+lib/daemon_kit/abstract_logger.rb
 lib/daemon_kit/amqp.rb
 lib/daemon_kit/application.rb
 lib/daemon_kit/arguments.rb
@@ -88,6 +90,7 @@ script/console
 script/destroy
 script/generate
 script/txt2html
+spec/abstract_logger_spec.rb
 spec/argument_spec.rb
 spec/config_spec.rb
 spec/daemon_kit_spec.rb
