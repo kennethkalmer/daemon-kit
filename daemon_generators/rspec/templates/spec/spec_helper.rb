@@ -8,7 +8,6 @@ end
 
 require File.dirname(__FILE__) + '/../config/environment'
 DaemonKit::Application.running!
-require '<%= gem_name %>'
 
 Spec::Runner.configure do |config|
   # == Mock Framework

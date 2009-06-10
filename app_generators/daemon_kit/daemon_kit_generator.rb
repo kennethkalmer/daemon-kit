@@ -87,7 +87,7 @@ class DaemonKitGenerator < RubiGen::Base
       m.directory "tasks"
 
       # Tests
-      m.dependency "install_rspec", [daemon_name], :destination => destination_root, :collision => :force
+      m.dependency "rspec", [daemon_name], :destination => destination_root, :collision => :force
 
       # Deployers
       unless deployer == 'none'
@@ -98,9 +98,6 @@ class DaemonKitGenerator < RubiGen::Base
       m.directory "log"
       m.directory "tmp"
       m.directory "vendor"
-
-      m.dependency "install_rubigen_scripts", [destination_root, 'daemon_kit'],
-        :shebang => options[:shebang], :collision => :force
     end
   end
 

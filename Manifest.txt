@@ -53,6 +53,12 @@ daemon_generators/nanite_agent/templates/config/initializers/nanite_agent.rb
 daemon_generators/nanite_agent/templates/config/nanite.yml
 daemon_generators/nanite_agent/templates/lib/actors/sample.rb
 daemon_generators/nanite_agent/templates/libexec/daemon.rb
+daemon_generators/rspec/USAGE
+daemon_generators/rspec/rspec_generator.rb
+daemon_generators/rspec/templates/spec.rb
+daemon_generators/rspec/templates/spec/spec.opts
+daemon_generators/rspec/templates/spec/spec_helper.rb
+daemon_generators/rspec/templates/tasks/rspec.rake
 lib/daemon_kit.rb
 lib/daemon_kit/abstract_logger.rb
 lib/daemon_kit/amqp.rb
@@ -80,12 +86,6 @@ lib/daemon_kit/tasks/framework.rake
 lib/daemon_kit/tasks/god.rake
 lib/daemon_kit/tasks/log.rake
 lib/daemon_kit/tasks/monit.rake
-rubygems_generators/install_rspec/USAGE
-rubygems_generators/install_rspec/install_rspec_generator.rb
-rubygems_generators/install_rspec/templates/spec.rb
-rubygems_generators/install_rspec/templates/spec/spec.opts
-rubygems_generators/install_rspec/templates/spec/spec_helper.rb
-rubygems_generators/install_rspec/templates/tasks/rspec.rake
 script/console
 script/destroy
 script/generate

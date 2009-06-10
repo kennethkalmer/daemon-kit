@@ -1,10 +1,8 @@
 
-class InstallRspecGenerator < RubiGen::Base
-  
-  default_options :author => nil
-  
+class RspecGenerator < RubiGen::Base
+
   attr_reader :gem_name, :module_name
-  
+
   def initialize(runtime_args, runtime_options = {})
     super
     @destination_root = File.expand_path(destination_root)
@@ -20,7 +18,7 @@ class InstallRspecGenerator < RubiGen::Base
       m.directory 'tasks'
 
       m.template           'spec.rb', "spec/#{gem_name}_spec.rb"
-      
+
       m.template_copy_each %w( spec.opts spec_helper.rb ), 'spec'
       m.file_copy_each     %w( rspec.rake ), 'tasks'
     end
@@ -29,7 +27,7 @@ class InstallRspecGenerator < RubiGen::Base
   protected
     def banner
       <<-EOS
-Install rspec BDD testing support. 
+Install rspec BDD testing support.
 
 Includes a rake task (tasks/rspec.rake) to be loaded by the root Rakefile,
 which provides a "spec" task.
@@ -47,7 +45,7 @@ EOS
       #         "Some comment about this option",
       #         "Default: none") { |x| options[:author] = x }
     end
-    
+
     def extract_options
       # for each option, extract it into a local variable (and create an "attr_reader :author" at the top)
       # Templates can access these value via the attr_reader-generated methods, but not the
