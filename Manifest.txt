@@ -35,6 +35,12 @@ daemon_generators/cron/USAGE
 daemon_generators/cron/cron_generator.rb
 daemon_generators/cron/templates/config/initializers/cron.rb
 daemon_generators/cron/templates/libexec/daemon.rb
+daemon_generators/cucumber/USAGE
+daemon_generators/cucumber/cucumber_generator.rb
+daemon_generators/cucumber/templates/cucumber
+daemon_generators/cucumber/templates/cucumber.rake
+daemon_generators/cucumber/templates/cucumber_environment.rb
+daemon_generators/cucumber/templates/env.rb
 daemon_generators/deploy_capistrano/deploy_capistrano_generator.rb
 daemon_generators/deploy_capistrano/templates/Capfile
 daemon_generators/deploy_capistrano/templates/USAGE
@@ -70,6 +76,7 @@ lib/daemon_kit/console_daemon.rb
 lib/daemon_kit/core_ext.rb
 lib/daemon_kit/core_ext/string.rb
 lib/daemon_kit/cron.rb
+lib/daemon_kit/cucumber/world.rb
 lib/daemon_kit/deployment/capistrano.rb
 lib/daemon_kit/error_handlers/base.rb
 lib/daemon_kit/error_handlers/hoptoad.rb

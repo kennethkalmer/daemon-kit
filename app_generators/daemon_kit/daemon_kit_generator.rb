@@ -12,6 +12,7 @@ class DaemonKitGenerator < RubiGen::Base
   attr_reader :daemon_name
   attr_reader :installer
   attr_reader :deployer
+  attr_reader :cucumber
 
   def initialize(runtime_args, runtime_options = {})
     super
@@ -88,6 +89,9 @@ class DaemonKitGenerator < RubiGen::Base
 
       # Tests
       m.dependency "rspec", [daemon_name], :destination => destination_root, :collision => :force
+      if cucumber
+        m.dependency "cucumber", [], :destination => destination_root, :collision => :force
+      end
 
       # Deployers
       unless deployer == 'none'
@@ -133,6 +137,11 @@ EOS
         options[:deployer] = deploy
       end
 
+      opts.on("--cucumber",
+              "Install cucumber.") do
+        options[:cucumber] = true
+      end
+
       opts.on("-r", "--ruby=path", String,
               "Path to the Ruby binary of your choice (otherwise scripts use env, dispatchers current path).",
               "Default: #{DEFAULT_SHEBANG}") { |x| options[:shebang] = x }
@@ -146,6 +155,7 @@ EOS
       # @author = options[:author]
       @installer = options[:installer] || 'default'
       @deployer  = (options[:deployer] || 'none').strip
+      @cucumber  = options[:cucumber]  || false
     end
 
 end
