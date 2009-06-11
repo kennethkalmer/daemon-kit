@@ -16,6 +16,7 @@ module DaemonKit
   autoload :Safety,         'daemon_kit/safety'
   autoload :PidFile,        'daemon_kit/pid_file'
   autoload :AbstractLogger, 'daemon_kit/abstract_logger'
+  autoload :Configurable,   'daemon_kit/core_ext/configurable'
 
   autoload :Cron,   'daemon_kit/cron'
   autoload :Jabber, 'daemon_kit/jabber'

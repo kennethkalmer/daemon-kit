@@ -175,6 +175,9 @@ module DaemonKit
 
   # Holds our various configuration values
   class Configuration
+
+    include Configurable
+
     # Root to the daemon
     attr_reader :root_path
 
@@ -188,7 +191,7 @@ module DaemonKit
     attr_accessor :log_level
 
     # Path to the log file, defaults to 'log/<environment>.log'
-    attr_accessor :log_path
+    configurable :log_path
 
     # Duplicate log data to stdout
     attr_accessor :log_stdout
@@ -197,7 +200,7 @@ module DaemonKit
     attr_accessor :pid_file
 
     # The application name
-    attr_accessor :daemon_name
+    configurable :daemon_name, :locked => true
 
     # Use the force kill patch? Give the number of seconds
     attr_accessor :force_kill_wait

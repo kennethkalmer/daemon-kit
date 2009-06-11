@@ -4,6 +4,7 @@
 * Fixed issue in daemon_kit:upgrade task
 * Moved rspec generator into new home
 * Removed conflicting rubigen generator, messed with our script directory
+* Fixed bug where environment.rb overwrites some --config values (reported by Josh Owens)
 
 == 0.1.7.5 2009-06-08
 

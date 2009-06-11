@@ -74,6 +74,7 @@ lib/daemon_kit/commands/console.rb
 lib/daemon_kit/config.rb
 lib/daemon_kit/console_daemon.rb
 lib/daemon_kit/core_ext.rb
+lib/daemon_kit/core_ext/configurable.rb
 lib/daemon_kit/core_ext/string.rb
 lib/daemon_kit/cron.rb
 lib/daemon_kit/cucumber/world.rb
@@ -100,6 +101,7 @@ script/txt2html
 spec/abstract_logger_spec.rb
 spec/argument_spec.rb
 spec/config_spec.rb
+spec/configurable_spec.rb
 spec/daemon_kit_spec.rb
 spec/error_handlers_spec.rb
 spec/fixtures/env.yml
