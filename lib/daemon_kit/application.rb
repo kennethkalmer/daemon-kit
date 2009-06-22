@@ -79,7 +79,11 @@ module DaemonKit
           end
         end
 
-        @pid_file.cleanup
+        if @pid_file.running?
+          puts "Process still running, leaving pidfile behind! Consider using configuration.force_kill_wait."
+        else
+          @pid_file.cleanup
+        end
       end
 
       # Call this from inside a daemonized process to complete the
