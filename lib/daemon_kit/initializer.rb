@@ -61,6 +61,10 @@ module DaemonKit
     end
 
     def self.shutdown
+      DaemonKit.logger.info "Running shutdown hooks"
+
+      log_exceptions if DaemonKit.configuration.backtraces
+
       DaemonKit.logger.warn "Shutting down #{DaemonKit.configuration.daemon_name}"
       exit
     end
@@ -85,6 +89,7 @@ module DaemonKit
 
       include_core_lib
       load_postdaemonize_configs
+      configure_backtraces
 
       set_process_name
 
@@ -160,6 +165,7 @@ module DaemonKit
       term_proc = Proc.new { DaemonKit::Initializer.shutdown }
       configuration.trap( 'INT', term_proc )
       configuration.trap( 'TERM', term_proc )
+      at_exit { DaemonKit::Initializer.shutdown }
     end
 
     def include_core_lib
@@ -168,8 +174,37 @@ module DaemonKit
       end
     end
 
+    def configure_backtraces
+      Thread.abort_on_exception = configuration.backtraces
+    end
+
     def set_process_name
       $0 = configuration.daemon_name
+    end
+
+    def self.log_exceptions
+      trace_file = File.join( DaemonKit.root, "backtrace-#{Time.now.strftime('%Y%m%d%H%M%S')}-#{Process.pid}.log" )
+      trace_log = Logger.new( trace_file )
+
+      # Find the last exception
+      e = nil
+      ObjectSpace.each_object {|o|
+        if ::Exception === o
+          e = o
+        end
+      }
+
+      trace_log.info "*** Below you'll find the most recent exception thrown, this will likely (but not certainly) be the exception that made #{DaemonKit.configuration.daemon_name} exit abnormally ***"
+      trace_log.error e
+
+      trace_log.info "*** Below you'll find all the exception objects in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***"
+      ObjectSpace.each_object {|o|
+        if ::Exception === o
+          trace_log.error o
+        end
+      }
+
+      trace_log.close
     end
   end
 
@@ -203,7 +238,10 @@ module DaemonKit
     configurable :daemon_name, :locked => true
 
     # Use the force kill patch? Give the number of seconds
-    attr_accessor :force_kill_wait
+    configurable :force_kill_wait
+
+    # Should be log backtraces
+    configurable :backtraces, false
 
     # Collection of signal traps
     attr_reader :signal_traps

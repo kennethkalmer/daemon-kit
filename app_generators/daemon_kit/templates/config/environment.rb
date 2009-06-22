@@ -11,11 +11,11 @@ DaemonKit::Initializer.run do |config|
   # The name of the daemon as reported by process monitoring tools
   config.daemon_name = '<%= daemon_name %>'
 
-  # Uncomment to allow multiple instances to run
-  # config.mulitple = true
-
   # Force the daemon to be killed after X seconds from asking it to
   # config.force_kill_wait = 30
+
+  # Log backraces when a thread/daemon dies (Recommended)
+  # config.backtraces = true
 
   # Configure the safety net (see DaemonKit::Safety)
   # config.safety_net.handler = :mail # (or :hoptoad )

@@ -1,3 +1,16 @@
+== 0.1.7.8 2009-06-22
+
+* Optional logging of all exceptions when the daemon process dies
+  unexpectedly
+* Update generated environment.rb to reflect new backtraces option
+
+== 0.1.7.7 2009-06-22
+
+* Fixed compatibility with rufus-scheduler-2.0.0 (or newer) in cron
+  generator
+* Started central eventmachine reactor management code
+* Now depends on eventmachine
+
 == 0.1.7.6 (Not released)
 
 * Support for cucumber

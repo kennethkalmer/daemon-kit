@@ -53,6 +53,7 @@ The AMQP generator creates a simple daemon that has all the stub code and config
 == Requirements
 
 * Ruby 1.8.6
+* eventmachine-0.12.8[http://rubyeventmachine.com]
 * rspec (for writing/running your specs)
 
 == Generator Requirements
