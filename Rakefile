@@ -10,7 +10,8 @@ $hoe = Hoe.new('daemon-kit', DaemonKit::VERSION) do |p|
   p.post_install_message = IO.read( 'PostInstall.txt' ) # TODO remove if post-install message not required
   p.rubyforge_name       = 'kit' # TODO this is default value
   p.extra_deps = [
-                  ['rubigen', '>= 1.5.2']
+                  ['rubigen', '>= 1.5.2'],
+                  ['eventmachine', '>=0.12.8']
                  ]
   p.extra_dev_deps = [
                       ['newgem', ">= #{::Newgem::VERSION}"]

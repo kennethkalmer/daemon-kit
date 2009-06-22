@@ -79,6 +79,7 @@ lib/daemon_kit/core_ext/string.rb
 lib/daemon_kit/cron.rb
 lib/daemon_kit/cucumber/world.rb
 lib/daemon_kit/deployment/capistrano.rb
+lib/daemon_kit/em.rb
 lib/daemon_kit/error_handlers/base.rb
 lib/daemon_kit/error_handlers/hoptoad.rb
 lib/daemon_kit/error_handlers/mail.rb

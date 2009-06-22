@@ -15,13 +15,17 @@ end
 # An instance of the scheduler is available through
 # DaemonKit::Cron.scheduler
 
+# To make use of the EventMachine-powered scheduler, uncomment the
+# line below *before* adding any schedules.
+# DaemonKit::EM.run
+
 # Some samples to get you going:
 
 # Will call #regenerate_monthly_report in 3 days from starting up
 #DaemonKit::Cron.scheduler.in("3d") do
 #  regenerate_monthly_report()
 #end
-# 
+#
 #DaemonKit::Cron.scheduler.every "10m10s" do
 #  check_score(favourite_team) # every 10 minutes and 10 seconds
 #end
@@ -35,5 +39,5 @@ DaemonKit::Cron.scheduler.every("1m") do
   DaemonKit.logger.debug "Scheduled task completed at #{Time.now}"
 end
 
-# Run our 'cron' daeon
+# Run our 'cron' dameon, suspending the current thread
 DaemonKit::Cron.run

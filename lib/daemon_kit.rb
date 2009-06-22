@@ -1,13 +1,15 @@
 # TODO: Strip this out eventually so we can run without rubygems
 require 'rubygems'
 
+require 'eventmachine'
+
 require File.dirname(__FILE__) + '/daemon_kit/core_ext'
 
 $:.unshift( File.dirname(__FILE__).to_absolute_path ) unless
   $:.include?( File.dirname(__FILE__).to_absolute_path )
 
 module DaemonKit
-  VERSION = '0.1.7.6'
+  VERSION = '0.1.7.7'
 
   autoload :Initializer,    'daemon_kit/initializer'
   autoload :Application,    'daemon_kit/application'
@@ -16,6 +18,7 @@ module DaemonKit
   autoload :Safety,         'daemon_kit/safety'
   autoload :PidFile,        'daemon_kit/pid_file'
   autoload :AbstractLogger, 'daemon_kit/abstract_logger'
+  autoload :EM,             'daemon_kit/em'
   autoload :Configurable,   'daemon_kit/core_ext/configurable'
 
   autoload :Cron,   'daemon_kit/cron'
