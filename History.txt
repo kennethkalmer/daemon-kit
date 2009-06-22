@@ -1,3 +1,8 @@
+== 0.1.7.9 2009-06-22
+
+* Backtraces only logged on unclean shutdown
+* AMQP generator got new keep alive code
+
 == 0.1.7.8 2009-06-22
 
 * Optional logging of all exceptions when the daemon process dies
