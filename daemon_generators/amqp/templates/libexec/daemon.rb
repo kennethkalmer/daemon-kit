@@ -22,6 +22,14 @@ DaemonKit::AMQP.run do
   # amqp gem. Any code in the examples (from the gem) would work just
   # fine here.
 
+  # Uncomment this for connection keep-alive
+  # AMQP.conn.connection_status do |status|
+  #   DaemonKit.logger.debug("AMQP connection status changed: #{status}")
+  #   if status == :disconnected
+  #     AMQP.conn.reconnect(true)
+  #   end
+  # end
+
   amq = ::MQ.new
   amq.queue('test').subscribe do |msg|
     DaemonKit.logger.debug "Received message: #{msg.inspect}"
