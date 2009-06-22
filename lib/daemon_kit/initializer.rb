@@ -60,10 +60,13 @@ module DaemonKit
       initializer.after_daemonize
     end
 
-    def self.shutdown
+    def self.shutdown( clean = false )
+      return unless $daemon_kit_shutdown_hooks_ran.nil?
+      $daemon_kit_shutdown_hooks_ran = true
+      
       DaemonKit.logger.info "Running shutdown hooks"
 
-      log_exceptions if DaemonKit.configuration.backtraces
+      log_exceptions if DaemonKit.configuration.backtraces && !clean
 
       DaemonKit.logger.warn "Shutting down #{DaemonKit.configuration.daemon_name}"
       exit
@@ -162,7 +165,7 @@ module DaemonKit
     end
 
     def initialize_signal_traps
-      term_proc = Proc.new { DaemonKit::Initializer.shutdown }
+      term_proc = Proc.new { DaemonKit::Initializer.shutdown( true ) }
       configuration.trap( 'INT', term_proc )
       configuration.trap( 'TERM', term_proc )
       at_exit { DaemonKit::Initializer.shutdown }
