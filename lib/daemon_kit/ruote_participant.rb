@@ -19,19 +19,22 @@ module DaemonKit
 
       private :new
 
-      private
-
       def instance
         @instance ||= new
       end
+
+      private
 
       def instance=( obj )
         @instance = obj
       end
     end
 
+    attr_reader :participants
+
     def initialize
       @transports = []
+      @participants = {}
 
       @configuration = Config.load('ruote')
     end
@@ -39,12 +42,22 @@ module DaemonKit
     # Yields +self+ and configures the remote participants
     def configure(&block)
       block.call( self )
+
+      @transports.freeze
+      @participants.freeze
     end
 
     # Enable the use of a specific transport for workitems. Can be :amqp to use
     # the AMQPParticipant/AMQPListener pair in ruote.
     def use( transport )
       @transports << transport
+    end
+
+    # Register classes for work
+    def register( klass )
+      key = underscore( klass.to_s )
+
+      @participants[ key ] = klass.new
     end
 
     # Run the participants
@@ -69,13 +82,22 @@ module DaemonKit
 
               Workitem.process( :amqp, message )
 
-              DaemonKit.logger.debug("Processed workitem: #{message.inspect}")
+              DaemonKit.logger.debug("Processed workitem.")
 
               header.ack
             end
           end
         end
       end
+    end
+
+    # Shamelessly lifted from the ActiveSupport inflector
+    def underscore(camel_cased_word)
+      camel_cased_word.to_s.gsub(/::/, '/').
+        gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+        gsub(/([a-z\d])([A-Z])/,'\1_\2').
+        tr("-", "_").
+        downcase
     end
   end
 end

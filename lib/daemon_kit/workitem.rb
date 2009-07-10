@@ -47,12 +47,7 @@ module DaemonKit
       def parse_command( work )
         _, klass, method = work['attributes']['params']['command'].split('/')
 
-        @handlers ||= {}
-        unless @handlers.has_key?( klass )
-          @handlers[ klass ] = klass.classify.constantize.new
-        end
-
-        return @handlers[ klass ], method
+        return RuoteParticipant.instance.participants[ klass ], method
       end
 
       def reply_to_engine( transport, response )
@@ -60,6 +55,8 @@ module DaemonKit
       end
 
       def reply_via_amqp( response )
+        DaemonKit.logger.debug("Replying to engine via AMQP with #{response.inspect}")
+
         ::MQ.queue( response['attributes']['reply_queue'] ).publish( response.to_json )
 
         response
