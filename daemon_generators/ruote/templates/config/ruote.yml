@@ -1,0 +1,23 @@
+# Sample configuration file for a remote participant daemon
+
+# If your using the AMQP listener/participant pair in ruote, you only
+# need to specify the names of the queues to subscribe to.
+
+defaults: &defaults
+  amqp:
+    queues:
+      - work1
+      #- work2
+      #- work3
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+staging:
+  <<: *defaults
+
+production:
+  <<: *defaults

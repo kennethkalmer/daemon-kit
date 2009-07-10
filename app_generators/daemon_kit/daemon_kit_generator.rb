@@ -3,7 +3,7 @@ class DaemonKitGenerator < RubiGen::Base
   DEFAULT_SHEBANG = File.join(Config::CONFIG['bindir'],
                               Config::CONFIG['ruby_install_name'])
 
-  VALID_GENERATORS = ['default', 'jabber', 'cron', 'amqp', 'nanite_agent']
+  VALID_GENERATORS = ['default', 'jabber', 'cron', 'amqp', 'nanite_agent', 'ruote']
 
   DEPLOYERS = ['none', 'capistrano']
 
