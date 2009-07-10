@@ -9,7 +9,7 @@ $:.unshift( File.dirname(__FILE__).to_absolute_path ) unless
   $:.include?( File.dirname(__FILE__).to_absolute_path )
 
 module DaemonKit
-  VERSION = '0.1.7.9'
+  VERSION = '0.1.7.10'
 
   autoload :Initializer,    'daemon_kit/initializer'
   autoload :Application,    'daemon_kit/application'
@@ -21,10 +21,12 @@ module DaemonKit
   autoload :EM,             'daemon_kit/em'
   autoload :Configurable,   'daemon_kit/core_ext/configurable'
 
-  autoload :Cron,   'daemon_kit/cron'
-  autoload :Jabber, 'daemon_kit/jabber'
-  autoload :AMQP,   'daemon_kit/amqp'
-  autoload :Nanite, 'daemon_kit/nanite'
+  autoload :Cron,             'daemon_kit/cron'
+  autoload :Jabber,           'daemon_kit/jabber'
+  autoload :AMQP,             'daemon_kit/amqp'
+  autoload :Nanite,           'daemon_kit/nanite'
+  autoload :RuoteParticipant, 'daemon_kit/ruote_participant'
+  autoload :Workitem,         'daemon_kit/workitem'
 
   class << self
     def logger

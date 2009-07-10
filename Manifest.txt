@@ -88,6 +88,7 @@ lib/daemon_kit/jabber.rb
 lib/daemon_kit/nanite.rb
 lib/daemon_kit/nanite/agent.rb
 lib/daemon_kit/pid_file.rb
+lib/daemon_kit/ruote_participant.rb
 lib/daemon_kit/safety.rb
 lib/daemon_kit/tasks.rb
 lib/daemon_kit/tasks/environment.rake
@@ -95,6 +96,7 @@ lib/daemon_kit/tasks/framework.rake
 lib/daemon_kit/tasks/god.rake
 lib/daemon_kit/tasks/log.rake
 lib/daemon_kit/tasks/monit.rake
+lib/daemon_kit/workitem.rb
 script/console
 script/destroy
 script/generate
