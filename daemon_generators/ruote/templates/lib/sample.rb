@@ -1,3 +1,5 @@
+require 'open-uri'
+
 # Sample pseudo participant
 class Sample
 

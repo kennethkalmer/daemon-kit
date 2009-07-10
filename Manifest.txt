@@ -70,6 +70,8 @@ daemon_generators/ruote/ruote_generator.rb
 daemon_generators/ruote/templates/config/amqp.yml
 daemon_generators/ruote/templates/config/ruote.yml
 daemon_generators/ruote/templates/config/initializers/ruote.rb
+daemon_generators/ruote/templates/config/ruote.yml
+daemon_generators/ruote/templates/lib/sample.rb
 daemon_generators/ruote/templates/libexec/daemon.rb
 lib/daemon_kit.rb
 lib/daemon_kit/abstract_logger.rb
