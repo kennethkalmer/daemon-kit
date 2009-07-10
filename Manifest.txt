@@ -65,6 +65,12 @@ daemon_generators/rspec/templates/spec.rb
 daemon_generators/rspec/templates/spec/spec.opts
 daemon_generators/rspec/templates/spec/spec_helper.rb
 daemon_generators/rspec/templates/tasks/rspec.rake
+daemon_generators/ruote/USAGE
+daemon_generators/ruote/ruote_generator.rb
+daemon_generators/ruote/templates/config/amqp.yml
+daemon_generators/ruote/templates/config/ruote.yml
+daemon_generators/ruote/templates/config/initializers/ruote.rb
+daemon_generators/ruote/templates/libexec/daemon.rb
 lib/daemon_kit.rb
 lib/daemon_kit/abstract_logger.rb
 lib/daemon_kit/amqp.rb
@@ -124,6 +130,7 @@ test/test_generator_helper.rb
 test/test_helper.rb
 test/test_jabber_generator.rb
 test/test_nanite_agent_generator.rb
+test/test_ruote_generator.rb
 vendor/tmail-1.2.3/tmail.rb
 vendor/tmail-1.2.3/tmail/address.rb
 vendor/tmail-1.2.3/tmail/attachments.rb
