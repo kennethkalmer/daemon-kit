@@ -39,15 +39,31 @@ module DaemonKit
 
         target, method = parse_command( work )
 
-        response = target.send( method, work )
+        if target.public_methods.include?( method )
+          target.send( method, work )
+        else
+          msg = "Workitem cannot be processes: #{method} not exposed by #{target.inspect}"
+          DaemonKit.logger.error( msg )
+          work["attributes"]["daemon_kit"] = { "error" => msg }
+        end
 
-        reply_to_engine( transport, response )
+        reply_to_engine( transport, work )
       end
 
+      # Extract the class and method name from the workitem, then pick the matching
+      # class from the registered list of participants
       def parse_command( work )
         _, klass, method = work['attributes']['params']['command'].split('/')
 
-        return RuoteParticipant.instance.participants[ klass ], method
+        instance = RuoteParticipant.instance.participants[ klass ]
+
+        if instance.nil?
+          msg = "No instance registered for #{klass}"
+          DaemonKit.logger.error( msg )
+          raise DaemonKit::MissingParticipant, msg
+        end
+
+        return instance, method
       end
 
       def reply_to_engine( transport, response )

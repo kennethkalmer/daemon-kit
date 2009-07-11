@@ -4,6 +4,7 @@ require 'rubygems'
 require 'eventmachine'
 
 require File.dirname(__FILE__) + '/daemon_kit/core_ext'
+require File.dirname(__FILE__) + '/daemon_kit/exceptions'
 
 $:.unshift( File.dirname(__FILE__).to_absolute_path ) unless
   $:.include?( File.dirname(__FILE__).to_absolute_path )
