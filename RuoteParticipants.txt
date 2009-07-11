@@ -1,0 +1,113 @@
+= Writing remote ruote participants with daemon-kit
+
+daemon-kit is an ideal housing for remote ruote participants, providing a lot
+of convenience in terms of receiving and sending workitems, delegating work to
+pseudo-participant classes, handling configuration of the communication channel
+between ruote and the remote participant, and much more.
+
+== What is ruote?
+
+Ruote is a Ruby workflow engine. It is a powerful tool for defining, running and
+orchestrating business processes.
+
+* http://openwferu.rubyforge.org/
+* http://www.opensourcery.co.za/2009/03/04/ruote-in-20-minutes/
+* http://www.opensourcery.co.za/2009/07/06/driving-business-processes-in-ruby/
+
+== What are remote participants?
+
+Remote participants are participants that perform their work in a different
+Ruby processes from the one running the engine. This is useful in two cases,
+possibily many more, that involves autonomous participants.
+
+* Autonomous participants located on remote servers, driven by identity
+* Clustering autonomous participants to process workitems from a queue
+
+To learn more about the differences between local and remote participants
+please see http://openwferu.rubyforge.org/part.html
+
+Currently on the AMQP components are in place in daemon-kit, with XMPP coming
+soon.
+
+== Creating a remote participant with daemon-kit
+
+Generate your daemon using the 'ruote' generator:
+
+  $ daemon_kit partd -i ruote
+
+Make sure you have the JSON gem install, and the AMQP gem as well.
+
+== Configuring the daemon
+
+You need to review +config/ruote.yml+ to specify the AMQP queues that the daemon
+will subscribe to for receiving workitems. You'll also need to configure the 
+AMQP gem be updating +config/amqp.yml+
+
+The generated daemon in +libexec/+ already defaults to using AMQP as a transport
+for workitems.
+
+== Writing pseudo-participants
+
+Pseudo-participants in daemon-kit are pure Ruby classes. Implement your classes
+in +lib/+ and require them from +lib/<daemon_name>.rb+.
+
+Register your classes as pseudo-participants by registering them in the daemon
+file in +libexec+, just as the Sample class is registered in the generated
+code. Your class will be instantiated upon registration, and will be re-used
+for every incoming workitem passed to it.
+
+All your public methods in the pseudo-participant classes should be accept
+a single parameter, which is a ruote workitem in pure Hash form.
+
+== Wiring up the remote participant in ruote
+
+See the complete code here: http://gist.github.com/144861
+
+A sample process definition might look something like this:
+
+  class QuoteProcess < OpenWFE::ProcessDefinition
+    sequence do
+      kit :command => '/sample/quote', :queue => 'work1'
+
+      console
+    end
+  end
+
++kit+ in the above process definition is registered with the ruote engine as an
+AMQPParticipant. The AMQPParticipant delivers workitems to the specified AMQP
+queue.
+
+Based on the values in +config/ruote.yml+, your daemon will be subscribed to
+those queues.
+
+The second part is delegating the workitem inside the daemon to the correct
+pseudo-participant. This is handled by the +:command+ parameter in the process
+definition. DaemonKit::Workitem looks at the command parameter of the incoming
+workitem, and then finds a registered pseudo-participant instance and calls the
+requested method on that class.
+
+The +:command+ parameter follows the following convention (stolen shamelessly
+from Nanite):
+
+  :command => '/class_name/method_name'
+
+When classes are registered, the name of the class is downcased and camel-case
+words are separated by underscores. Method names are not changed, but methods
+are required to be public.
+
+== Processing workitems and replying to the engine
+
+The methods called in the pseudo-participants receive a single parameter, a
+ruote workitem as a hash. The participant is then free to analyze the hash
+and perform the appropriate actions required. The return value of the method
+is discarded, and the workitem is returned back to the engine. If the method
+modified the workitem, these changes will be sent along as well.
+
+== Random other notes
+
+Apart from configuring the AMPQ client (or XMPP in future) and the ruote.yml
+file, daemon developers don't need to worry about anything related to receiving
+workitems or sending replies.
+
+Our aim is to allow you to swap between participants on both sides of the
+transport without changing any of your code.

@@ -6,6 +6,7 @@ Manifest.txt
 PostInstall.txt
 README.rdoc
 Rakefile
+RuoteParticipants.txt
 TODO.txt
 app_generators/daemon_kit/USAGE
 app_generators/daemon_kit/daemon_kit_generator.rb
@@ -68,7 +69,6 @@ daemon_generators/rspec/templates/tasks/rspec.rake
 daemon_generators/ruote/USAGE
 daemon_generators/ruote/ruote_generator.rb
 daemon_generators/ruote/templates/config/amqp.yml
-daemon_generators/ruote/templates/config/ruote.yml
 daemon_generators/ruote/templates/config/initializers/ruote.rb
 daemon_generators/ruote/templates/config/ruote.yml
 daemon_generators/ruote/templates/lib/sample.rb
@@ -91,6 +91,7 @@ lib/daemon_kit/em.rb
 lib/daemon_kit/error_handlers/base.rb
 lib/daemon_kit/error_handlers/hoptoad.rb
 lib/daemon_kit/error_handlers/mail.rb
+lib/daemon_kit/exceptions.rb
 lib/daemon_kit/initializer.rb
 lib/daemon_kit/jabber.rb
 lib/daemon_kit/nanite.rb
