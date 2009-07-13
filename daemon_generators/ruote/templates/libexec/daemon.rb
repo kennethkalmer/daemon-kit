@@ -19,7 +19,7 @@ end
 # daemon.
 
 # Configuration of the remote participant shell
-DaemonKit::RuoteParticipant.configure do |config|
+DaemonKit::RuoteParticipants.configure do |config|
   # Use AMQP as a workitem transport mechanism
   config.use :amqp
 
@@ -28,6 +28,6 @@ DaemonKit::RuoteParticipant.configure do |config|
   config.register Sample
 end
 
-DaemonKit::RuoteParticipant.run do
+DaemonKit::RuoteParticipants.run do
   # Place any additional daemon-specific code in here...
 end

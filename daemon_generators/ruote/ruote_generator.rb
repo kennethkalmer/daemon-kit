@@ -31,6 +31,7 @@ class RuoteGenerator < RubiGen::Base
       m.template  'config/initializers/ruote.rb', "config/initializers/#{name}.rb"
 
       m.directory 'lib'
+      m.template  'lib/daemon.rb', "lib/#{name}.rb"
       m.template  'lib/sample.rb', 'lib/sample.rb'
       m.directory 'libexec'
       m.template 'libexec/daemon.rb', "libexec/#{name}-daemon.rb"

@@ -1,12 +1,26 @@
 require 'open-uri'
 
 # Sample pseudo participant
-class Sample
+#
+# See http://gist.github.com/144861 for a test engine
+class Sample < DaemonKit::RuotePseudoParticipant
 
-  def quote( workitem )
-    workitem["attributes"]["quote"] = open("http://www.iheartquotes.com/api/v1/random").read
+  on_exception :dammit
 
-    workitem
+  on_complete do |workitem|
+    workitem['success'] = true
+  end
+
+  def quote
+    workitem["quote"] = open("http://www.iheartquotes.com/api/v1/random").read
+  end
+
+  def err
+    raise ArgumentError, "Does not compute"
+  end
+
+  def dammit( exception )
+    workitem["error"] = exception.message
   end
 
 end
