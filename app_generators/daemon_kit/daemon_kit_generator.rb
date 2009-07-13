@@ -82,7 +82,7 @@ class DaemonKitGenerator < RubiGen::Base
 
       # Libraries
       m.directory "lib"
-      m.file "lib/daemon.rb", "lib/#{daemon_name}.rb"
+      m.file "lib/daemon.rb", "lib/#{daemon_name}.rb", :collision => :skip
 
       # Tasks
       m.directory "tasks"
