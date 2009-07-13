@@ -22,12 +22,13 @@ module DaemonKit
   autoload :EM,             'daemon_kit/em'
   autoload :Configurable,   'daemon_kit/core_ext/configurable'
 
-  autoload :Cron,             'daemon_kit/cron'
-  autoload :Jabber,           'daemon_kit/jabber'
-  autoload :AMQP,             'daemon_kit/amqp'
-  autoload :Nanite,           'daemon_kit/nanite'
-  autoload :RuoteParticipant, 'daemon_kit/ruote_participant'
-  autoload :Workitem,         'daemon_kit/workitem'
+  autoload :Cron,                   'daemon_kit/cron'
+  autoload :Jabber,                 'daemon_kit/jabber'
+  autoload :AMQP,                   'daemon_kit/amqp'
+  autoload :Nanite,                 'daemon_kit/nanite'
+  autoload :RuoteParticipants,      'daemon_kit/ruote_participants'
+  autoload :RuoteWorkitem,          'daemon_kit/ruote_workitem'
+  autoload :RuotePseudoParticipant, 'daemon_kit/ruote_pseudo_participant'
 
   class << self
     def logger

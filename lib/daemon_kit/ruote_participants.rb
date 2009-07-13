@@ -2,7 +2,7 @@ module DaemonKit
   # Class that cleanly abstracts away the different remote participants in
   # ruote and allows daemon writers to just worry about processing workitems
   # without worrying over the transport mechanism or anything else...
-  class RuoteParticipant
+  class RuoteParticipants
 
     class << self
 
@@ -53,9 +53,24 @@ module DaemonKit
       @transports << transport
     end
 
-    # Register classes for work
-    def register( klass )
-      key = underscore( klass.to_s )
+    # Register classes as pseudo-participants. Two styles of registration are
+    # supported:
+    #
+    #   register( Foo )
+    #   register( 'short', ShortParticipant )
+    #
+    # The first format uses the class name (downcased and underscored) as the
+    # key for identifying the pseudo-participant, the second uses the the
+    # provided key.
+    #
+    # Pseudo-participant classes are instantiated when registered, and the
+    # instances are re-used.
+    def register( *args )
+      key, klass = if args.size == 1
+        [ underscore( args.first.to_s ), args.first ]
+      else
+        [ args[0].to_s, args[1] ]
+      end
 
       @participants[ key ] = klass.new
     end
@@ -80,7 +95,7 @@ module DaemonKit
             safely do
               DaemonKit.logger.debug("Received workitem: #{message.inspect}")
 
-              Workitem.process( :amqp, message )
+              RuoteWorkitem.process( :amqp, message )
 
               DaemonKit.logger.debug("Processed workitem.")
 
@@ -100,4 +115,5 @@ module DaemonKit
         downcase
     end
   end
+
 end
