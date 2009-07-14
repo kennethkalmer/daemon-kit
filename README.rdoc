@@ -17,6 +17,7 @@ Supported generators:
 * AMQP consumer (evented)
 * Nanite agent
 * Cron-style daemon
+* ruote remote participants
 
 == Features/Problems
 
@@ -39,7 +40,7 @@ Use the 'jabber' generator instead of the default one.
 
 == Generators
 
-Currently five generators exist: default, jabber, amqp, cron & nanite
+Currently six generators exist: default, jabber, amqp, cron, nanite & ruote
 
 The default generator creates a simple daemon with an infinite loop inside that you can adapt.
 
@@ -59,6 +60,10 @@ The AMQP generator creates a simple daemon that has all the stub code and config
 
 The "nanite":http://github.com/ezmobius/nanite agent generator gets you up and running with nanite agents very quickly.
 
+=== ruote Remote Participants
+
+The "ruote":http://openwfe.rubyforge.org remote participant generator speeds up the development of workflow participants that run outside of the Ruby process that houses the engine. Daemon-kit handles all the communication and delegation logic, allowing you to focus purely on your participant's activities.
+
 == Requirements
 
 * Ruby 1.8.6
@@ -73,6 +78,7 @@ Depending on the generator you choose for your daemon, it might require addition
 * cron - rufus-scheduler[http://github.com/jmettraux/rufus-scheduler] (at least version 2.0.0)
 * amqp - amqp[http://github.com/tmm1/amqp]
 * nanite - nanite[http://github.com/ezmobius/nanite]
+* ruote - none, although ruote[http://openwfe.rubyforge.org] should probably be running somewhere
 
 == Install
 
@@ -95,6 +101,7 @@ Stable versions, when released are available directly from Rubyforge:
 * Configuration.txt
 * Deployment.txt
 * Logging.txt
+* RuoteParticipants.txt
 * http://www.opensourcery.co.za/tag/daemon-kit/
 
 == License
