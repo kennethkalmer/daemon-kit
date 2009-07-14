@@ -1,9 +1,16 @@
-%w[rubygems rake rake/clean fileutils newgem rubigen].each { |f| require f }
+require 'rubygems'
+gem 'hoe', '>= 2.1.0'
+require 'hoe'
+require 'fileutils'
 require File.dirname(__FILE__) + '/lib/daemon_kit'
+
+Hoe.plugin :newgem
+Hoe.plugin :website
+# Hoe.plugin :cucumberfeatures
 
 # Generate all the Rake tasks
 # Run 'rake -T' to see list of generated tasks (from gem root directory)
-$hoe = Hoe.new('daemon-kit', DaemonKit::VERSION) do |p|
+$hoe = Hoe.spec('daemon-kit') do |p|
   p.summary = 'Daemon Kit aims to simplify creating Ruby daemons by providing a sound application skeleton (through a generator), task specific generators (jabber bot, etc) and robust environment management code.'
   p.developer('Kenneth Kalmer', 'kenneth.kalmer@gmail.com')
   p.changes              = p.paragraphs_of("History.txt", 0..1).join("\n\n")
