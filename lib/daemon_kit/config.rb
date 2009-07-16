@@ -40,9 +40,9 @@ module DaemonKit
     # Expects a hash, looks for DAEMON_ENV key
     def initialize( config_data ) #:nodoc:
       if config_data.has_key?( DAEMON_ENV )
-        @data = config_data[ DAEMON_ENV ]
+        self.data = config_data[ DAEMON_ENV ]
       else
-        @data = config_data
+        self.data = config_data
       end
     end
 
@@ -54,17 +54,55 @@ module DaemonKit
     # Return the internal hash structure used, optionally symbolizing
     # the first level of keys in the hash
     def to_h( symbolize = false )
-      symbolize ? @data.inject({}) { |m,c| m[c[0].to_sym] = c[1]; m } : @data
+      symbolize ? @data.symbolize_keys : @data
     end
 
     def method_missing( method_name, *args ) #:nodoc:
-      # don't match setters
       unless method_name.to_s =~ /[\w_]+=$/
-        # pick a key if we have it
-        return @data[ method_name.to_s ] if @data.keys.include?( method_name.to_s )
+        if @data.keys.include?( method_name.to_s )
+          return @data.send( method_name.to_s )
+        end
       end
 
       super
+    end
+
+    def data=( hash )
+      @data = hash
+      class << @data
+        def symbolize_keys( hash = self )
+          hash.inject({}) { |result, (key, value)|
+            new_key = case key
+                    when String then key.to_sym
+                    else key
+                    end
+            new_value = case value
+                    when Hash then symbolize_keys(value)
+                    else value
+                    end
+            result[new_key] = new_value
+            result
+          }
+        end
+      end
+
+      extend_hash( @data )
+    end
+
+    def extend_hash( hash )
+      hash.keys.each do |k|
+        hash.instance_eval <<-KEY
+          def #{k}
+            fetch("#{k}")
+          end
+        KEY
+      end
+
+      hash.each do |(key, value)|
+        case value
+          when Hash then extend_hash( value )
+        end
+      end
     end
   end
 end

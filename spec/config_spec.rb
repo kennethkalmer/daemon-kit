@@ -4,7 +4,7 @@ describe DaemonKit::Config do
 
   describe "working with config data" do
     before(:each) do
-      @config = DaemonKit::Config.new('foo' => 'bar')
+      @config = DaemonKit::Config.new('foo' => 'bar', 'nes' => { 'ted' => 'value' })
     end
 
     it "should have string key access to values" do
@@ -19,15 +19,17 @@ describe DaemonKit::Config do
       @config.foo.should == 'bar'
     end
 
-    it "should return the config as a has" do
-      @config.to_h.should == { 'foo' => 'bar' }
+    it "should have nested instance accessors to values" do
+      @config.nes.ted.should == 'value'
+    end
+
+    it "should return the config as a hash" do
+      @config.to_h.should == { 'foo' => 'bar', 'nes' => { 'ted' => 'value' } }
     end
 
     it "should be able to symbolize keys in returned hash" do
-      @config.to_h(true).should == { :foo => 'bar' }
+      @config.to_h(true).should == { :foo => 'bar', :nes => { :ted => 'value' } }
     end
-
-    it "should symbolize keys in a nested fashion"
   end
 
   describe "parsing files" do
