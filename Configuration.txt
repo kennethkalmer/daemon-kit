@@ -57,3 +57,24 @@ instance call also be modified from the command line using the special
 
 This happens after <em>config/environment.rb</em> is processed, so all
 command line arguments will overwrite those values.
+
+=== Daemon umask
+
+By default daemon processes run with a umask of 022, but this can be changed
+on the command line or in +config/environment.rb+.
+
+To set a more restrictive umask via command line arguments, you can start your
+daemon like this:
+
+  $ ./bin/daemon start --config umask=0077
+
+Or the same in +config/environment.rb+
+
+  DaemonKit::Initializer.run do |config|
+    # ...
+
+    # restrictive umask
+    config.umask = 0077
+
+    # ...
+  end

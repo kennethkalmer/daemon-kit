@@ -18,15 +18,9 @@ describe DaemonKit::Configuration do
     @configuration.log_level.should_not be_nil
   end
 
-end
-
-
-describe DaemonKit::Initializer do
-
-  it "should setup a logger" do
-    pending
-    DaemonKit::Initializer.run(:initialize_logger)
-    DaemonKit.logger.should_not be_nil
+  it "should set a default umask" do
+    File.umask.should_not be(0)
+    File.umask.should be(18)
   end
 
 end

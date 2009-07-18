@@ -63,7 +63,7 @@ module DaemonKit
     def self.shutdown( clean = false )
       return unless $daemon_kit_shutdown_hooks_ran.nil?
       $daemon_kit_shutdown_hooks_ran = true
-      
+
       DaemonKit.logger.info "Running shutdown hooks"
 
       log_exceptions if DaemonKit.configuration.backtraces && !clean
@@ -87,6 +87,8 @@ module DaemonKit
     end
 
     def after_daemonize
+      set_umask
+
       initialize_logger
       initialize_signal_traps
 
@@ -136,6 +138,10 @@ module DaemonKit
       Dir[ File.join( DAEMON_ROOT, 'config', 'post-daemonize', '*.rb' ) ].each do |f|
         require f
       end
+    end
+
+    def set_umask
+      File.umask configuration.umask
     end
 
     def initialize_logger
@@ -245,6 +251,9 @@ module DaemonKit
 
     # Should be log backtraces
     configurable :backtraces, false
+
+    # Configurable umask
+    configurable :umask, :default => 0022
 
     # Collection of signal traps
     attr_reader :signal_traps
