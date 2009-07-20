@@ -253,7 +253,7 @@ module DaemonKit
     configurable :backtraces, false
 
     # Configurable umask
-    configurable :umask, :default => 0022
+    configurable :umask, 0022
 
     # Collection of signal traps
     attr_reader :signal_traps
