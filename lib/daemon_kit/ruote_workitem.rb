@@ -29,10 +29,13 @@ module DaemonKit
       #
       # Replies are sent back to the queue specified in the +reply_queue+ key.
       #
-      # == Statusses
+      # == Notes on errors
       #
-      # Status messages are sent via topic exchanges, using the command
-      # as they routing key.
+      # Where daemon-kit detects errors in attempting to parse and delegate the
+      # workitems, it will reply to the engine and set the following field with
+      # the error information:
+      #
+      #   daemon_kit.error
       def process( transport, workitem )
         # keep it singleton
         @instance ||= new
@@ -43,8 +46,14 @@ module DaemonKit
 
         target, method = parse_command( work )
 
-        if target.public_methods.include?( method )
+        if target.nil? || method.nil?
+          msg = "Missing target/method in command parameter, or command parameter missing"
+          DaemonKit.logger.error( msg )
+          work["attributes"]["daemon_kit"] = { "error" => msg }
+
+        elsif target.public_methods.include?( method )
           target.perform( method, work )
+
         else
           msg = "Workitem cannot be processes: #{method} not exposed by #{target.inspect}"
           DaemonKit.logger.error( msg )
@@ -57,6 +66,8 @@ module DaemonKit
       # Extract the class and method name from the workitem, then pick the matching
       # class from the registered list of participants
       def parse_command( work )
+        return nil if work['params']['command'].nil?
+
         _, klass, method = work['params']['command'].split('/')
 
         instance = RuoteParticipants.instance.participants[ klass ]
