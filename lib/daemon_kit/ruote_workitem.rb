@@ -49,7 +49,7 @@ module DaemonKit
         if target.nil? || method.nil?
           msg = "Missing target/method in command parameter, or command parameter missing"
           DaemonKit.logger.error( msg )
-          work["attributes"]["daemon_kit"] = { "error" => msg }
+          work["daemon_kit"] = { "error" => msg }
 
         elsif target.public_methods.include?( method )
           target.perform( method, work )
@@ -57,7 +57,7 @@ module DaemonKit
         else
           msg = "Workitem cannot be processes: #{method} not exposed by #{target.inspect}"
           DaemonKit.logger.error( msg )
-          work["attributes"]["daemon_kit"] = { "error" => msg }
+          work["daemon_kit"] = { "error" => msg }
         end
 
         reply_to_engine( transport, work )
