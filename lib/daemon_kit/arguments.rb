@@ -68,21 +68,25 @@ module DaemonKit
           if argv[i] == "--config"
             argv.delete_at( i )
             configs << argv.delete_at(i)
+            next
           end
 
           if argv[i] == "-e" || argv[i] == "--env"
             argv.delete_at( i )
             configs << "environment=#{argv.delete_at(i)}"
+            next
           end
 
           if argv[i] == "-l" || argv[i] == "--log"
             argv.delete_at( i )
             configs << "log_path=#{argv.delete_at(i)}"
+            next
           end
 
           if argv[i] == "--pid"
             argv.delete_at( i )
             configs << "pid_file=#{argv.delete_at(i)}"
+            next
           end
 
           i += 1

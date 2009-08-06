@@ -47,5 +47,24 @@ describe DaemonKit::Arguments do
 
       res.last.should == [ '-h' ]
     end
+
+    it "should handle different ordered configurations easily" do
+      argv = [ '--pid', '/tmp/piddy', '--log', '/tmp/loggy' ]
+      res = DaemonKit::Arguments.configuration( argv )
+
+      # No additional args
+      res.last.should be_empty
+
+      res.first[0].should == "pid_file=/tmp/piddy"
+      res.first[1].should == "log_path=/tmp/loggy"
+    end
+
+    it "should handle mixed configurations easily" do
+      argv = [ '--rest', 'yes', '-l', '/tmp/loggy', '-f', 'bar' ]
+      res = DaemonKit::Arguments.configuration( argv )
+
+      res.first.should == [ 'log_path=/tmp/loggy' ]
+      res.last.should  == [ '--rest', 'yes', '-f', 'bar' ]
+    end
   end
 end
