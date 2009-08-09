@@ -37,6 +37,10 @@ module DaemonKit
       self.configuration.trap( *args, &block )
     end
 
+    def at_shutdown( &block )
+      self.configuration.at_shutdown( &block )
+    end
+
   end
 
 
@@ -65,6 +69,14 @@ module DaemonKit
       $daemon_kit_shutdown_hooks_ran = true
 
       DaemonKit.logger.info "Running shutdown hooks"
+
+      DaemonKit.configuration.shutdown_hooks.each do |hook|
+        begin
+          hook.call
+        rescue => e
+          DaemonKit.logger.exception( e )
+        end
+      end
 
       log_exceptions if DaemonKit.configuration.backtraces && !clean
 
@@ -260,6 +272,9 @@ module DaemonKit
 
     # Our safety net (#Safety) instance
     attr_accessor :safety_net
+    
+    # :nodoc: Shutdown hooks
+    attr_reader :shutdown_hooks
 
     def initialize
       parse_arguments!
@@ -276,6 +291,7 @@ module DaemonKit
       self.safety_net = DaemonKit::Safety.instance
 
       @signal_traps = {}
+      @shutdown_hooks = []
     end
 
     def environment
@@ -301,6 +317,13 @@ module DaemonKit
       end
 
       @signal_traps[signal].unshift( proc || block )
+    end
+
+    # Add a block or proc to be called during shutdown
+    def at_shutdown( proc = nil, &block )
+      return if proc.nil? && !block_given?
+
+      @shutdown_hooks << ( proc || block )
     end
 
     def pid_file
