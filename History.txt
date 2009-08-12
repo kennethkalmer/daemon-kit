@@ -1,4 +1,4 @@
-== 0.1.7.10 (WIP)
+== 0.1.7.10 (2009-08-12)
 
 * Ruote remote participants
 * Allow process umask to be configured, defaults to 022
