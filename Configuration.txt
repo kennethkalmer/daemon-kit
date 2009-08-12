@@ -78,3 +78,25 @@ Or the same in +config/environment.rb+
 
     # ...
   end
+
+=== Privilege Separation
+
+By default daemon processes run as the user that starts them, inheriting all
+their privileges (or lack thereof). Getting daemon-kit to drop privileges
+can currently only be done using command-line parameters, and only works
+reliable on *nix (OSX seemed cranky at the time of testing).
+
+  $ ./bin/daemon start --config user=nobody --config group=nobody
+
+Privileges are dropped at the earliest possible phase of starting the daemon.
+
+Things to note on privilege separation:
+
+* You generally have to be root to be able to perform this
+* File system permissions for +log/+ needs to be correct
+* Daemon-kit will only shed privileges on the +start+ command, not on +run+
+* Make sure your code is secure if accepting stuff from the outside world
+
+The implementation stems from the advice given by Joe Damato on his blog post
+http://timetobleed.com/tag/privilege-escalation/
+

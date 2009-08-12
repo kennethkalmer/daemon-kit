@@ -111,6 +111,14 @@ module DaemonKit
       set_process_name
 
       DaemonKit.logger.info( "DaemonKit (#{DaemonKit::VERSION}) booted, now running #{DaemonKit.configuration.daemon_name}" )
+
+      if DaemonKit.configuration.user || DaemonKit.configuration.group
+        euid = Process.euid
+	egid = Process.egid
+	uid = Process.uid
+	gid = Process.gid
+      	DaemonKit.logger.info( "DaemonKit dropped privileges to: #{euid} (EUID), #{egid} (EGID), #{uid} (UID), #{gid} (GID)"  )
+      end
     end
 
     def set_load_path

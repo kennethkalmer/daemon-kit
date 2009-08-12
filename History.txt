@@ -4,6 +4,7 @@
 * Allow process umask to be configured, defaults to 022
 * Updates to DaemonKit::Config hashes
 * Fixed argument parsing bug (reported by Mathijs Kwik (bluescreen303)
+* Support for privilege separation (See Configuration.txt)
 
 == 0.1.7.9 2009-06-22
 
