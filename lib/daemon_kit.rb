@@ -1,6 +1,14 @@
 # TODO: Strip this out eventually so we can run without rubygems
 require 'rubygems'
 
+# Seems in 1.9 we need to load openssl before em or there is failures all around.
+# But we need to consider that people might not have ssl in the first place.
+if RUBY_VERSION >= "1.9"
+  begin
+    require 'openssl'
+  rescue LoadError
+  end
+end
 require 'eventmachine'
 
 require File.dirname(__FILE__) + '/daemon_kit/core_ext'
