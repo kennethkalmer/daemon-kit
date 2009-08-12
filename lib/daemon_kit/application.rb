@@ -40,6 +40,7 @@ module DaemonKit
 
       # Run our file properly
       def start( file )
+        self.drop_privileges
         self.daemonize
         self.chroot
         self.clean_fd
@@ -159,6 +160,25 @@ module DaemonKit
         unless simulate
           STDOUT.reopen '/dev/null', 'a'
           STDERR.reopen '/dev/null', 'a'
+        end
+      end
+
+      def drop_privileges
+        if DaemonKit.configuration.user
+          begin
+            user = Etc.getpwnam( DaemonKit.configuration.user )
+            Process::Sys.setuid( user.uid.to_i )
+          rescue => e
+            $stderr.puts "Caught exception while trying to drop user privileges: #{e.message}"
+          end
+        end
+        if DaemonKit.configuration.group
+          begin
+            group = Etc.getgrnam( DaemonKit.configuration.group )
+            Process::Sys.setgid( group.gid.to_i )
+          rescue => e
+            $stderr.puts "Caught exception while trying to drop group privileges: #{e.message}"
+          end
         end
       end
     end

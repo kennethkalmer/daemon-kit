@@ -267,6 +267,12 @@ module DaemonKit
     # Configurable umask
     configurable :umask, 0022
 
+    # Configurable user
+    configurable :user, :locked => true
+
+    # Confgiruable group
+    configurable :group, :locked => true
+
     # Collection of signal traps
     attr_reader :signal_traps
 
