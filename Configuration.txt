@@ -96,7 +96,15 @@ Things to note on privilege separation:
 * File system permissions for +log/+ needs to be correct
 * Daemon-kit will only shed privileges on the +start+ command, not on +run+
 * Make sure your code is secure if accepting stuff from the outside world
+* The daemon will continue to run if it failed, this is because the feature is experimental and could change in the future.
+* The damon logs the reduced privileges in the log file shortly after booting, please check it carefully
 
 The implementation stems from the advice given by Joe Damato on his blog post
 http://timetobleed.com/tag/privilege-escalation/
 
+IMPORTANT NOTE FOR OSX USERS:
+
+Testing on my iBook with OSX 10.5.8 using Ruby 1.8.6-p287 failed to drop
+privileges correctly because of the 'nobody' user's UID being too large
+(Bignum), however testing with Ruby 1.9.1-p129 on OSX 10.5.8 did work as
+expected.
