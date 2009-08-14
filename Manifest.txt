@@ -26,7 +26,7 @@ app_generators/daemon_kit/templates/libexec/daemon.erb
 app_generators/daemon_kit/templates/script/console
 app_generators/daemon_kit/templates/script/destroy
 app_generators/daemon_kit/templates/script/generate
-bin/daemon_kit
+bin/daemon-kit
 daemon_generators/amqp/USAGE
 daemon_generators/amqp/amqp_generator.rb
 daemon_generators/amqp/templates/config/amqp.yml
