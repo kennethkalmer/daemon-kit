@@ -27,6 +27,8 @@ app_generators/daemon_kit/templates/script/console
 app_generators/daemon_kit/templates/script/destroy
 app_generators/daemon_kit/templates/script/generate
 bin/daemon_kit
+config/website.yml
+daemon-kit.gemspec
 daemon_generators/amqp/USAGE
 daemon_generators/amqp/amqp_generator.rb
 daemon_generators/amqp/templates/config/amqp.yml
@@ -74,6 +76,11 @@ daemon_generators/ruote/templates/config/ruote.yml
 daemon_generators/ruote/templates/lib/daemon.rb
 daemon_generators/ruote/templates/lib/sample.rb
 daemon_generators/ruote/templates/libexec/daemon.rb
+daemon_generators/test_unit/USAGE
+daemon_generators/test_unit/templates/tasks/test_unit.rake
+daemon_generators/test_unit/templates/test/test.rb
+daemon_generators/test_unit/templates/test/test_helper.rb
+daemon_generators/test_unit/test_unit_generator.rb
 lib/daemon_kit.rb
 lib/daemon_kit/abstract_logger.rb
 lib/daemon_kit/amqp.rb
@@ -136,6 +143,7 @@ test/test_helper.rb
 test/test_jabber_generator.rb
 test/test_nanite_agent_generator.rb
 test/test_ruote_generator.rb
+test/test_test_unit_generator.rb
 vendor/tmail-1.2.3/tmail.rb
 vendor/tmail-1.2.3/tmail/address.rb
 vendor/tmail-1.2.3/tmail/attachments.rb

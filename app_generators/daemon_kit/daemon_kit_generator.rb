@@ -7,12 +7,15 @@ class DaemonKitGenerator < RubiGen::Base
 
   DEPLOYERS = ['none', 'capistrano']
 
+  TEST_FRAMEWORKS = [ 'rspec', 'test_unit' ]
+
   default_options :shebang => DEFAULT_SHEBANG, :author => nil
 
   attr_reader :daemon_name
   attr_reader :installer
   attr_reader :deployer
   attr_reader :cucumber
+  attr_reader :test_framework
 
   def initialize(runtime_args, runtime_options = {})
     super
@@ -88,7 +91,13 @@ class DaemonKitGenerator < RubiGen::Base
       m.directory "tasks"
 
       # Tests
-      m.dependency "rspec", [daemon_name], :destination => destination_root, :collision => :force
+      case test_framework
+      when 'rspec'
+        m.dependency "rspec", [daemon_name], :destination => destination_root, :collision => :force
+      when 'test_unit'
+        m.dependency "test_unit", [daemon_name], :destination => destination_root, :collision => :force
+      end
+
       if cucumber
         m.dependency "cucumber", [], :destination => destination_root, :collision => :force
       end
@@ -137,6 +146,13 @@ EOS
         options[:deployer] = deploy
       end
 
+      opts.on("-t", "--test-with=type", String,
+              "Select your test framework.",
+              "Available test framworks: #{TEST_FRAMEWORKS.join(', ')}",
+              "Defaults to: rspec") do |test|
+        options[:test_framework] = test
+      end
+
       opts.on("--cucumber",
               "Install cucumber.") do
         options[:cucumber] = true
@@ -156,6 +172,7 @@ EOS
       @installer = options[:installer] || 'default'
       @deployer  = (options[:deployer] || 'none').strip
       @cucumber  = options[:cucumber]  || false
+      @test_framework = options[:test_framework] || 'rspec'
     end
 
 end
