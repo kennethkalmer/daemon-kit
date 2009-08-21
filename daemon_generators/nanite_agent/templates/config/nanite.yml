@@ -17,8 +17,8 @@
 # * actors    - Comma separated list of actors to load (all ruby files in actors directory by default)
 
 defaults: &defaults
-  username: nanite
-  password: testing
+  user: nanite
+  pass: testing
   host: localhost
   vhost: /nanite
 # tag:
