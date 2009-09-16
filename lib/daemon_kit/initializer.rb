@@ -64,7 +64,7 @@ module DaemonKit
       initializer.after_daemonize
     end
 
-    def self.shutdown( clean = false )
+    def self.shutdown( clean = false, do_exit = false )
       return unless $daemon_kit_shutdown_hooks_ran.nil?
       $daemon_kit_shutdown_hooks_ran = true
 
@@ -81,7 +81,8 @@ module DaemonKit
       log_exceptions if DaemonKit.configuration.backtraces && !clean
 
       DaemonKit.logger.warn "Shutting down #{DaemonKit.configuration.daemon_name}"
-      exit
+
+      exit if do_exit
     end
 
     def initialize( configuration )
@@ -114,10 +115,10 @@ module DaemonKit
 
       if DaemonKit.configuration.user || DaemonKit.configuration.group
         euid = Process.euid
-	egid = Process.egid
-	uid = Process.uid
-	gid = Process.gid
-      	DaemonKit.logger.info( "DaemonKit dropped privileges to: #{euid} (EUID), #{egid} (EGID), #{uid} (UID), #{gid} (GID)"  )
+        egid = Process.egid
+        uid = Process.uid
+        gid = Process.gid
+        DaemonKit.logger.info( "DaemonKit dropped privileges to: #{euid} (EUID), #{egid} (EGID), #{uid} (UID), #{gid} (GID)"  )
       end
     end
 
@@ -191,7 +192,8 @@ module DaemonKit
     end
 
     def initialize_signal_traps
-      term_proc = Proc.new { DaemonKit::Initializer.shutdown( true ) }
+      # Only exit the process if we're not in the 'test' environment
+      term_proc = Proc.new { DaemonKit::Initializer.shutdown( true, DAEMON_ENV == 'test' ) }
       configuration.trap( 'INT', term_proc )
       configuration.trap( 'TERM', term_proc )
       at_exit { DaemonKit::Initializer.shutdown }

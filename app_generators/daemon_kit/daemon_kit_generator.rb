@@ -146,7 +146,7 @@ EOS
         options[:deployer] = deploy
       end
 
-      opts.on("-t", "--test-with=type", String,
+      opts.on("-T", "--test-with=type", String,
               "Select your test framework.",
               "Available test framworks: #{TEST_FRAMEWORKS.join(', ')}",
               "Defaults to: rspec") do |test|
