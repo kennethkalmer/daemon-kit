@@ -252,7 +252,7 @@ module DaemonKit
     attr_accessor :logger
 
     # The log level to use, defaults to DEBUG
-    attr_accessor :log_level
+    attr_reader :log_level
 
     # Path to the log file, defaults to 'log/<environment>.log'
     configurable :log_path
@@ -286,7 +286,7 @@ module DaemonKit
 
     # Our safety net (#Safety) instance
     attr_accessor :safety_net
-    
+
     # :nodoc: Shutdown hooks
     attr_reader :shutdown_hooks
 
@@ -342,6 +342,12 @@ module DaemonKit
 
     def pid_file
       @pid_file ||= "#{File.dirname(self.log_path)}/#{self.daemon_name}.pid"
+    end
+
+    # Set the log level
+    def log_level=( level )
+      @log_level = level
+      DaemonKit.logger.level = @log_level if DaemonKit.logger
     end
 
     protected
