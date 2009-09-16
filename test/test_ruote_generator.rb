@@ -29,8 +29,14 @@ class TestRuoteGenerator < Test::Unit::TestCase
   def test_generator_without_options
     name = "myapp"
     run_generator('ruote', [name], sources)
-    assert_directory_exists "some/directory"
-    assert_generated_file   "some_file"
+    assert_directory_exists "config"
+    assert_generated_file   "config/amqp.yml"
+    assert_generated_file   "config/ruote.yml"
+    assert_directory_exists "config/initializers"
+    assert_generated_file   "config/initializers/myapp.rb"
+
+    assert_generated_file   "lib/myapp.rb"
+    assert_generated_file   "lib/sample.rb"
   end
 
   private
