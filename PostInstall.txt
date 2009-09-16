@@ -1,6 +1,6 @@
 
 For more information on daemon-kit, see http://kit.rubyforge.org/daemon-kit
 
-To get started quickly run 'daemon_kit' without any arguments
+To get started quickly run 'daemon-kit' without any arguments
 
 

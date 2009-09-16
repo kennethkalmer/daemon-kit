@@ -48,6 +48,10 @@ using the silence helper:
     # logger will only report :error or higher levels
   end
 
+You can also set the logging per environment by editing the correct file in <em>config/environments</em>
+
+  config.log_level = :debug
+
 === Changing log levels via UNIX signals
 
 Send your process the +USR1+ signal to toggle between <em>:debug</em>

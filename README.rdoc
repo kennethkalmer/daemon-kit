@@ -26,15 +26,15 @@ Supported generators:
 
 == Synopsis
 
-  $ daemon_kit -h
+  $ daemon-kit -h
 
 Get some help
 
-  $ daemon_kit [/path/to/your/daemon] [options]
+  $ daemon-kit [/path/to/your/daemon] [options]
 
 The above command generates a skeleton daemon environment for you to adapt.
 
-  $ daemon_kit [/path/to/your/daemon] -i jabber
+  $ daemon-kit [/path/to/your/daemon] -i jabber
 
 Use the 'jabber' generator instead of the default one.
 
@@ -46,23 +46,23 @@ The default generator creates a simple daemon with an infinite loop inside that 
 
 === Jabber Generator
 
-The jabber generator creates a simple daemon that leverages the "xmpp4r-simple":http://xmpp4r-simple.rubyforge.org/ gem to process inbound messages. The daemon will manage the roster and other little tasks, leaving you to provide the hooks for processing messages, presence notifications and subscription request.
+The jabber generator creates a simple daemon that leverages the xmpp4r-simple[http://xmpp4r-simple.rubyforge.org/] gem to process inbound messages. The daemon will manage the roster and other little tasks, leaving you to provide the hooks for processing messages, presence notifications and subscription request.
 
 === Cron Generator
 
-The cron generator creates a simple daemon that leverages the "rufus-scheduler":http://github.com/jmettraux/rufus-scheduler gem to create a simple cron-lie daemon. Please be aware that this daemon could never be a replacement for the battle-tested "cron utility":http://www.gentoo.org/doc/en/cron-guide.xml shipped standard with most *nix distributions.
+The cron generator creates a simple daemon that leverages the rufus-scheduler[http://github.com/jmettraux/rufus-scheduler] gem to create a simple cron-lie daemon. Please be aware that this daemon could never be a replacement for the battle-tested cron[http://www.gentoo.org/doc/en/cron-guide.xml] utility shipped standard with most *nix distributions.
 
 === AMQP Consumer Generator
 
-The AMQP generator creates a simple daemon that has all the stub code and configuration in place to help you write AMQP consumers quickly and effectively. The generated daemon relies on the presence of the "amqp":http://github.com/tmm1/amqp gem.
+The AMQP generator creates a simple daemon that has all the stub code and configuration in place to help you write AMQP consumers quickly and effectively. The generated daemon relies on the presence of the amqp[http://github.com/tmm1/amqp] gem.
 
 === Nanite Agent Generator
 
-The "nanite":http://github.com/ezmobius/nanite agent generator gets you up and running with nanite agents very quickly.
+The nanite[http://github.com/ezmobius/nanite] agent generator gets you up and running with nanite agents very quickly.
 
 === ruote Remote Participants
 
-The "ruote":http://openwfe.rubyforge.org remote participant generator speeds up the development of workflow participants that run outside of the Ruby process that houses the engine. Daemon-kit handles all the communication and delegation logic, allowing you to focus purely on your participant's activities.
+The ruote[http://openwfe.rubyforge.org] remote participant generator speeds up the development of workflow participants that run outside of the Ruby process that houses the engine. Daemon-kit handles all the communication and delegation logic, allowing you to focus purely on your participant's activities.
 
 == Requirements
 

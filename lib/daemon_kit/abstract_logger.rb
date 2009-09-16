@@ -63,6 +63,12 @@ module DaemonKit
       end
     end
 
+    # Write unformatted message to logging device, mostly useful for Logger interface
+    # compatibility and debugging soap4r (possibly others)
+    def <<( msg ) #:nodoc:
+      self.logger.write( msg ) if self.logger && self.logger.respond_to?( :write )
+    end
+
     def debug( msg )
       add( :debug, msg )
     end

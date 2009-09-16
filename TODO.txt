@@ -2,19 +2,13 @@
 
 This is purely a drop in the bucket of what has to come...
 
-== Eye on 0.2
-
-* Support for dropping privileges
 * Support for chroot'ing
 * Altering process names (fully and temporary appending)
 * bleak_house support
 * Support for tweaking REE environment variables prior to launch (bash wrapper)
 * Clustering support (run multiple workers out of same project)
-* Full 1.9 support in the framework
-
-== Later
-
 * [IN PROGRESS] Error handling to the degree Rails does
+  * Support for custom error handlers in the project
 * Easy configuration of an ORM of choice, including patching it if needed (ActiveRecord *cough*)
 * Improved generators for creating skeleton daemons:
   * Evented jabber bot
@@ -28,10 +22,7 @@ This is purely a drop in the bucket of what has to come...
 * Integration tests for the specific daemons
 * Some level of thread safety, or mechanisms to ease thread safety
 * Built in utilities:
-  * Thread pool for 1.8
   * Fibre pool for 1.9
   * Some activesupport-esque functions until activesupport 3.0 hits the streets
 * DRY up the following:
   * Loading configuration files for the daemons
-
-* DON'T FORGET 1.9 SUPPORT
