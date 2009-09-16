@@ -16,7 +16,7 @@ class TestUnitGenerator < RubiGen::Base
       m.directory 'test'
       m.directory 'tasks'
 
-      m.template 'test/test.rb', "test/test_#{gem_name}.rb"
+      m.template 'test/test.rb', "test/#{gem_name}_test.rb"
       m.template_copy_each %w( test_helper.rb ), 'test'
       m.file_copy_each     %w( test_unit.rake ), 'tasks'
     end

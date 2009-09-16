@@ -31,7 +31,7 @@ class TestTestUnitGenerator < Test::Unit::TestCase
     run_generator('test_unit', [name], sources)
     assert_directory_exists "test"
     assert_generated_file   "test/test_helper.rb"
-    assert_generated_file   "test/test_myproject.rb"
+    assert_generated_file   "test/myproject_test.rb"
   end
 
   private
