@@ -3,6 +3,9 @@
 * Renamed 'daemon_kit' executable to 'daemon-kit'
 * Fixed some broken links in README.rdoc
 * Sneaked in << on AbstractLogger for better Logger compatibility
+* Support for Test::Unit in generated projects [skaar]
+* Fixed missing DAEMON_ENV for test helpers
+* Fixes for nanite configuration [skaar]
 
 == 0.1.7.10 2009-08-12
 
