@@ -42,6 +42,9 @@ module DaemonKit
 
         work = parse( workitem )
 
+        # Invalid JSON... mmm
+        return if work.nil?
+
         DaemonKit.logger.warn "Processing workitem that has timed out!" if work.timed_out?
 
         target, method = parse_command( work )
@@ -94,7 +97,12 @@ module DaemonKit
       end
 
       def parse( workitem )
-        new( JSON.parse( workitem ) )
+        begin
+          return new( JSON.parse( workitem ) )
+        rescue JSON::ParserError => e
+          DaemonKit.logger.error "No valid JSON payload found in #{workitem}"
+          return nil
+        end
       end
     end
 
