@@ -6,6 +6,8 @@
 * Support for Test::Unit in generated projects [skaar]
 * Fixed missing DAEMON_ENV for test helpers
 * Fixes for nanite configuration [skaar]
+* Toughened up the ruote workitem parser
+* Fixed issue with nanite services not being advertised correctly [Wijnand]
 
 == 0.1.7.10 2009-08-12
 
