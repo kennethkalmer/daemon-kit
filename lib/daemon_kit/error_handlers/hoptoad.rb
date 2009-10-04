@@ -19,7 +19,7 @@ module DaemonKit
         data = clean_exception( exception )
 
         response = begin
-                     http.post( url.path, data.to_yaml, headers )
+                     http.post( url.path, {"notice" => data}.to_yaml, headers )
                    rescue TimoutError => e
                      DaemonKit.logger.error("Timeout while contacting the Hoptoad server.")
                      nil
@@ -43,8 +43,8 @@ module DaemonKit
           :error_message => "#{exception.class.name}: #{exception.message}",
           :backtrace     => exception.backtrace,
           :environment   => ENV.to_hash,
-          :request       => [],
-          :session       => []
+          :request       => {},
+          :session       => {}
         }
 
         stringify_keys( data )
