@@ -8,6 +8,7 @@
 * Fixes for nanite configuration [skaar]
 * Toughened up the ruote workitem parser
 * Fixed issue with nanite services not being advertised correctly [Wijnand]
+* Fixed some woes with rake if rspec gem is missing
 
 == 0.1.7.10 2009-08-12
 
