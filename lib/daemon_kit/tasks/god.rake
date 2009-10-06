@@ -26,7 +26,7 @@ namespace :god do
       f.write( ERB.new( t ).result( binding )  )
     end
 
-    puts "Monit config generated in config/#{name}.god"
+    puts "god config generated in config/#{name}.god"
   end
 
   desc "Load the god file into god"
