@@ -3,7 +3,7 @@ require 'rubygems'
 
 # Seems in 1.9 we need to load openssl before em or there is failures all around.
 # But we need to consider that people might not have ssl in the first place.
-if RUBY_VERSION >= "1.9"
+if RUBY_VERSION >= "1.8.7"
   begin
     require 'openssl'
   rescue LoadError
@@ -37,6 +37,7 @@ module DaemonKit
   autoload :RuoteParticipants,      'daemon_kit/ruote_participants'
   autoload :RuoteWorkitem,          'daemon_kit/ruote_workitem'
   autoload :RuotePseudoParticipant, 'daemon_kit/ruote_pseudo_participant'
+  autoload :ForkPool,               'daemon_kit/fork_pool'
 
   class << self
     def logger
@@ -60,3 +61,6 @@ module DaemonKit
     end
   end
 end
+
+# Trigger autoloading of the safety net
+DaemonKit::Safety
