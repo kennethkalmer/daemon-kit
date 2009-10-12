@@ -353,10 +353,19 @@ module DaemonKit
       @pid_file ||= "#{File.dirname(self.log_path)}/#{self.daemon_name}.pid"
     end
 
+    def state_file
+      @state_file ||= "#{File.dirname(self.log_path)}/#{self.daemon_name}.state"
+    end
+
     # Set the log level
     def log_level=( level )
       @log_level = level
       DaemonKit.logger.level = @log_level if DaemonKit.logger
+    end
+
+    def update_environment_in_a_dangerous_way(new_env)
+      # why can't we simply call environment= here?
+      ::DAEMON_ENV.replace(new_env)
     end
 
     protected

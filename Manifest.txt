@@ -107,6 +107,7 @@ lib/daemon_kit/ruote_participants.rb
 lib/daemon_kit/ruote_pseudo_participant.rb
 lib/daemon_kit/ruote_workitem.rb
 lib/daemon_kit/safety.rb
+lib/daemon_kit/state_file.rb
 lib/daemon_kit/tasks.rb
 lib/daemon_kit/tasks/environment.rake
 lib/daemon_kit/tasks/framework.rake

@@ -16,7 +16,9 @@ module DaemonKit
     @commands = [
                  'start',
                  'stop',
-                 'run'
+                 'run',
+                 'restart',
+                 'status'
                 ]
 
     # this has to be handled outside the context of Arguments
@@ -123,9 +125,11 @@ module DaemonKit
         opts.separator ""
 
         opts.separator "Command is one of the following:"
-        opts.separator "    run   - Run the daemon without forking (default)"
-        opts.separator "    start - Run the daemon"
-        opts.separator "    stop  - Stop the running daemon"
+        opts.separator "    run     - Run the daemon without forking (default)"
+        opts.separator "    start   - Run the daemon"
+        opts.separator "    stop    - Stop the running daemon"
+        opts.separator "    restart - Restart the running daemon"
+        opts.separator "    status  - Get status of the running daemon"
 
         opts.separator ""
 

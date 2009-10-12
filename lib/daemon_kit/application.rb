@@ -1,4 +1,5 @@
 require 'timeout'
+require 'yaml'
 
 module DaemonKit
 
@@ -13,22 +14,63 @@ module DaemonKit
 
         DaemonKit.configuration.daemon_name ||= File.basename( file )
 
+        # if configuration owns the args - they get set in configuration
+        # TODO - what if configuration does not own the args?
+        parsed_configs = {
+          :pid_file => DaemonKit.configuration.pid_file,
+          :log_path => DaemonKit.configuration.log_path,
+          :environment => DaemonKit.configuration.environment
+        }
+
         command, configs, args = Arguments.parse( ARGV )
 
         case command
         when :run
           parse_arguments( args )
-          run( file )
+
+          run( file, parsed_configs, args )
         when :start
           parse_arguments( args )
-          start( file )
+
+          start( file, parsed_configs, args )
         when :stop
           stop
+        when :restart
+          state = StateFile.state
+          configs = state[:configs] rescue {}
+          args = state[:args] rescue []
+
+          parse_arguments( args )
+
+          DaemonKit.configuration.update_environment_in_a_dangerous_way(configs[:environment]) if configs[:environment]
+          DaemonKit.configuration.pid_file = configs[:pid_file] if configs[:pid_file]
+          DaemonKit.configuration.log_path = configs[:log_path] if configs[:log_path]
+
+          puts "environment: #{DaemonKit.configuration.environment}"
+          puts "log_path: #{DaemonKit.configuration.log_path}"
+          puts "pid_file: #{DaemonKit.configuration.pid_file}"
+
+          stop
+          start( file, configs, args )
+        when :status
+          status
         end
       end
 
+      def status
+        @pid_file = PidFile.new( DaemonKit.configuration.pid_file )
+
+        puts @pid_file.running? ? "Process running with id #{@pid_file.pid}" : "Nothing running"
+      end
+
       # Run the daemon in the foreground without daemonizing
-      def run( file )
+      def run( file, configs, args )
+        @pid_file = PidFile.new( DaemonKit.configuration.pid_file )
+        @pid_file.ensure_stopped!
+        # @pid_file.write!
+
+        StateFile.write(configs, args)
+
         self.chroot
         self.clean_fd
         self.redirect_io( true )
@@ -39,9 +81,12 @@ module DaemonKit
       end
 
       # Run our file properly
-      def start( file )
+      def start( file, configs, args )
         self.drop_privileges
         self.daemonize
+
+        StateFile.write(configs, args)
+
         self.chroot
         self.clean_fd
         self.redirect_io
@@ -62,6 +107,9 @@ module DaemonKit
 
         puts "Sending TERM to #{target_pid}"
         Process.kill( 'TERM', target_pid )
+
+        # otherwise restart never succeeds without force_kill_wait
+        sleep 0.5
 
         if seconds = DaemonKit.configuration.force_kill_wait
           begin
@@ -85,6 +133,8 @@ module DaemonKit
         else
           @pid_file.cleanup
         end
+
+        StateFile.cleanup
       end
 
       # Call this from inside a daemonized process to complete the
