@@ -19,9 +19,14 @@ module DaemonKit
                  'run'
                 ]
 
+    # We don't parse arguments by default
+    @parser_available = false
+
     class << self
 
       attr_reader :default_command, :commands
+
+      attr_accessor :parser_available
 
       # Parse the argument values and return an array with the command
       # name, config values and argument values
