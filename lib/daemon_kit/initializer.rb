@@ -214,7 +214,7 @@ module DaemonKit
     end
 
     def self.log_exceptions
-      trace_file = File.join( DaemonKit.root, "backtrace-#{Time.now.strftime('%Y%m%d%H%M%S')}-#{Process.pid}.log" )
+      trace_file = File.join( DaemonKit.root, 'log', "backtrace-#{Time.now.strftime('%Y%m%d%H%M%S')}-#{Process.pid}.log" )
       trace_log = Logger.new( trace_file )
 
       # Find the last exception
