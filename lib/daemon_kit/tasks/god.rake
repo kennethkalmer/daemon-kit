@@ -21,6 +21,9 @@ namespace :god do
 
     name = DaemonKit.configuration.daemon_name
 
+    # Possible custom ruby path
+    ruby_path = $daemon_kit_ruby_path ? "#{$daemon_kit_ruby_path} " : ''
+
     File.open( "#{DaemonKit.root}/config/#{name}.god", "w+" ) do |f|
       t = File.read( "#{DaemonKit.root}/config/god.erb" )
       f.write( ERB.new( t ).result( binding )  )

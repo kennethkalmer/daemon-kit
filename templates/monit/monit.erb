@@ -7,8 +7,8 @@
 #
 check process <%= DaemonKit.configuration.daemon_name %> with pidfile <%= DaemonKit.configuration.pid_file %>
   group daemons
-  start program = "/usr/bin/env DAEMON_ENV=<%= DaemonKit.env %> <%= DaemonKit.root %>/bin/<%= DaemonKit.configuration.daemon_name %> start"
-  stop program  = "/usr/bin/env DAEMON_ENV=<%= DaemonKit.env %> <%= DaemonKit.root %>/bin/<%= DaemonKit.configuration.daemon_name %> stop"
+  start program = "<%= ruby_path %><%= DaemonKit.root %>/bin/<%= DaemonKit.configuration.daemon_name %> start -e <%= DaemonKit.env %>"
+  stop program  = "<%= ruby_path %><%= DaemonKit.root %>/bin/<%= DaemonKit.configuration.daemon_name %> stop -e <%= DaemonKit.env %>"
   if 5 restarts within 5 cycles then timeout
   if cpu usage > 99% for 5 cycles then alert
   if mem usage > 99% for 5 cycles then alert

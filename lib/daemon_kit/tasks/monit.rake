@@ -19,6 +19,9 @@ namespace :monit do
       Rake::Task["monit:template"].invoke
     end
 
+    # Possible custom ruby path
+    ruby_path = $daemon_kit_ruby_path ? "#{$daemon_kit_ruby_path} " : ''
+
     File.open( "#{DaemonKit.root}/config/monit.conf", "w+" ) do |f|
       t = File.read( "#{DaemonKit.root}/config/monit.erb" )
       f.write( ERB.new( t ).result( binding )  )

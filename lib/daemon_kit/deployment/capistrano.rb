@@ -214,11 +214,8 @@ namespace :deploy do
     This task will make the release group-writable (if the :group_writable \
     variable is set to true, which is the default). It will then set up \
     symlinks to the shared directory for the :shared_children \
-    directories, and will lastly touch all assets in public/images, \
-    public/stylesheets, and public/javascripts so that the times are \
-    consistent (so that asset timestamping works).  This touch process \
-    is only carried out if the :normalize_asset_timestamps variable is \
-    set to true, which is the default.
+    directories. It also populates the ENVIRONMENT file in the project root \
+    that is optionally used by various DaemonKit supporting scripts.
   DESC
   task :finalize_update, :except => { :no_release => true } do
     run "chmod -R g+w #{latest_release}" if fetch(:group_writable, true)
@@ -234,13 +231,8 @@ namespace :deploy do
 
     run cmd.join( ' && ' )
 
-    if fetch(:normalize_asset_timestamps, false)
-      stamp = Time.now.utc.strftime("%Y%m%d%H%M.%S")
-      asset_paths = %w(images stylesheets javascripts).map { |p| "#{latest_release}/public/#{p}" }.join(" ")
-      run "find #{asset_paths} -exec touch -t #{stamp} {} ';'; true", :env => { "TZ" => "UTC" }
-    end
-
     copy_configs
+    update_environment
   end
 
   desc <<-DESC
@@ -256,6 +248,19 @@ namespace :deploy do
       run "[ -f #{release_path}/config/#{f} ]; mv #{release_path}/config/#{f} #{release_path}/config/#{f}.orig"
       run "[ -f #{deploy_to}/config/#{f} ]; cp #{deploy_to}/config/#{f} #{release_path}/config/#{f}"
     end
+  end
+
+  desc <<-DESC
+    Populates the ENVIRONMENT file used by various DaemonKit generators to \
+    reliably configure additional services like monit/god.
+  DESC
+  task :update_environment do
+    env = {
+      'daemon_root' => current_path,
+      'ruby_path' => capture("which ruby")
+    }
+
+    put env.to_yaml, "#{release_path}/ENVIRONMENT"
   end
 
   desc <<-DESC
