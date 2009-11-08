@@ -67,6 +67,9 @@ _cset(:run_method)        { fetch(:use_sudo, true) ? :sudo : :run }
 # standalone case, or during deployment.
 _cset(:latest_release) { exists?(:deploy_timestamped) ? release_path : current_release }
 
+# Path to Ruby on the server
+_cset(:ruby_path) { capture("which ruby").chomp }
+
 # =========================================================================
 # These are helper methods that will be available to your recipes.
 # =========================================================================
@@ -257,7 +260,7 @@ namespace :deploy do
   task :update_environment do
     env = {
       'daemon_root' => current_path,
-      'ruby_path' => capture("which ruby")
+      'ruby_path' => fetch(:ruby_path)
     }
 
     put env.to_yaml, "#{release_path}/ENVIRONMENT"
@@ -449,7 +452,7 @@ namespace :deploy do
     the :use_sudo variable to false.
   DESC
   task :start do
-    try_runner "/usr/bin/env DAEMON_ENV=#{fetch(:daemon_env)} #{current_path}/bin/#{application} start"
+    try_runner "#{fetch(:ruby_path)} #{current_path}/bin/#{application} start -e #{fetch(:daemon_env)}"
   end
 
   desc <<-DESC
@@ -461,7 +464,7 @@ namespace :deploy do
     the :use_sudo variable to false.
   DESC
   task :stop do
-    try_runner "/usr/bin/env DAEMON_ENV=#{fetch(:daemon_env)} #{current_path}/bin/#{application} stop"
+    try_runner "#{fetch(:ruby_path)} #{current_path}/bin/#{application} stop -e #{fetch(:daemon_env)}"
   end
 
   namespace :pending do

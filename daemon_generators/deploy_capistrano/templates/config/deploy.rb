@@ -33,6 +33,9 @@ set :config_files, %w{}
 # into the root directory of the deployment.
 set :shared_children, %w{log tmp}
 
+# Using a ruby interpreter not in PATH? Set it here
+#set :ruby_path, '/opt/ree/bin/ruby'
+
 # Record our dependencies
 unless File.directory?( "#{DaemonKit.root}/vendor/daemon_kit" )
   depend :remote, :gem, "daemon-kit", ">=#{DaemonKit::VERSION}"

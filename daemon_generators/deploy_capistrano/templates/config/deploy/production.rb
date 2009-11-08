@@ -2,5 +2,4 @@
 #set :user, "<% name %>"            # defaults to the currently logged in user
 set :daemon_env, 'production'
 
-set :domain, 'example.com'
-server domain
+role :app, 'backoffice.example.com'

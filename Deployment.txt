@@ -97,6 +97,20 @@ The only default remote dependency is the daemon-kit gem, and it will
 check for the same version you currently have installed (or a later
 one).
 
+== Non-standard Ruby installations
+
+If you have a non-standard Ruby installation (somewhere outside PATH), you can
+inform Capistrano about this by setting the following configuration:
+
+  set :ruby_path, "/path/to/ruby"
+
+Please be aware that Capistrano can have a reduced environment, so GEM_HOME
+and other environment variables can be blank causing the start and stop
+commands to misbehave, complaining about missing gems.
+
+This setup can lead to all kinds of strange issues, but jump on the mailing
+list so we can work towards refining it better.
+
 == More capistrano resources
 
 To see a list of available commands, please run the following command
