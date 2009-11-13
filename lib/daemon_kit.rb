@@ -17,6 +17,8 @@ module DaemonKit
 
   autoload :Initializer,    'daemon_kit/initializer'
   autoload :Application,    'daemon_kit/application'
+  autoload :Timeline,       'daemon_kit/timeline'
+  autoload :Component,      'daemon_kit/component'
   autoload :Arguments,      'daemon_kit/arguments'
   autoload :Config,         'daemon_kit/config'
   autoload :Safety,         'daemon_kit/safety'

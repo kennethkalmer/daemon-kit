@@ -1,0 +1,60 @@
+DaemonKit Stackable Environments
+================================
+
+Goals:
+
+  * Build on rack's model and success
+  * Wrap user's code in a loving embrace
+  * Promote 'middleware' environment instead of one single implementation
+
+
+Concept:
+
+A daemon is a single file, sinatra-style, piece of code. It can configure
+itself using various hooks and when ready run inside a loving DaemonKit
+embrace. During configuration the daemon can request various 'middleware'
+to be loaded and made available to the daemon for use. The middleware will
+implement the various functions that used to reside in the various generators.
+
+The biggest critique about DaemonKit atm is the bloat, which is not 
+unreasonable and needs to be addressed. The stackable approach solves this,
+in theory, and makes DaemonKit take a background seat as originally intended.
+
+Multi-file projects should still be doable with little effort, since it is
+a great way to clean up a mess. 
+
+Generators should be implemented with thor.
+
+
+Multi-phase boot:
+
+DaemonKit's current success comes from the multi-phase boot process, allowing
+flexible configuration. The stack approach should build and improve on this
+concept.
+
+Implemented as a timeline, with callbacks.
+
+Boot phases:
+
+  * Framework [internal]
+  * Argument parsing
+  * Base Environment
+  * Dependency resolution
+  * Pre-daemonize
+  * Post-daemonize
+  * Application Code
+  * Shutdown
+
+Each piece of 'middleware' can hook into any of these "events" as they are
+triggered.
+
+DaemonKit will have its own set of middleware that will always be loaded, but
+can be negated by the developer if he wishes.
+
+Components need to implement the same semantics as rack's call() method, but
+the interface will be different so accomodate the timeline approach.
+
+Questions/Issues:
+
+  * 'middleware' is misleading or unappropriate, but so is components?
+  * How to implement the call() semantics
