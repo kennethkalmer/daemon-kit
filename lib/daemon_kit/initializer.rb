@@ -328,6 +328,12 @@ module DaemonKit
     def trap( signal, proc = nil, &block )
       return if proc.nil? && !block_given?
 
+      # One step towards running on windows, not enough though
+      unless Signal.list.include?( signal )
+        DaemonKit.logger.warn( "Trapping #{signal} signals not supported on this platform" )
+        return
+      end
+
       unless @signal_traps.has_key?( signal )
         set_trap( signal )
       end
