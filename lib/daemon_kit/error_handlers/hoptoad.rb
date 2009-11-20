@@ -20,7 +20,7 @@ module DaemonKit
 
         response = begin
                      http.post( url.path, {"notice" => data}.to_yaml, headers )
-                   rescue TimoutError => e
+                   rescue TimeoutError => e
                      DaemonKit.logger.error("Timeout while contacting the Hoptoad server.")
                      nil
                    end
