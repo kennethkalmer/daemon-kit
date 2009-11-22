@@ -37,6 +37,10 @@ module DaemonKit
       setup jid, @config.password
 
       when_ready { configure_roster! }
+
+      message(:chat?) do |m|
+        trusted?( m ) ? pass : halt
+      end
     end
 
     def configure_roster!
@@ -58,12 +62,17 @@ module DaemonKit
       end
     end
 
+    def trusted?( message )
+      @config.masters.include?( message.from.stripped.to_s )
+    end
+
     def contacts
-      @config['masters'] + @config['supporters']
+      @config.masters + @config.supporters
     end
 
     def run
       client.run
     end
+
   end
 end
