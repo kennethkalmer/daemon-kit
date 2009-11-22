@@ -24,6 +24,10 @@ module DaemonKit
     def initialize
       @config = DaemonKit::Config.load('xmpp')
 
+      if @config.enable_logging
+        Blather.logger = DaemonKit.logger
+      end
+
       jid = if @config.resource
         "#{@config.jabber_id}/#{@config.resource}"
       else
@@ -38,22 +42,20 @@ module DaemonKit
     def configure_roster!
       DaemonKit.logger.debug 'Configuring roster'
 
-      #my_roster.each do |item|
-      #  p [ :roster_item, item ]
-      #  unless contacts.include?( item.jid )
-      #    item.subscription = :none
-      #    next
-      #  end
+      my_roster.each do |(jid, item)|
+        unless contacts.include?( jid )
+          DaemonKit.logger.debug "Removing #{jid} from roster"
 
-      #  if @config['masters'].include?( item.jid )
-      #    item.subscription = :both
-      #    next
-      #  end
+          my_roster.delete( item.jid )
+          next
+        end
+      end
 
-      #  if @config['supporters'].include?( item.jid )
-      #    item.subscription = :from
-      #  end
-      #end
+      contacts.each do |jid|
+        DaemonKit.logger.debug "Adding #{jid} to roster"
+
+        my_roster.add( Blather::JID.new( jid ) )
+      end
     end
 
     def contacts
