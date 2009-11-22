@@ -76,5 +76,13 @@ module DaemonKit
       client.run
     end
 
+    def busy( message = nil, &block )
+      set_status( :dnd, message )
+
+      block.call
+
+      set_status( :available )
+    end
+
   end
 end
