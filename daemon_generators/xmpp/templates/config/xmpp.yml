@@ -6,11 +6,14 @@
 # * resource   - Multiple connections can be made with the same credentials and different resources
 # * masters    - Array of Jabber ID's whose messages will be processed
 # * supporters - Additional 'buddies' to keep on roster, but messages won't be processed
+# * enable_logging - Enable Blather logging (VERY VERBOSE)
+# * require_master - Disable filtering of messages based on the sender being a 'master'
 
 defaults: &defaults
   jabber_id: dk@jabber
   password: secret
   resource: daemon_kit
+  enable_logging: false
   masters: 
     - kenneth.kalmer@gmail.com
   supporters:

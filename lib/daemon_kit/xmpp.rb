@@ -38,6 +38,8 @@ module DaemonKit
 
       when_ready { configure_roster! }
 
+      return if @config['require_master'] == false
+
       message(:chat?) do |m|
         trusted?( m ) ? pass : halt
       end
