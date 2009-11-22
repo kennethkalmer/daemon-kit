@@ -79,6 +79,10 @@ daemon_generators/test_unit/templates/tasks/test_unit.rake
 daemon_generators/test_unit/templates/test/test.rb
 daemon_generators/test_unit/templates/test/test_helper.rb
 daemon_generators/test_unit/test_unit_generator.rb
+daemon_generators/xmpp/templates/config/initializers/xmpp.rb
+daemon_generators/xmpp/templates/config/xmpp.yml
+daemon_generators/xmpp/templates/libexec/daemon.rb
+daemon_generators/xmpp/xmpp_generator.rb
 lib/daemon_kit.rb
 lib/daemon_kit/abstract_logger.rb
 lib/daemon_kit/amqp.rb
