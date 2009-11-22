@@ -32,6 +32,7 @@ module DaemonKit
   autoload :RuoteParticipants,      'daemon_kit/ruote_participants'
   autoload :RuoteWorkitem,          'daemon_kit/ruote_workitem'
   autoload :RuotePseudoParticipant, 'daemon_kit/ruote_pseudo_participant'
+  autoload :XMPP,                   'daemon_kit/xmpp'
 
   class << self
     def logger
