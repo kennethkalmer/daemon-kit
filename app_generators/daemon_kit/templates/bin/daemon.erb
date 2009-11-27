@@ -2,6 +2,11 @@
 #
 # Stub executable for <%= daemon_name %>
 
+# TODO - can we encapsulate this better?
+# needs to be set before we require the environment though
+# if we don't set this then we ignore any args passed in
+DAEMON_PARSER_AVAILABLE = true
+
 require File.dirname(__FILE__) + '/../config/environment'
 
 DaemonKit::Application.exec( DAEMON_ROOT + '/libexec/<%= daemon_name %>-daemon.rb' )

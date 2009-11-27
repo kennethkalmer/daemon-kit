@@ -19,14 +19,20 @@ module DaemonKit
                  'run'
                 ]
 
+    # this has to be handled outside the context of Arguments
+    # as we run the Initializer from boot.rb
+    # but only set this to true in Application
+    # see DAEMON_PARSER_AVAILABLE in daemons.erb
+    #
     # We don't parse arguments by default
-    @parser_available = false
+    # @parser_available = false
 
     class << self
 
       attr_reader :default_command, :commands
 
-      attr_accessor :parser_available
+      # unused
+      # attr_accessor :parser_available
 
       # Parse the argument values and return an array with the command
       # name, config values and argument values

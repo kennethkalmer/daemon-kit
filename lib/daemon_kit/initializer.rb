@@ -445,7 +445,12 @@ module DaemonKit
     # arguments to be parsed cause they will interfere with the
     # script encapsulating DaemonKit, like capistrano
     def own_args?
-      Arguments.parser_available
+      # we cannot rely on Arguments.parser_available begin set here
+      # as we are called from within boot.rb
+      # see DAEMON_PARSER_AVAILABLE in daemons.erb for a possible alternative
+      # Arguments.parser_available
+
+      defined?(DAEMON_PARSER_AVAILABLE) && DAEMON_PARSER_AVAILABLE==true
     end
   end
 
