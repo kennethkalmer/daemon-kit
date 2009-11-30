@@ -193,7 +193,7 @@ module DaemonKit
 
     def initialize_signal_traps
       # Only exit the process if we're not in the 'test' environment
-      term_proc = Proc.new { DaemonKit::Initializer.shutdown( true, DAEMON_ENV == 'test' ) }
+      term_proc = Proc.new { DaemonKit::Initializer.shutdown( true, DAEMON_ENV != 'test' ) }
       configuration.trap( 'INT', term_proc )
       configuration.trap( 'TERM', term_proc )
       at_exit { DaemonKit::Initializer.shutdown }
