@@ -88,11 +88,7 @@ Currently recommended to stick to the git repo:
   $ rake gem
   $ gem install pkg/daemon-kit-X.X.X.gem
 
-Development versions are available as gems from github:
-
-  $ gem install kennethkalmer-daemon-kit -s http://gems.github.com
-
-Stable versions, when released are available directly from Rubyforge:
+Stable versions, when released are available directly from Gemcutter:
 
   $ gem install daemon-kit
 
