@@ -137,8 +137,9 @@ module DaemonKit
     end
 
     def load_environment
-      return if @environment_loaded
-      @environment_loaded = true
+      # Needs to be global to prevent loading the files twice
+      return if $_daemon_environment_loaded
+      $_daemon_environment_loaded = true
 
       config = configuration
 

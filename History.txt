@@ -1,3 +1,7 @@
+== 0.1.7.12 2009-12-04
+
+* Bug fix, don't load environment files twice [grockit]
+
 == 0.1.7.11 2009-11-30
 
 * Renamed 'daemon_kit' executable to 'daemon-kit'
