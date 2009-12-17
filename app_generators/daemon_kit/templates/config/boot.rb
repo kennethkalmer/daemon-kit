@@ -40,13 +40,15 @@ module DaemonKit
   class GemBoot < Boot
     def load_initializer
       begin
+        require 'rubygems' unless defined?( ::Gem )
         gem 'daemon-kit'
         require 'daemon_kit/initializer'
-      rescue Gem::LoadError => e
+      rescue ::Gem::LoadError => e
         msg = <<EOF
-You are missing the daemon-kit gem. Please install the following gems:
 
-* Stable   - sudo gem install daemon-kit
+You are missing the daemon-kit gem. Please install the following gem:
+
+sudo gem install daemon-kit
 
 EOF
         $stderr.puts msg

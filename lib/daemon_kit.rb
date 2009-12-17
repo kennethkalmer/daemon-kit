@@ -1,13 +1,8 @@
-# TODO: Strip this out eventually so we can run without rubygems
-require 'rubygems'
-
-# Seems in 1.9 we need to load openssl before em or there is failures all around.
+# Seems we need to load openssl before em or there are failures all around.
 # But we need to consider that people might not have ssl in the first place.
-if RUBY_VERSION >= "1.9"
-  begin
-    require 'openssl'
-  rescue LoadError
-  end
+begin
+  require 'openssl'
+rescue LoadError
 end
 require 'eventmachine'
 
