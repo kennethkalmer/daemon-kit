@@ -54,6 +54,7 @@ class DaemonKitGenerator < RubiGen::Base
       # Readme
       m.template  "README", "README"
       m.template  "Rakefile", "Rakefile"
+      m.template  "Gemfile", "Gemfile"
 
       # Executable
       m.directory "bin"

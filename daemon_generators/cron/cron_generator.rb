@@ -25,6 +25,7 @@ class CronGenerator < RubiGen::Base
       # m.file_copy_each ["path/to/file", "path/to/file2"], "some/path"
 
       # Copy over configs
+      m.template  'Gemfile'
       m.directory 'config'
       m.directory 'config/initializers'
       m.template  'config/initializers/cron.rb', "config/initializers/#{name}.rb"

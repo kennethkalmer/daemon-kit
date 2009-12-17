@@ -25,6 +25,7 @@ class AmqpGenerator < RubiGen::Base
       # m.file_copy_each ["path/to/file", "path/to/file2"], "some/path"
 
       # Copy over our configs
+      m.template  'Gemfile'
       m.directory 'config'
       m.template  'config/amqp.yml', 'config/amqp.yml'
       m.directory 'config/initializers'
