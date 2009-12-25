@@ -22,7 +22,7 @@ module DaemonKit
 
         self.class.callbacks[ event_name.to_s ].each do |callback|
           instance_eval( &callback )
-        end if self.class.callbacks[ event_name.to_s ]
+        end if self.class.callbacks && self.class.callbacks[ event_name.to_s ]
 
         self.send( event_name ) if self.respond_to?( event_name )
       end

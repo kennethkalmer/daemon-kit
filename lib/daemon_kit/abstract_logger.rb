@@ -18,6 +18,8 @@ module DaemonKit
   # logger as well.
   class AbstractLogger
 
+    include DaemonKit::Slice
+
     attr_accessor :copy_to_stdout
 
     @severities = {

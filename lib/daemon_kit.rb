@@ -13,11 +13,11 @@ $:.unshift( File.dirname(__FILE__).to_absolute_path ) unless
   $:.include?( File.dirname(__FILE__).to_absolute_path )
 
 module DaemonKit
-  VERSION = '0.1.7.12'
+  VERSION = '0.2'
 
   autoload :Initializer,    'daemon_kit/initializer'
   autoload :Application,    'daemon_kit/application'
-  autoload :Timeline,       'daemon_kit/timeline'
+  autoload :Stack,          'daemon_kit/stack'
   autoload :Slice,          'daemon_kit/slice'
   autoload :Arguments,      'daemon_kit/arguments'
   autoload :Config,         'daemon_kit/config'
@@ -26,6 +26,13 @@ module DaemonKit
   autoload :AbstractLogger, 'daemon_kit/abstract_logger'
   autoload :EM,             'daemon_kit/em'
   autoload :Configurable,   'daemon_kit/core_ext/configurable'
+
+  module Slices
+    autoload :Configuration, 'daemon_kit/slices/configuration'
+    autoload :Environments,  'daemon_kit/slices/environments'
+    autoload :Umask,         'daemon_kit/slices/umask'
+    autoload :Logger,        'daemon_kit/slices/logger'
+  end
 
   autoload :Cron,                   'daemon_kit/cron'
   autoload :Jabber,                 'daemon_kit/jabber'

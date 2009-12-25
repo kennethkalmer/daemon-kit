@@ -48,20 +48,21 @@ module DaemonKit
   # environment for your daemon.
   class Initializer
 
-    attr_reader :configuration
-
     def self.run
-      configuration = DaemonKit.configuration || Configuration.new
+      DaemonKit.configuration ||= Configuration.new
+      Configuration.stack.run!( 'framework' )
+      Configuration.stack.run!( 'arguments' )
 
-      yield configuration if block_given?
-      initializer = new configuration
-      initializer.before_daemonize
-      initializer
-    end
+      yield DaemonKit.configuration if block_given?
 
-    def self.continue!
-      initializer = new DaemonKit.configuration
-      initializer.after_daemonize
+      Configuration.stack.run!( 'environment' )
+      Configuration.stack.run!( 'before_daemonize' )
+
+      # Daemonize
+
+      Configuration.stack.run!( 'after_daemonize' )
+
+      # Run daemonized code
     end
 
     def self.shutdown( clean = false, do_exit = false )
@@ -69,6 +70,8 @@ module DaemonKit
       $daemon_kit_shutdown_hooks_ran = true
 
       DaemonKit.logger.info "Running shutdown hooks"
+
+      Configuration.stack.run!( 'shutdown' )
 
       DaemonKit.configuration.shutdown_hooks.each do |hook|
         begin
@@ -83,135 +86,6 @@ module DaemonKit
       DaemonKit.logger.warn "Shutting down #{DaemonKit.configuration.daemon_name}"
 
       exit if do_exit
-    end
-
-    def initialize( configuration )
-      @configuration = configuration
-    end
-
-    def before_daemonize
-      DaemonKit.configuration = @configuration
-
-      set_load_path
-      load_gems
-      load_patches
-      load_environment
-      load_predaemonize_configs
-    end
-
-    def after_daemonize
-      set_umask
-
-      initialize_logger
-      initialize_signal_traps
-
-      include_core_lib
-      load_postdaemonize_configs
-      configure_backtraces
-
-      set_process_name
-
-      DaemonKit.logger.info( "DaemonKit (#{DaemonKit::VERSION}) booted, now running #{DaemonKit.configuration.daemon_name}" )
-
-      if DaemonKit.configuration.user || DaemonKit.configuration.group
-        euid = Process.euid
-        egid = Process.egid
-        uid = Process.uid
-        gid = Process.gid
-        DaemonKit.logger.info( "DaemonKit dropped privileges to: #{euid} (EUID), #{egid} (EGID), #{uid} (UID), #{gid} (GID)"  )
-      end
-    end
-
-    def set_load_path
-      configuration.load_paths.each do |d|
-        $:.unshift( "#{DAEMON_ROOT}/#{d}" ) if File.directory?( "#{DAEMON_ROOT}/#{d}" )
-      end
-    end
-
-    def load_gems
-
-    end
-
-    def load_patches
-
-    end
-
-    def load_environment
-      # Needs to be global to prevent loading the files twice
-      return if $_daemon_environment_loaded
-      $_daemon_environment_loaded = true
-
-      config = configuration
-
-      eval(IO.read(configuration.environment_path), binding, configuration.environment_path)
-
-      eval(IO.read(configuration.daemon_initializer), binding, configuration.daemon_initializer) if File.exist?( configuration.daemon_initializer )
-    end
-
-    def load_predaemonize_configs
-      Dir[ File.join( DAEMON_ROOT, 'config', 'pre-daemonize', '*.rb' ) ].each do |f|
-        next if File.basename( f ) == File.basename( configuration.daemon_initializer )
-
-        require f
-      end
-    end
-
-    def load_postdaemonize_configs
-      Dir[ File.join( DAEMON_ROOT, 'config', 'post-daemonize', '*.rb' ) ].each do |f|
-        require f
-      end
-    end
-
-    def set_umask
-      File.umask configuration.umask
-    end
-
-    def initialize_logger
-      return if DaemonKit.logger
-
-      unless logger = configuration.logger
-        logger = AbstractLogger.new( configuration.log_path )
-        logger.level = configuration.log_level
-        logger.copy_to_stdout = configuration.log_stdout
-      end
-
-      DaemonKit.logger = logger
-
-      DaemonKit.logger.info "DaemonKit (#{DaemonKit::VERSION}) booting in #{DAEMON_ENV} mode"
-
-      configuration.trap("USR1") {
-        DaemonKit.logger.level = DaemonKit.logger.debug? ? :info : :debug
-        DaemonKit.logger.info "Log level changed to #{DaemonKit.logger.debug? ? 'DEBUG' : 'INFO' }"
-      }
-      configuration.trap("USR2") {
-        DaemonKit.logger.level = :debug
-        DaemonKit.logger.info "Log level changed to DEBUG"
-      }
-      configuration.trap("HUP") {
-        DaemonKit.logger.close
-      }
-    end
-
-    def initialize_signal_traps
-      # Only exit the process if we're not in the 'test' environment
-      term_proc = Proc.new { DaemonKit::Initializer.shutdown( true, DAEMON_ENV != 'test' ) }
-      configuration.trap( 'INT', term_proc )
-      configuration.trap( 'TERM', term_proc )
-      at_exit { DaemonKit::Initializer.shutdown }
-    end
-
-    def include_core_lib
-      if File.exists?( core_lib = File.join( DAEMON_ROOT, 'lib', configuration.daemon_name + '.rb' ) )
-        require core_lib
-      end
-    end
-
-    def configure_backtraces
-      Thread.abort_on_exception = configuration.backtraces
-    end
-
-    def set_process_name
-      $0 = configuration.daemon_name
     end
 
     def self.log_exceptions
@@ -238,12 +112,50 @@ module DaemonKit
 
       trace_log.close
     end
+
+    def after_daemonize
+      #set_umask
+
+      #initialize_logger
+      #initialize_signal_traps
+
+      #include_core_lib
+      #load_postdaemonize_configs
+      #configure_backtraces
+
+      #set_process_name
+
+      DaemonKit.logger.info( "DaemonKit (#{DaemonKit::VERSION}) booted, now running #{DaemonKit.configuration.daemon_name}" )
+
+      if DaemonKit.configuration.user || DaemonKit.configuration.group
+        euid = Process.euid
+        egid = Process.egid
+        uid = Process.uid
+        gid = Process.gid
+        DaemonKit.logger.info( "DaemonKit dropped privileges to: #{euid} (EUID), #{egid} (EGID), #{uid} (UID), #{gid} (GID)"  )
+      end
+    end
+
   end
 
   # Holds our various configuration values
   class Configuration
 
     include Configurable
+
+    # The stack used to run this daemon
+    @stack = Stack.new do |stack|
+
+      stack.use DaemonKit::Slices::Configuration
+      stack.use DaemonKit::Slices::Environments
+      stack.use DaemonKit::Slices::Umask
+      stack.use DaemonKit::Slices::Logger
+    end
+
+    class << self
+
+      attr_reader :stack
+    end
 
     # Root to the daemon
     attr_reader :root_path
@@ -406,7 +318,10 @@ module DaemonKit
     end
 
     def set_root_path!
-      raise "DAEMON_ROOT is not set" unless defined?(::DAEMON_ROOT)
+      unless defined?(::DAEMON_ROOT)
+        Object.const_set( :DAEMON_ROOT, Dir.pwd )
+      end
+
       raise "DAEMON_ROOT is not a directory" unless File.directory?(::DAEMON_ROOT)
 
       @root_path = ::DAEMON_ROOT.to_absolute_path
