@@ -67,5 +67,12 @@ TODO:
     - Generator (daemon-gen)
     - Runner (daemon-up)
   * Move privilege dropping to a slice
-  * Implement EM slice
-  * Make slices behave like rack apps (call symantics)
+
+COMPLETED:
+
+  * Always evented :D
+  * Argument parsing slice
+  * Configuration handling slice
+  * Logging slice
+  * umask slice
+  * Environment loading slice

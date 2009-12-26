@@ -12,7 +12,7 @@ module DaemonKit
 
     def arguments( &block )
       on :arguments do
-        block.call
+        block.call( DaemonKit.arguments.parser )
       end
     end
 

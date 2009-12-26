@@ -20,7 +20,7 @@ module DaemonKit
   autoload :Application,    'daemon_kit/application'
   autoload :Stack,          'daemon_kit/stack'
   autoload :Slice,          'daemon_kit/slice'
-  autoload :Arguments,      'daemon_kit/arguments'
+  autoload :ArgumentParser, 'daemon_kit/argument_parser'
   autoload :Config,         'daemon_kit/config'
   autoload :Safety,         'daemon_kit/safety'
   autoload :PidFile,        'daemon_kit/pid_file'
@@ -29,6 +29,7 @@ module DaemonKit
   autoload :Configurable,   'daemon_kit/core_ext/configurable'
 
   module Slices
+    autoload :Arguments,     'daemon_kit/slices/arguments'
     autoload :Configuration, 'daemon_kit/slices/configuration'
     autoload :Environments,  'daemon_kit/slices/environments'
     autoload :Umask,         'daemon_kit/slices/umask'
@@ -69,7 +70,7 @@ module DaemonKit
 
       Configuration.stack.use( DSL, &block )
 
-      Initializer.run
+      Initializer.boot
     end
   end
 end

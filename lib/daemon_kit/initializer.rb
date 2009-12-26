@@ -55,13 +55,20 @@ module DaemonKit
       end
     end
 
-    def self.run
+    def self.boot
       EM.run {
         prepare!
 
         Configuration.stack.run!( 'arguments' )
 
-        yield DaemonKit.configuration if block_given?
+        if DaemonKit.configuration.display_help
+          puts DaemonKit.arguments.parser
+          exit
+        else
+          DaemonKit.configuration.parse_arguments!
+        end
+
+        #yield DaemonKit.configuration if block_given?
 
         Configuration.stack.run!( 'environment' )
         Configuration.stack.run!( 'before_daemonize' )
@@ -156,6 +163,7 @@ module DaemonKit
     # The stack used to run this daemon
     @stack = Stack.new do |stack|
 
+      stack.use DaemonKit::Slices::Arguments
       stack.use DaemonKit::Slices::Configuration
       stack.use DaemonKit::Slices::Environments
       stack.use DaemonKit::Slices::Umask
@@ -218,9 +226,10 @@ module DaemonKit
     # A block that is to be daemonized
     attr_accessor :daemonized_code
 
-    def initialize
-      parse_arguments!
+    # Display the help message
+    attr_accessor :display_help
 
+    def initialize
       set_root_path!
       set_daemon_defaults!
 
@@ -234,6 +243,8 @@ module DaemonKit
 
       @signal_traps = {}
       @shutdown_hooks = []
+
+      @display_help = false
     end
 
     def environment
@@ -284,25 +295,10 @@ module DaemonKit
       DaemonKit.logger.level = @log_level if DaemonKit.logger
     end
 
-    protected
-
-    def run_traps( signal )
-      DaemonKit.logger.info "Running signal traps for #{signal}"
-      self.signal_traps[ signal ].each { |trap| trap.call }
-    end
-
-    private
-
-    def set_trap( signal )
-      DaemonKit.logger.info "Setting up trap for #{signal}"
-      @signal_traps[ signal ] = []
-      Signal.trap( signal, Proc.new { self.run_traps( signal ) } )
-    end
-
     def parse_arguments!
       return unless own_args?
 
-      configs = Arguments.configuration( ARGV ).first
+      configs = ArgumentParser.configuration( ARGV ).first
       @unused_arguments = {}
 
       configs.each do |c|
@@ -323,6 +319,21 @@ module DaemonKit
           error( "Couldn't set `#{k}' to `#{v}': #{e.message}" )
         end
       end
+    end
+
+    protected
+
+    def run_traps( signal )
+      DaemonKit.logger.info "Running signal traps for #{signal}"
+      self.signal_traps[ signal ].each { |trap| trap.call }
+    end
+
+    private
+
+    def set_trap( signal )
+      DaemonKit.logger.info "Setting up trap for #{signal}"
+      @signal_traps[ signal ] = []
+      Signal.trap( signal, Proc.new { self.run_traps( signal ) } )
     end
 
     # DANGEROUS: Change the value of DAEMON_ENV
@@ -373,7 +384,7 @@ module DaemonKit
     # arguments to be parsed cause they will interfere with the
     # script encapsulating DaemonKit, like capistrano
     def own_args?
-      Arguments.parser_available
+      ArgumentParser.parser_available
     end
   end
 

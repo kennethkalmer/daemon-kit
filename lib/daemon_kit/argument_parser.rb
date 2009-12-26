@@ -4,20 +4,13 @@ module DaemonKit
 
   # A wrapper around OptParse for setting up arguments to the daemon
   # process.
-  #
-  # TODO: Set rules for basic options that go for all daemons
-  # TODO: Load options from config/arguments.rb
-  class Arguments
+  class ArgumentParser
 
     # Default command
     @default_command = 'run'
 
     # Valid commands
-    @commands = [
-                 'start',
-                 'stop',
-                 'run'
-                ]
+    @commands = [ 'start', 'stop', 'run' ]
 
     # We don't parse arguments by default
     @parser_available = false
@@ -108,6 +101,8 @@ module DaemonKit
 
     attr_reader :options
 
+    attr_reader :parser
+
     def initialize
       @options = {}
 
@@ -124,9 +119,6 @@ module DaemonKit
         opts.separator ""
 
         opts.separator "Options can be:"
-
-        arg_file = File.join( DaemonKit.root, 'config', 'arguments.rb' )
-        eval(IO.read(arg_file), binding, arg_file) if File.exists?( arg_file )
 
         opts.on("-e", "--env ENVIRONMENT", "Environment for the process", "Defaults to development") do
           # Nothing, just here for show
@@ -149,16 +141,21 @@ module DaemonKit
         end
 
         opts.separator ""
+        opts.separator "Daemon-specific options (if any):"
 
-        opts.separator "Common options:"
-        opts.on("-v", "--version", "Show version information and exit") do
+        arg_file = File.join( DaemonKit.root, 'config', 'arguments.rb' )
+        eval(IO.read(arg_file), binding, arg_file) if File.exists?( arg_file )
+
+        opts.on_tail ""
+
+        opts.on_tail "Common options:"
+        opts.on_tail("-v", "--version", "Show version information and exit") do
           puts "daemon-kit #{DaemonKit::VERSION} (http://github.com/kennethkalmer/daemon-kit)"
           exit
         end
 
         opts.on_tail("-h", "--help", "Show this message") do
-          puts opts
-          exit
+          DaemonKit.configuration.display_help = true
         end
       end
     end
