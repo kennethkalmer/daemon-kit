@@ -18,8 +18,11 @@ module DaemonKit
     end
 
     module InstanceMethods
-      def handle_event!( event_name )
+      def on( event, &block )
+        self.class.on( event, &block )
+      end
 
+      def handle_event!( event_name, next_slice = nil )
         self.class.callbacks[ event_name.to_s ].each do |callback|
           instance_eval( &callback )
         end if self.class.callbacks && self.class.callbacks[ event_name.to_s ]

@@ -43,26 +43,36 @@ module DaemonKit
 
   end
 
-
   # This class does all the nightmare work of setting up a working
   # environment for your daemon.
   class Initializer
 
+    def self.prepare!
+      if DaemonKit.configuration.nil?
+        DaemonKit.configuration = Configuration.new
+
+        Configuration.stack.run!( 'framework' )
+      end
+    end
+
     def self.run
-      DaemonKit.configuration ||= Configuration.new
-      Configuration.stack.run!( 'framework' )
-      Configuration.stack.run!( 'arguments' )
+      EM.run {
+        prepare!
 
-      yield DaemonKit.configuration if block_given?
+        Configuration.stack.run!( 'arguments' )
 
-      Configuration.stack.run!( 'environment' )
-      Configuration.stack.run!( 'before_daemonize' )
+        yield DaemonKit.configuration if block_given?
 
-      # Daemonize
+        Configuration.stack.run!( 'environment' )
+        Configuration.stack.run!( 'before_daemonize' )
 
-      Configuration.stack.run!( 'after_daemonize' )
+        # Daemonize
 
-      # Run daemonized code
+        Configuration.stack.run!( 'after_daemonize' )
+
+        # Run daemonized code
+        DaemonKit.configuration.daemonized_code.call
+      }
     end
 
     def self.shutdown( clean = false, do_exit = false )
@@ -204,6 +214,9 @@ module DaemonKit
 
     # :nodoc: Shutdown hooks
     attr_reader :shutdown_hooks
+
+    # A block that is to be daemonized
+    attr_accessor :daemonized_code
 
     def initialize
       parse_arguments!

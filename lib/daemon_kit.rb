@@ -15,6 +15,7 @@ $:.unshift( File.dirname(__FILE__).to_absolute_path ) unless
 module DaemonKit
   VERSION = '0.2'
 
+  autoload :DSL,            'daemon_kit/dsl'
   autoload :Initializer,    'daemon_kit/initializer'
   autoload :Application,    'daemon_kit/application'
   autoload :Stack,          'daemon_kit/stack'
@@ -61,6 +62,14 @@ module DaemonKit
 
     def framework_root
       @framework_root ||= File.join( File.dirname(__FILE__), '..' ).to_absolute_path
+    end
+
+    def assemble( &block )
+      Initializer.prepare!
+
+      Configuration.stack.use( DSL, &block )
+
+      Initializer.run
     end
   end
 end

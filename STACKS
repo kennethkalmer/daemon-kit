@@ -58,3 +58,14 @@ Questions/Issues:
 
   * 'middleware' is misleading or unappropriate, but so is components?
   * How to implement the call() semantics
+
+TODO:
+
+  * Move DaemonKit::Application symantics in the initializer
+  * Rework DaemonKit::Application to be the daemon base class
+  * Determine cli utility names
+    - Generator (daemon-gen)
+    - Runner (daemon-up)
+  * Move privilege dropping to a slice
+  * Implement EM slice
+  * Make slices behave like rack apps (call symantics)
