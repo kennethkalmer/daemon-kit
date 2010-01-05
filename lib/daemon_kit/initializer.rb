@@ -384,7 +384,7 @@ module DaemonKit
     # arguments to be parsed cause they will interfere with the
     # script encapsulating DaemonKit, like capistrano
     def own_args?
-      ArgumentParser.parser_available
+      ![ 'cap' ].include?( File.basename( $0 ) )
     end
   end
 
