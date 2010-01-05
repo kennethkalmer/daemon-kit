@@ -104,7 +104,6 @@ module DaemonKit
       protected
 
       def parse_arguments( args )
-        Arguments.parser_available = true
         DaemonKit.arguments = Arguments.new
         DaemonKit.arguments.parse( args )
       end
