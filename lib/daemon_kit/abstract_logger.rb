@@ -69,60 +69,63 @@ module DaemonKit
       self.logger.write( msg ) if self.logger && self.logger.respond_to?( :write )
     end
 
-    def debug( msg )
-      add( :debug, msg )
+    def debug( msg = nil, &block )
+      add( :debug, msg, &block )
     end
 
     def debug?
       self.level == :debug
     end
 
-    def info( msg )
-      add( :info, msg )
+    def info( msg = nil, &block )
+      add( :info, msg, &block )
     end
 
     def info?
       self.level == :info
     end
 
-    def warn( msg )
-      add( :warn, msg )
+    def warn( msg = nil, &block )
+      add( :warn, msg, &block )
     end
 
     def warn?
       self.level == :warn
     end
 
-    def error( msg )
-      add( :error, msg )
+    def error( msg = nil, &block )
+      add( :error, msg, &block )
     end
 
     def error?
       self.level == :error
     end
 
-    def fatal( msg )
-      add( :fatal, msg )
+    def fatal( msg = nil, &block )
+      add( :fatal, msg, &block )
     end
 
     def fatal?
       self.level == :fatal
     end
 
-    def unknown( msg )
-      add( :unknown, msg )
+    def unknown( msg = nil, &block )
+      add( :unknown, msg, &block )
     end
 
     def unknown?
       self.level == :unknown
     end
 
+    # Conveniently log an exception and the backtrace
     def exception( e )
       message = "EXCEPTION: #{e.message}: #{clean_trace( e.backtrace )}"
       self.add( :error, message, true )
     end
 
-    def add( severity, message, skip_caller = false )
+    def add( severity, message = nil, skip_caller = false, &block )
+      message = yield if block_given?
+
       message = "#{called(caller)}: #{message}" unless skip_caller
 
       self.logger.add( self.class.severities[ severity ] ) { message }
@@ -175,7 +178,12 @@ module DaemonKit
       l = trace.detect('unknown:0') { |l| l.index('abstract_logger.rb').nil? }
       file, num, _ = l.split(':')
 
-      [ File.basename(file), num ].join(':')
+      if file =~ /daemon[\-_]kit/
+        "[daemon-kit]"
+
+      else
+        [ File.basename(file), num ].join(':')
+      end
     end
 
     def create_logger
