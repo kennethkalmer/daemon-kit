@@ -1,5 +1,5 @@
 require 'rbconfig'
-require 'cucumber/version'
+require 'cucumber'
 
 # This generator bootstraps a Rails project for use with Cucumber
 class CucumberGenerator < RubiGen::Base
@@ -10,7 +10,7 @@ class CucumberGenerator < RubiGen::Base
     record do |m|
       m.directory 'features/step_definitions'
       m.template  'cucumber_environment.rb', 'config/environments/cucumber.rb',
-        :assigns => { :cucumber_version => ::Cucumber::VERSION::STRING }
+        :assigns => { :cucumber_version => ::Cucumber::VERSION }
 
       m.directory 'features/support'
 
