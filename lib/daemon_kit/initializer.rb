@@ -384,7 +384,7 @@ module DaemonKit
     # arguments to be parsed cause they will interfere with the
     # script encapsulating DaemonKit, like capistrano
     def own_args?
-      ![ 'cap' ].include?( File.basename( $0 ) )
+      !%w( rake cap spec cucumber ).include?( File.basename( $0 ) )
     end
   end
 
