@@ -67,6 +67,7 @@ TODO:
     - Generator (daemon-gen)
     - Runner (daemon-up)
   * Move privilege dropping to a slice
+  * Make logging to file optional (opt out)
 
 COMPLETED:
 
