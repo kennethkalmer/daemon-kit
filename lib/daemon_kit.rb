@@ -13,7 +13,7 @@ $:.unshift( File.dirname(__FILE__).to_absolute_path ) unless
   $:.include?( File.dirname(__FILE__).to_absolute_path )
 
 module DaemonKit
-  VERSION = '0.1.7.12'
+  VERSION = '0.1.8pre'
 
   autoload :Initializer,    'daemon_kit/initializer'
   autoload :Application,    'daemon_kit/application'

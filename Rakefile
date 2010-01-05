@@ -16,7 +16,7 @@ begin
     gemspec.extra_rdoc_files.include '*.txt'
 
     gemspec.add_dependency 'eventmachine', '>=0.12.8'
-    gemspec.add_dependency 'rubigen', '>=1.5.2'
+    gemspec.add_development_dependency 'rubigen', '>=1.5.2'
     gemspec.add_development_dependency 'rspec'
     gemspec.add_development_dependency 'cucumber'
   end
