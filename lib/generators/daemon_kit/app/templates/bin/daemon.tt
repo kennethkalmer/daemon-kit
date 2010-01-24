@@ -1,0 +1,7 @@
+#
+# Stub executable for <%= app_name %>
+#
+
+require File.dirname(__FILE__) + '/../config/environment'
+
+DaemonKit::Application.exec( DAEMON_ROOT + '/libexec/<%= app_name %>-daemon.rb' )

@@ -24,6 +24,7 @@ module DaemonKit
   autoload :AbstractLogger, 'daemon_kit/abstract_logger'
   autoload :EM,             'daemon_kit/em'
   autoload :Configurable,   'daemon_kit/core_ext/configurable'
+  autoload :Generators,     'daemon_kit/generators'
 
   autoload :Cron,                   'daemon_kit/cron'
   autoload :Jabber,                 'daemon_kit/jabber'

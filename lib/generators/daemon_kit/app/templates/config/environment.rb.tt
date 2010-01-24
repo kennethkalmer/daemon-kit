@@ -9,7 +9,7 @@ require File.join(File.dirname(__FILE__), 'boot')
 DaemonKit::Initializer.run do |config|
 
   # The name of the daemon as reported by process monitoring tools
-  config.daemon_name = '<%= daemon_name %>'
+  config.daemon_name = '<%= app_name %>'
 
   # Force the daemon to be killed after X seconds from asking it to
   # config.force_kill_wait = 30
