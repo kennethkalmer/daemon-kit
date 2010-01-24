@@ -67,15 +67,8 @@ The ruote[http://openwfe.rubyforge.org] remote participant generator speeds up t
 == Requirements
 
 * Ruby 1.8.6 or later (developed on 1.9.1)
-* rubigen[http://gemcutter.org/gems/rubigen] (only on your development machine)
 * eventmachine-0.12.8[http://rubyeventmachine.com]
 * rspec (for writing/running your specs)
-
-=== Rubigen ===
-
-Rubigen requires ActiveSupport 2.2.2 or later, which makes it impossible to use daemon-kit in older Rails projects. You need to install rubigen on your development machine to use the generators provided by daemon-kit.
-
-Rubigen is not required for the regular running of a daemon and is thus a development dependency.
 
 == Generator Requirements
 
@@ -86,6 +79,8 @@ Depending on the generator you choose for your daemon, it might require addition
 * amqp - amqp[http://github.com/tmm1/amqp]
 * nanite - nanite[http://github.com/ezmobius/nanite]
 * ruote - none, although ruote[http://openwfe.rubyforge.org] should probably be running somewhere
+
+The generators are all written using Thor[http://rdoc.info/rdoc/wycats/thor], which is bundled with daemon-kit and not needed for running any of the generators.
 
 == Install
 
@@ -98,8 +93,6 @@ Currently recommended to stick to the git repo:
 Stable versions, when released are available directly from Gemcutter:
 
   $ gem install daemon-kit
-
-Please see the notes Rubigen earlier in this document.
 
 == Further reading
 
