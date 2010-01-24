@@ -36,11 +36,14 @@ module DaemonKit
 
       setup jid, @config.password
 
-      when_ready { configure_roster! }
+      when_ready do
+        configure_roster!
+        become_available
+      end
 
       return if @config['require_master'] == false
 
-      message(:chat?) do |m|
+      message do |m|
         trusted?( m ) ? pass : halt
       end
     end
@@ -62,6 +65,15 @@ module DaemonKit
 
         my_roster.add( Blather::JID.new( jid ) )
       end
+
+      my_roster.each do |(jid,item)|
+        item.subscription = :both
+        item.ask = :subscribe
+      end
+    end
+
+    def become_available
+      set_status( :chat, "#{DaemonKit.configuration.daemon_name} is available" )
     end
 
     def trusted?( message )
@@ -81,7 +93,7 @@ module DaemonKit
 
       block.call
 
-      set_status( :available )
+      become_available
     end
 
   end
