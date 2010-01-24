@@ -104,7 +104,7 @@ module DaemonKit
 
       def create_cucumber
         return unless options.cucumber?
-        #invoke DaemonKit::Generators::CucumberGenerator
+        invoke DaemonKit::Generators::CucumberGenerator
       end
 
       protected
