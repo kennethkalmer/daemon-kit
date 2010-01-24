@@ -1,31 +1,18 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
-
 begin
-  require 'rubigen'
+  require 'daemon_kit'
 rescue LoadError
-  $stderr.puts <<EOF
-
-The daemon-kit generator requires the 'rubigen' gem to be installed. Please run
-`gem install rubigen` first and then try again.
-
-Thank you for choosing daemon-kit !
-
-EOF
-  exit 1
+  $:.unshift File.expand_path( '../../lib', __FILE__ )
+  require 'daemon_kit'
 end
 
 if %w(-v --version).include? ARGV.first
-  require 'daemon_kit'
-  puts "#{File.basename($0)} #{DaemonKit::VERSION}"
+  puts "#{File.basename($0)} #{DaemonKit::VERSION} (http://github.com/kennethkalmer/daemon-kit)"
   exit(0)
 end
 
-require 'rubigen/scripts/generate'
-RubiGen::Base.use_application_sources! :rubygems
-RubiGen::Base.prepend_sources(*[
-  RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "app_generators")),
-  RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "daemon_generators"))
-])
-RubiGen::Scripts::Generate.new.run(ARGV, :generator => 'daemon_kit')
+require 'daemon_kit/generators'
+require 'generators/daemon_kit/app/app_generator'
+
+DaemonKit::Generators::AppGenerator.start

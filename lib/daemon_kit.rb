@@ -27,6 +27,7 @@ module DaemonKit
   autoload :AbstractLogger, 'daemon_kit/abstract_logger'
   autoload :EM,             'daemon_kit/em'
   autoload :Configurable,   'daemon_kit/core_ext/configurable'
+  autoload :Generators,     'daemon_kit/generators'
 
   module Slices
     autoload :Arguments,     'daemon_kit/slices/arguments'
