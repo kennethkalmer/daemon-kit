@@ -8,5 +8,6 @@ module DaemonKit
     autoload :CronGenerator,        'generators/daemon_kit/cron/cron_generator'
     autoload :CapistranoGenerator,  'generators/daemon_kit/capistrano/capistrano_generator'
     autoload :NaniteAgentGenerator, 'generators/daemon_kit/nanite_agent/nanite_agent_generator'
+    autoload :SpecGenerator,        'generators/daemon_kit/rspec/rspec_generator'
   end
 end
