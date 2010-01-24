@@ -97,6 +97,8 @@ module DaemonKit
           invoke DaemonKit::Generators::CronGenerator
         when 'nanite_agent'
           invoke DaemonKit::Generators::NaniteAgentGenerator
+        when 'ruote'
+          invoke DaemonKit::Generators::RuoteGenerator
         when 'xmpp'
           invoke DaemonKit::Generators::XmppGenerator
         end
