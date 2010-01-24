@@ -111,6 +111,11 @@ module DaemonKit
 
       def create_test_environment
         return if options[:test_framework] == 'none'
+
+        case options[:test_framework]
+        when 'rspec'
+          invoke DaemonKit::Generators::SpecGenerator
+        end
       end
 
       def create_cucumber
