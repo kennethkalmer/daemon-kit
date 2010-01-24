@@ -115,6 +115,8 @@ module DaemonKit
         case options[:test_framework]
         when 'rspec'
           invoke DaemonKit::Generators::SpecGenerator
+        when 'test_unit'
+          invoke DaemonKit::Generators::TestUnitGenerator
         end
       end
 
