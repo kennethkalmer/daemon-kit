@@ -28,6 +28,7 @@ module DaemonKit
       private :new
 
       def run
+        DaemonKit.logger.warn "Please use the new XMPP daemons, this class is deprecated"
         DaemonKit.logger.info "Starting jabber loop"
 
         loop do

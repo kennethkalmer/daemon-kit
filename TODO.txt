@@ -11,10 +11,9 @@ This is purely a drop in the bucket of what has to come...
   * Support for custom error handlers in the project
 * Easy configuration of an ORM of choice, including patching it if needed (ActiveRecord *cough*)
 * Improved generators for creating skeleton daemons:
-  * Evented jabber bot
   * Empty periodic event loop
   * Empty periodic loop (non-evented)
-  * Queue (SQS, AMQP, etc) pollers
+  * Queue (SQS, etc) pollers
 * Rake tasks for generating:
   * Sys-V style init scripts
 * Plenty of docs, seriously a lot of docs
