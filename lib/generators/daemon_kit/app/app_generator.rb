@@ -93,6 +93,8 @@ module DaemonKit
           directory 'libexec'
         when 'amqp'
           invoke DaemonKit::Generators::AmqpGenerator
+        when 'cron'
+          invoke DaemonKit::Generators::CronGenerator
         end
       end
 
