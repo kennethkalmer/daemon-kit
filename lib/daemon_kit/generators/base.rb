@@ -25,6 +25,10 @@ module DaemonKit
 
       protected
 
+      def app_name
+        @app_name = File.basename( destination_root )
+      end
+
       # Small macro to add ruby as an option to the generator with proper
       # default value plus an instance helper method called shebang.
       #

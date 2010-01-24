@@ -91,6 +91,8 @@ module DaemonKit
         case options[:installer]
         when 'default'
           directory 'libexec'
+        when 'amqp'
+          invoke DaemonKit::Generators::AmqpGenerator
         end
       end
 
@@ -113,9 +115,6 @@ module DaemonKit
         File.expand_path( File.join( File.dirname(__FILE__), 'templates') )
       end
 
-      def app_name
-        @app_name = File.basename( destination_root )
-      end
     end
   end
 end
