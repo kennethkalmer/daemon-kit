@@ -1,26 +1,2 @@
-#!/usr/bin/env ruby
-APP_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
-
-begin
-  require 'rubigen'
-rescue LoadError
-  begin
-    require 'rubygems'
-    require 'rubigen'
-  rescue LoadError
-    $stderr.puts <<EOF
-
-The daemon-kit generators requires the 'rubigen' gem to be installed. Please run
-`gem install rubigen` first and then try again.
-
-Thank you for choosing daemon-kit !
-
-EOF
-    exit 1
-  end
-end
-require 'rubigen/scripts/generate'
-
-ARGV.shift if ['--help', '-h'].include?(ARGV[0])
-RubiGen::Base.use_component_sources! [:daemon]
-RubiGen::Scripts::Generate.new.run(ARGV)
+require File.expand_path( '../../config/environment', __FILE__ )
+require 'daemon_kit/commands/generate'
