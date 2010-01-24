@@ -1,5 +1,6 @@
 == 0.1.18 (WIP)
 
+* Generators rewritten to use Thor
 * Evented XMPP now handled by blather
 * Boot script fixes
 * Removed Jabber generator, deprecating Jabber class (use XMPP)
