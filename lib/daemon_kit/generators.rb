@@ -10,5 +10,6 @@ module DaemonKit
     autoload :NaniteAgentGenerator, 'generators/daemon_kit/nanite_agent/nanite_agent_generator'
     autoload :SpecGenerator,        'generators/daemon_kit/rspec/rspec_generator'
     autoload :TestUnitGenerator,    'generators/daemon_kit/test_unit/test_unit_generator'
+    autoload :XmppGenerator,        'generators/daemon_kit/xmpp/xmpp_generator'
   end
 end
