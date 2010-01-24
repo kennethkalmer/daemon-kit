@@ -100,6 +100,11 @@ module DaemonKit
 
       def create_deployment_config
         return unless options[:deployer]
+
+        case options[:deployer]
+        when 'capistrano'
+          invoke DaemonKit::Generators::CapistranoGenerator
+        end
       end
 
       def create_test_environment

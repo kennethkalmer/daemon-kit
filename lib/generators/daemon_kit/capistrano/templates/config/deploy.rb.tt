@@ -7,7 +7,7 @@ require "capistrano/ext/multistage"
 
 # Set some globals
 default_run_options[:pty] = true
-set :application, "<%= name %>"
+set :application, "<%= app_name %>"
 
 # Deployment
 set :deploy_to, "/svc/#{application}"

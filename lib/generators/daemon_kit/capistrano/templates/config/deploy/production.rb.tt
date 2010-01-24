@@ -1,0 +1,6 @@
+#set :deploy_to, "/svc/<%= app_name %>" # defaults to "/u/apps/#{application}"
+#set :user, "<%= app_name %>"            # defaults to the currently logged in user
+set :daemon_env, 'production'
+
+set :domain, 'example.com'
+server domain
