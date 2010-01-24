@@ -95,6 +95,8 @@ module DaemonKit
           invoke DaemonKit::Generators::AmqpGenerator
         when 'cron'
           invoke DaemonKit::Generators::CronGenerator
+        when 'nanite_agent'
+          invoke DaemonKit::Generators::NaniteAgentGenerator
         end
       end
 
