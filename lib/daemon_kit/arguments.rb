@@ -83,7 +83,7 @@ module DaemonKit
             next
           end
 
-          if argv[i] == "--pid"
+          if argv[i] == "--pidfile"
             argv.delete_at( i )
             configs << "pid_file=#{argv.delete_at(i)}"
             next
