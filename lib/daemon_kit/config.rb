@@ -59,8 +59,13 @@ module DaemonKit
 
     def method_missing( method_name, *args ) #:nodoc:
       unless method_name.to_s =~ /[\w_]+=$/
-        if @data.keys.include?( method_name.to_s )
+        #if @data.keys.include?( method_name.to_s )
+        #  return @data.send( method_name.to_s )
+        #end
+        if @data.respond_to?( method_name.to_s )
           return @data.send( method_name.to_s )
+        elsif @date.respond_to?( method_name.to_s.gsub(/\-/, '_') )
+          return @data.send( method_name.to_s.gsub(/\-/, '_') )
         end
       end
 
@@ -92,7 +97,7 @@ module DaemonKit
     def extend_hash( hash )
       hash.keys.each do |k|
         hash.instance_eval <<-KEY
-          def #{k}
+          def #{k.gsub(/\-/, '_')}
             fetch("#{k}")
           end
         KEY

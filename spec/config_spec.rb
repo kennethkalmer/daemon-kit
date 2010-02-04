@@ -4,7 +4,7 @@ describe DaemonKit::Config do
 
   describe "working with config data" do
     before(:each) do
-      @config = DaemonKit::Config.new('foo' => 'bar', 'nes' => { 'ted' => 'value' })
+      @config = DaemonKit::Config.new('foo' => 'bar', 'nes' => { 'ted' => 'value' }, 'dash-ed' => 'keys')
     end
 
     it "should have string key access to values" do
@@ -24,11 +24,15 @@ describe DaemonKit::Config do
     end
 
     it "should return the config as a hash" do
-      @config.to_h.should == { 'foo' => 'bar', 'nes' => { 'ted' => 'value' } }
+      @config.to_h.should == { 'foo' => 'bar', 'nes' => { 'ted' => 'value' }, 'dash-ed' => 'keys' }
     end
 
     it "should be able to symbolize keys in returned hash" do
-      @config.to_h(true).should == { :foo => 'bar', :nes => { :ted => 'value' } }
+      @config.to_h(true).should == { :foo => 'bar', :nes => { :ted => 'value' }, :'dash-ed' => 'keys' }
+    end
+
+    it "should be able to handle dashed keys via accessors" do
+      @config.dash_ed.should == 'keys'
     end
   end
 
