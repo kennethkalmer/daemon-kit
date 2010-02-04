@@ -49,7 +49,7 @@ describe DaemonKit::Arguments do
     end
 
     it "should handle different ordered configurations easily" do
-      argv = [ '--pid', '/tmp/piddy', '--log', '/tmp/loggy' ]
+      argv = [ '--pidfile', '/tmp/piddy', '--log', '/tmp/loggy' ]
       res = DaemonKit::Arguments.configuration( argv )
 
       # No additional args
