@@ -64,7 +64,7 @@ module DaemonKit
         #end
         if @data.respond_to?( method_name.to_s )
           return @data.send( method_name.to_s )
-        elsif @date.respond_to?( method_name.to_s.gsub(/\-/, '_') )
+        elsif @data.respond_to?( method_name.to_s.gsub(/\-/, '_') )
           return @data.send( method_name.to_s.gsub(/\-/, '_') )
         end
       end
