@@ -9,7 +9,7 @@
 
 Daemon Kit aims to simplify creating Ruby daemons by providing a sound application skeleton (through a generator), task specific generators (jabber bot, etc) and robust environment management code.
 
-Using simple built-in generators it is easy to created evented and non-evented daemons that perform a multitude of different tasks.
+Using simple built-in generators it is easy to create evented and non-evented daemons that perform a multitude of different tasks.
 
 Supported generators:
 
