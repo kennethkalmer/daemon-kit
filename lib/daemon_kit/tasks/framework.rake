@@ -13,16 +13,15 @@ namespace :daemon_kit do
       version ||= kit.version
 
       unless kit
-        puts "No daemon_kit gem #{version} is installed.  Do 'gem list daemon_kit' to see what you have available."
+        puts "No daemon_kit gem #{version} is installed.  Do 'gem list daemon-kit' to see what you have available."
         exit
       end
 
       puts "Freezing the gem for DaemonKit #{kit.version}"
-      rm_rf   "vendor/daemon_kit"
-      mkdir_p "vendor/daemon_kit"
+      mkdir_p "vendor"
 
       begin
-        chdir("vendor/daemon_kit") do
+        chdir("vendor") do
           kit.dependencies.select { |g| deps.include? g.name }.each do |g|
             Gem::GemRunner.new.run(["unpack", g.name, "--version", g.version_requirements.to_s])
             mv(Dir.glob("#{g.name}*").first, g.name)
@@ -32,7 +31,7 @@ namespace :daemon_kit do
           FileUtils.mv(Dir.glob("daemon-kit*").first, "daemon-kit")
         end
       rescue Exception
-        rm_rf "vendor/daemon_kit"
+        rm_rf "vendor/daemon-kit"
         raise
       end
     end
@@ -44,10 +43,9 @@ namespace :daemon_kit do
       commits = "http://github.com/api/v1/yaml/kennethkalmer/daemon-kit/commits/master"
       url     = "http://github.com/kennethkalmer/daemon-kit/zipball/master"
 
-      rm_rf   "vendor/daemon_kit"
-      mkdir_p "vendor/daemon_kit"
+      rm_rf   "vendor/daemon-kit"
 
-      chdir 'vendor/daemon_kit' do
+      chdir 'vendor' do
         latest_revision = YAML.load(open(commits))["commits"].first["id"]
 
         puts "Downloading DaemonKit from #{url}"
@@ -120,6 +118,6 @@ namespace :daemon_kit do
 end
 
 def copy_framework_template( *args )
-  src_dir = File.join(DaemonKit.framework_root, 'app_generators', 'daemon_kit', 'templates')
+  src_dir = File.join(DaemonKit.framework_root, 'lib', 'generators', 'daemon_kit', 'app', 'templates')
   cp File.join( src_dir, *args ), File.join( DaemonKit.root, *args )
 end
