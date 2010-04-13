@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{daemon-kit}
-  s.version = "0.1.8pre"
+  s.version = "0.1.8rc1"
 
   s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
   s.authors = ["kenneth.kalmer@gmail.com"]
-  s.date = %q{2010-01-25}
+  s.date = %q{2010-04-13}
   s.default_executable = %q{daemon-kit}
   s.description = %q{daemon-kit aims to simplify creating Ruby daemons by providing a sound application skeleton (through a generator), task specific generators (jabber bot, etc) and robust environment management code.}
   s.email = %q{kenneth.kalmer@gmail.com}
@@ -138,6 +138,7 @@ Gem::Specification.new do |s|
      "lib/generators/daemon_kit/capistrano/templates/Capfile",
      "lib/generators/daemon_kit/capistrano/templates/USAGE",
      "lib/generators/daemon_kit/capistrano/templates/config/deploy.rb.tt",
+     "lib/generators/daemon_kit/capistrano/templates/config/deploy/logrotate.erb",
      "lib/generators/daemon_kit/capistrano/templates/config/deploy/production.rb.tt",
      "lib/generators/daemon_kit/capistrano/templates/config/deploy/staging.rb.tt",
      "lib/generators/daemon_kit/capistrano/templates/config/environments/staging.rb",
