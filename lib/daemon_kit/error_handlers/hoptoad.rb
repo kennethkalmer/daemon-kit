@@ -5,21 +5,125 @@ module DaemonKit
     # Error reporting via Hoptoad.
     class Hoptoad < Base
 
+      # Front end to parsing the backtrace for each notice
+      # (Graciously borrowed from http://github.com/thoughtbot/hoptoad_notifier)
+      class Backtrace
+
+        # Handles backtrace parsing line by line
+        # (Graciously borrowed from http://github.com/thoughtbot/hoptoad_notifier)
+        class Line
+
+          INPUT_FORMAT = %r{^([^:]+):(\d+)(?::in `([^']+)')?$}.freeze
+
+          # The file portion of the line (such as app/models/user.rb)
+          attr_reader :file
+
+          # The line number portion of the line
+          attr_reader :number
+
+          # The method of the line (such as index)
+          attr_reader :method
+
+          # Parses a single line of a given backtrace
+          # @param [String] unparsed_line The raw line from +caller+ or some backtrace
+          # @return [Line] The parsed backtrace line
+          def self.parse(unparsed_line)
+            _, file, number, method = unparsed_line.match(INPUT_FORMAT).to_a
+            new(file, number, method)
+          end
+
+          def initialize(file, number, method)
+            self.file   = file
+            self.number = number
+            self.method = method
+          end
+
+          # Reconstructs the line in a readable fashion
+          def to_s
+            "#{file}:#{number}:in `#{method}'"
+          end
+
+          def ==(other)
+            to_s == other.to_s
+          end
+
+          def inspect
+            "<Line:#{to_s}>"
+          end
+
+          def to_a
+            [ method, file, line ]
+          end
+
+          private
+
+          attr_writer :file, :number, :method
+        end
+
+        # holder for an Array of Backtrace::Line instances
+        attr_reader :lines
+
+        def self.parse(ruby_backtrace, opts = {})
+          ruby_lines = split_multiline_backtrace(ruby_backtrace)
+
+          filters = opts[:filters] || []
+          filtered_lines = ruby_lines.to_a.map do |line|
+            filters.inject(line) do |line, proc|
+              proc.call(line)
+            end
+          end.compact
+
+          lines = filtered_lines.collect do |unparsed_line|
+            Line.parse(unparsed_line)
+          end
+
+          instance = new(lines)
+        end
+
+        def initialize(lines)
+          self.lines = lines
+        end
+
+        def inspect
+          "<Backtrace: " + lines.collect { |line| line.inspect }.join(", ") + ">"
+        end
+
+        def ==(other)
+          if other.respond_to?(:lines)
+            lines == other.lines
+          else
+            false
+          end
+        end
+
+        private
+
+        attr_writer :lines
+
+        def self.split_multiline_backtrace(backtrace)
+          if backtrace.to_a.size == 1
+            backtrace.to_a.first.split(/\n\s*/)
+          else
+            backtrace
+          end
+        end
+      end
+
       # Your hoptoad API key
       @api_key = nil
       attr_accessor :api_key
 
       def handle_exception( exception )
         headers = {
-          'Content-type' => 'application/x-yaml',
+          'Content-type' => 'application/xml',
           'Accept' => 'text/xml, application/xml'
         }
 
         http = Net::HTTP.new( url.host, url.port )
-        data = clean_exception( exception )
+        data = format_exception( exception )
 
         response = begin
-                     http.post( url.path, {"notice" => data}.to_yaml, headers )
+                     http.post( url.path, data, headers )
                    rescue TimeoutError => e
                      DaemonKit.logger.error("Timeout while contacting the Hoptoad server.")
                      nil
@@ -33,29 +137,36 @@ module DaemonKit
       end
 
       def url
-        URI.parse("http://hoptoadapp.com/notices/")
+        URI.parse("http://hoptoadapp.com/notifier_api/v2/notices")
       end
 
-      def clean_exception( exception )
-        data = {
-          :api_key       => self.api_key,
-          :error_class   => exception.class.name,
-          :error_message => "#{exception.class.name}: #{exception.message}",
-          :backtrace     => exception.backtrace,
-          :environment   => ENV.to_hash,
-          :request       => {},
-          :session       => {}
-        }
+      def format_exception( exception )
+        lines = Backtrace.parse( exception.backtrace )
 
-        stringify_keys( data )
-      end
-
-      def stringify_keys(hash) #:nodoc:
-        hash.inject({}) do |h, pair|
-          h[pair.first.to_s] = pair.last.is_a?(Hash) ? stringify_keys(pair.last) : pair.last
-          h
-        end
+        <<-EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<notice version="2.0">
+  <api-key>#{self.api_key}</api-key>
+  <notifier>
+    <name>daemon-kit</name>
+    <version>#{DaemonKit::VERSION}</version>
+    <url>http://github.com/kennethkalmer/daemon-kit</url>
+  </notifier>
+  <error>
+    <class>#{exception.class.name}</class>
+    <message>#{exception.message}</message>
+    <backtrace>
+      #{Backtrace.parse( exception.backtrace ).lines.inject('') { |string,line| string << (%q{<line method="%s" file="%s" number="%s />"} % line.to_a) }}
+    </backrace>
+  </error>
+  <request />
+  <server-environment>
+    #{ENV.inject('') { |string, (k,v)| string << "<#{k}>#{v}</#{k}>" }}
+  </server-environment>
+</notice>
+        EOF
       end
     end
+
   end
 end
