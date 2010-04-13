@@ -1,0 +1,13 @@
+<%= shared_path %>/log/*.log {
+  daily
+  missingok
+  compress
+  rotate 7
+  sharedscripts
+
+  postrotate
+    for i in <%= shared_path %>/pids/*.pid; do
+      kill -HUP `cat $i`
+    done
+  endscript
+}

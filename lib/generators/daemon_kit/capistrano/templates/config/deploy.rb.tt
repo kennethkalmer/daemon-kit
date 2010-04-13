@@ -41,6 +41,9 @@ end
 # Hook into capistrano's events
 before "deploy:update_code", "deploy:check"
 
+# Setup log rotation support with every deploy (safe)
+#after 'deploy:symlink', 'deploy:logrotate'
+
 # Create some tasks related to deployment
 namespace :deploy do
 
@@ -50,4 +53,15 @@ namespace :deploy do
       puts "Current revision: " + out.chomp
     end
   end
+
+  desc "Install log rotation script on server"
+  task :logrotate do
+    require 'erb'
+    upload_path = "#{shared_path}/system/logrotate"
+    template = File.read("config/deploy/logrotate.erb")
+    file = ERB.new(template).result(binding)
+    put file, upload_path, :mode => 0644
+    run "if [ -e /etc/logrotate.d ]; then sudo cp #{shared_path}/system/logrotate /etc/logrotate.d/#{name}; fi"
+  end
+
 end
