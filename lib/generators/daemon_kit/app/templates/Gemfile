@@ -5,4 +5,4 @@
 # daemon-kit
 gem 'daemon-kit'
 
-# For more information on bundler, please visit http://github.com/wycats/bundler
+# For more information on bundler, please visit http://github.com/carlhuda/bundler
