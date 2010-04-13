@@ -188,7 +188,7 @@ module DaemonKit
         DaemonKit.logger.info "Log level changed to DEBUG"
       }
       configuration.trap("HUP") {
-        DaemonKit.logger.close
+        DaemonKit::Application.reopen_logs
       }
     end
 
