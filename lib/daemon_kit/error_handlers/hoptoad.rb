@@ -51,8 +51,9 @@ module DaemonKit
             "<Line:#{to_s}>"
           end
 
-          def to_a
-            [ method, file, line ]
+          def to_xml
+            data = [ method, file, number ].map { |s| URI.escape( s, %q{"'<>&} ) }
+            %q{<line method="%s" file="%s" number="%s" />} % data
           end
 
           private
@@ -115,12 +116,13 @@ module DaemonKit
 
       def handle_exception( exception )
         headers = {
-          'Content-type' => 'application/xml',
+          'Content-type' => 'text/xml',
           'Accept' => 'text/xml, application/xml'
         }
 
         http = Net::HTTP.new( url.host, url.port )
         data = format_exception( exception )
+        DaemonKit.logger.debug("Sending to Hoptoad: #{data}")
 
         response = begin
                      http.post( url.path, data, headers )
@@ -156,12 +158,12 @@ module DaemonKit
     <class>#{exception.class.name}</class>
     <message>#{exception.message}</message>
     <backtrace>
-      #{Backtrace.parse( exception.backtrace ).lines.inject('') { |string,line| string << (%q{<line method="%s" file="%s" number="%s />"} % line.to_a) }}
-    </backrace>
+      #{Backtrace.parse( exception.backtrace ).lines.inject('') { |string,line| string << line.to_xml }}
+    </backtrace>
   </error>
-  <request />
   <server-environment>
-    #{ENV.inject('') { |string, (k,v)| string << "<#{k}>#{v}</#{k}>" }}
+    <project-root>#{DaemonKit.root}</project-root>
+    <environment-name>#{DaemonKit.env}</environment-name>
   </server-environment>
 </notice>
         EOF
