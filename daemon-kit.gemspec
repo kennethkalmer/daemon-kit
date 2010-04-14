@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{daemon-kit}
-  s.version = "0.1.8rc1"
+  s.version = "0.1.8rc2"
 
   s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
   s.authors = ["kenneth.kalmer@gmail.com"]
-  s.date = %q{2010-04-13}
+  s.date = %q{2010-04-14}
   s.default_executable = %q{daemon-kit}
   s.description = %q{daemon-kit aims to simplify creating Ruby daemons by providing a sound application skeleton (through a generator), task specific generators (jabber bot, etc) and robust environment management code.}
   s.email = %q{kenneth.kalmer@gmail.com}
@@ -19,7 +19,6 @@ Gem::Specification.new do |s|
      "Deployment.txt",
      "History.txt",
      "Logging.txt",
-     "Manifest.txt",
      "PostInstall.txt",
      "README.rdoc",
      "RuoteParticipants.txt",
@@ -31,7 +30,6 @@ Gem::Specification.new do |s|
      "Deployment.txt",
      "History.txt",
      "Logging.txt",
-     "Manifest.txt",
      "PostInstall.txt",
      "README.rdoc",
      "Rakefile",
@@ -59,7 +57,6 @@ Gem::Specification.new do |s|
      "lib/daemon_kit/em.rb",
      "lib/daemon_kit/error_handlers/base.rb",
      "lib/daemon_kit/error_handlers/hoptoad.rb",
-     "lib/daemon_kit/error_handlers/mail.rb",
      "lib/daemon_kit/exceptions.rb",
      "lib/daemon_kit/generators.rb",
      "lib/daemon_kit/generators/base.rb",
@@ -211,35 +208,7 @@ Gem::Specification.new do |s|
      "test/test_helper.rb",
      "test/test_nanite_agent_generator.rb",
      "test/test_ruote_generator.rb",
-     "test/test_test_unit_generator.rb",
-     "vendor/tmail-1.2.3/tmail.rb",
-     "vendor/tmail-1.2.3/tmail/address.rb",
-     "vendor/tmail-1.2.3/tmail/attachments.rb",
-     "vendor/tmail-1.2.3/tmail/base64.rb",
-     "vendor/tmail-1.2.3/tmail/compat.rb",
-     "vendor/tmail-1.2.3/tmail/config.rb",
-     "vendor/tmail-1.2.3/tmail/core_extensions.rb",
-     "vendor/tmail-1.2.3/tmail/encode.rb",
-     "vendor/tmail-1.2.3/tmail/header.rb",
-     "vendor/tmail-1.2.3/tmail/index.rb",
-     "vendor/tmail-1.2.3/tmail/interface.rb",
-     "vendor/tmail-1.2.3/tmail/loader.rb",
-     "vendor/tmail-1.2.3/tmail/mail.rb",
-     "vendor/tmail-1.2.3/tmail/mailbox.rb",
-     "vendor/tmail-1.2.3/tmail/main.rb",
-     "vendor/tmail-1.2.3/tmail/mbox.rb",
-     "vendor/tmail-1.2.3/tmail/net.rb",
-     "vendor/tmail-1.2.3/tmail/obsolete.rb",
-     "vendor/tmail-1.2.3/tmail/parser.rb",
-     "vendor/tmail-1.2.3/tmail/port.rb",
-     "vendor/tmail-1.2.3/tmail/quoting.rb",
-     "vendor/tmail-1.2.3/tmail/require_arch.rb",
-     "vendor/tmail-1.2.3/tmail/scanner.rb",
-     "vendor/tmail-1.2.3/tmail/scanner_r.rb",
-     "vendor/tmail-1.2.3/tmail/stringio.rb",
-     "vendor/tmail-1.2.3/tmail/utils.rb",
-     "vendor/tmail-1.2.3/tmail/version.rb",
-     "vendor/tmail.rb"
+     "test/test_test_unit_generator.rb"
   ]
   s.homepage = %q{http://github.com/kennethkalmer/daemon-kit}
   s.post_install_message = %q{
@@ -279,16 +248,16 @@ To get started quickly run 'daemon-kit' without any arguments
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<eventmachine>, [">= 0.12.8"])
+      s.add_runtime_dependency(%q<eventmachine>, [">= 0.12.10"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
       s.add_development_dependency(%q<cucumber>, [">= 0"])
     else
-      s.add_dependency(%q<eventmachine>, [">= 0.12.8"])
+      s.add_dependency(%q<eventmachine>, [">= 0.12.10"])
       s.add_dependency(%q<rspec>, [">= 0"])
       s.add_dependency(%q<cucumber>, [">= 0"])
     end
   else
-    s.add_dependency(%q<eventmachine>, [">= 0.12.8"])
+    s.add_dependency(%q<eventmachine>, [">= 0.12.10"])
     s.add_dependency(%q<rspec>, [">= 0"])
     s.add_dependency(%q<cucumber>, [">= 0"])
   end
