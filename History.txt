@@ -4,6 +4,10 @@
 * Evented XMPP now handled by blather
 * Boot script fixes
 * Removed Jabber generator, deprecating Jabber class (use XMPP)
+* Upgraded Hoptoad notifications to V2 of the notifier API
+* Fix various argument handling bugs
+* Removed support for exception emails
+* Improved log rotation support [mperham]
 
 == 0.1.7.12 2009-12-04
 
