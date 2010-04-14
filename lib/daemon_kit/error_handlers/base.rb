@@ -7,21 +7,21 @@ module DaemonKit
     class Base
 
       class << self
-        
+
         @instance = nil
 
         def instance
           @instance ||= new
         end
         private :new
-        
+
         # When we're inherited, immediately register the handler with
         # the safety net
         def inherited( child ) #:nodoc:
           Safety.register_error_handler( child )
         end
       end
-      
+
       # Error handlers should overwrite this method and implement
       # their own reporting method.
       def handle_exception( exception )

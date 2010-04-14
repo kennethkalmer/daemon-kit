@@ -6,6 +6,9 @@
 # Boot up
 require File.join(File.dirname(__FILE__), 'boot')
 
+# Auto-require default libraries and those for the current Rails environment.
+Bundler.require :default, DaemonKit.env
+
 DaemonKit::Initializer.run do |config|
 
   # The name of the daemon as reported by process monitoring tools
@@ -18,6 +21,6 @@ DaemonKit::Initializer.run do |config|
   # config.backtraces = true
 
   # Configure the safety net (see DaemonKit::Safety)
-  # config.safety_net.handler = :mail # (or :hoptoad )
-  # config.safety_net.mail.host = 'localhost'
+  # config.safety_net.handler = :hoptoad
+  # config.safety_net.hoptoad.api_key = ''
 end
