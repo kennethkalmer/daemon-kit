@@ -81,5 +81,4 @@ end
 
 # Load our error handlers
 require 'daemon_kit/error_handlers/base'
-require 'daemon_kit/error_handlers/mail'
 require 'daemon_kit/error_handlers/hoptoad'
