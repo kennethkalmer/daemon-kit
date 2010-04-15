@@ -52,7 +52,7 @@ module DaemonKit
           end
 
           def to_xml
-            data = [ method, file, number ].map { |s| URI.escape( s, %q{"'<>&} ) }
+            data = [ method, file, number ].map { |s| URI.escape( s || 'unknown', %q{"'<>&} ) }
             %q{<line method="%s" file="%s" number="%s" />} % data
           end
 
