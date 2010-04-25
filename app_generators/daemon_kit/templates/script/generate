@@ -4,8 +4,20 @@ APP_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 begin
   require 'rubigen'
 rescue LoadError
-  require 'rubygems'
-  require 'rubigen'
+  begin
+    require 'rubygems'
+    require 'rubigen'
+  rescue LoadError
+    $stderr.puts <<EOF
+
+The daemon-kit generators requires the 'rubigen' gem to be installed. Please run
+`gem install rubigen` first and then try again.
+
+Thank you for choosing daemon-kit !
+
+EOF
+    exit 1
+  end
 end
 require 'rubigen/scripts/generate'
 

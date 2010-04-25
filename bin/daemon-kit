@@ -1,7 +1,20 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
-require 'rubigen'
+
+begin
+  require 'rubigen'
+rescue LoadError
+  $stderr.puts <<EOF
+
+The daemon-kit generator requires the 'rubigen' gem to be installed. Please run
+`gem install rubigen` first and then try again.
+
+Thank you for choosing daemon-kit !
+
+EOF
+  exit 1
+end
 
 if %w(-v --version).include? ARGV.first
   require 'daemon_kit'
