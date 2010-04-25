@@ -161,13 +161,13 @@ module DaemonKit
     include Configurable
 
     # The stack used to run this daemon
-    @stack = Stack.new do |stack|
+    @stack = Stack.new do
 
-      stack.use DaemonKit::Slices::Arguments
-      stack.use DaemonKit::Slices::Configuration
-      stack.use DaemonKit::Slices::Environments
-      stack.use DaemonKit::Slices::Umask
-      stack.use DaemonKit::Slices::Logger
+      use DaemonKit::Slices::Arguments
+      use DaemonKit::Slices::Configuration
+      use DaemonKit::Slices::Environments
+      use DaemonKit::Slices::Umask
+      use DaemonKit::Slices::Logger
     end
 
     class << self

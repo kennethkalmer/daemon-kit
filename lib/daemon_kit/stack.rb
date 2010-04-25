@@ -88,7 +88,7 @@ module DaemonKit
 
     def initialize(*args, &block)
       super(*args)
-      block.call(self) if block_given?
+      instance_eval(&block)
     end
 
     def insert(index, *args, &block)
