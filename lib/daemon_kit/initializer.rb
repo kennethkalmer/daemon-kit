@@ -59,6 +59,7 @@ module DaemonKit
       EM.run {
         prepare!
 
+        Configuration.stack.run!( 'defaults' )
         Configuration.stack.run!( 'arguments' )
 
         if DaemonKit.configuration.display_help

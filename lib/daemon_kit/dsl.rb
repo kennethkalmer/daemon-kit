@@ -10,6 +10,12 @@ module DaemonKit
       DaemonKit.configuration.stack.use( *args, &block )
     end
 
+    def defaults( &block )
+      on :defaults do
+        block.call
+      end
+    end
+
     def arguments( &block )
       on :arguments do
         block.call( DaemonKit.arguments.parser )
