@@ -15,7 +15,7 @@ begin
     gemspec.post_install_message = IO.read('PostInstall.txt')
     gemspec.extra_rdoc_files.include '*.txt'
 
-    gemspec.add_dependency 'eventmachine', '>=0.12.8'
+    gemspec.add_dependency 'eventmachine', '>=0.12.10'
     gemspec.add_development_dependency 'rspec'
     gemspec.add_development_dependency 'cucumber'
   end
