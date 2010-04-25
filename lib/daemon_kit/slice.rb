@@ -22,12 +22,27 @@ module DaemonKit
         self.class.on( event, &block )
       end
 
-      def handle_event!( event_name, next_slice = nil )
+      def handle_event!( event_name, stack )
+        @_event_name = event_name
+        @_stack = stack
+
         self.class.callbacks[ event_name.to_s ].each do |callback|
           instance_eval( &callback )
         end if self.class.callbacks && self.class.callbacks[ event_name.to_s ]
 
         self.send( event_name ) if self.respond_to?( event_name )
+
+        cascade!
+
+        @_cascaded = false
+      end
+
+      def cascade!
+        return if @_cascaded
+
+        @_stack.first.instance.handle_event!( @_event_name, @_stack[1..-1] ) unless @_stack.first.nil?
+
+        @_cascaded = true
       end
     end
 

@@ -119,10 +119,7 @@ module DaemonKit
     end
 
     def run!( step )
-      active.each do |entry|
-        entry.instance.handle_event!( step )
-      end
+      active.first.instance.handle_event!( step, active[1..-1] )
     end
-
   end
 end

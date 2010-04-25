@@ -7,6 +7,9 @@ module DaemonKit
         command, configs, args = ArgumentParser.parse( ARGV.dup )
 
         DaemonKit.arguments = ArgumentParser.new
+
+        cascade!
+
         DaemonKit.arguments.parse( args )
       end
     end
