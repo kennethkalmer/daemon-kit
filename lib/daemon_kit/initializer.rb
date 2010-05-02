@@ -65,8 +65,6 @@ module DaemonKit
         if DaemonKit.configuration.display_help
           puts DaemonKit.arguments.parser
           exit
-        else
-          DaemonKit.configuration.parse_arguments!
         end
 
         #yield DaemonKit.configuration if block_given?
@@ -294,32 +292,6 @@ module DaemonKit
     def log_level=( level )
       @log_level = level
       DaemonKit.logger.level = @log_level if DaemonKit.logger
-    end
-
-    def parse_arguments!
-      return unless own_args?
-
-      configs = ArgumentParser.configuration( ARGV ).first
-      @unused_arguments = {}
-
-      configs.each do |c|
-        k,v = c.split('=')
-
-        if v.nil?
-          error( "#{k} has no value" )
-          next
-        end
-
-        begin
-          if self.respond_to?( k )
-            self.send( "#{k}=", v ) # pid_file = /var/run/foo.pid
-          else
-            @unused_arguments[ k ] = v
-          end
-        rescue => e
-          error( "Couldn't set `#{k}' to `#{v}': #{e.message}" )
-        end
-      end
     end
 
     protected

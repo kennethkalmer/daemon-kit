@@ -4,13 +4,11 @@ module DaemonKit
       include DaemonKit::Slice
 
       def arguments
-        command, configs, args = ArgumentParser.parse( ARGV.dup )
-
         DaemonKit.arguments = ArgumentParser.new
 
         cascade!
 
-        DaemonKit.arguments.parse( args )
+        DaemonKit.arguments.parse( ARGV.dup )
       end
     end
   end

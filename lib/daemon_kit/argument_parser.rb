@@ -16,87 +16,16 @@ module DaemonKit
 
       attr_reader :default_command, :commands
 
-      # Parse the argument values and return an array with the command
-      # name, config values and argument values
-      def parse( argv )
-        cmd, argv = self.command( argv )
-
-        return cmd, *self.configuration( argv )
-      end
-
-      # Parse the provided argument array for a given command, or
-      # return the default command and the remaining arguments
-      def command( argv )
-        # extract command or set default
-        cmd = self.commands.include?( argv[0] ) ? argv.shift : self.default_command
-
-        return cmd.to_sym, argv
-      end
-
-      # Extracts any values for arguments matching '--config' as well
-      # as some implication arguments like '-e'. Returns an array with
-      # the configs as the first value and the remaing args as the
-      # last value.
-      #
-      # To set a value on the default #Configuration instance, use the
-      # following notation:
-      #
-      #   --config attribute=value
-      #
-      # The above notation can be used several times to set different
-      # values.
-      #
-      # Special, or 'normal' arguments that are mapped to the default
-      # #Configuration instance are listed below:
-      #
-      #   -e value or --env value => environment
-      #   --pid pidfile           => pid_file
-      #   -l path or --log path   => /path/to/log/file
-      #
-      def configuration( argv )
-        configs = []
-
-        i = 0
-        while i < argv.size
-          if argv[i] == "--config"
-            argv.delete_at( i )
-            configs << argv.delete_at(i)
-            next
-          end
-
-          if argv[i] == "-e" || argv[i] == "--env"
-            argv.delete_at( i )
-            configs << "environment=#{argv.delete_at(i)}"
-            next
-          end
-
-          if argv[i] == "-l" || argv[i] == "--log"
-            argv.delete_at( i )
-            configs << "log_path=#{argv.delete_at(i)}"
-            next
-          end
-
-          if argv[i] == "--pidfile"
-            argv.delete_at( i )
-            configs << "pid_file=#{argv.delete_at(i)}"
-            next
-          end
-
-          i += 1
-        end
-
-        return configs, argv
-      end
-
-      # Return the arguments remaining after running through #configuration
-      def arguments( argv )
-        self.configuration( argv ).last
-      end
     end
 
+    # Options from the command-line
     attr_reader :options
 
+    # The parser
     attr_reader :parser
+
+    # The given command
+    attr_reader :command
 
     def initialize
       @options = {}
@@ -115,24 +44,29 @@ module DaemonKit
 
         opts.separator "Options can be:"
 
-        opts.on("-e", "--env ENVIRONMENT", "Environment for the process", "Defaults to development") do
+        opts.on("-e", "--env ENVIRONMENT", "Environment for the process", "Defaults to development") do |env|
           # Nothing, just here for show
+          DaemonKit.configuration.send(:environment=, env)
         end
 
-        opts.on("--pidfile PATH", "Path to the pidfile", "Defaults to log/#{DaemonKit.configuration.daemon_name}.pid") do
-          # Nothing, just here for show
+        opts.on("--pidfile PATH", "Path to the pidfile", "Defaults to log/#{DaemonKit.configuration.daemon_name}.pid") do |path|
+          DaemonKit.configuration.pid_file = path
         end
 
-        opts.on("-l", "--log /path/to/logfile", "Path to the log file", "Defaults to log/[environment].log") do
-          # Nothing, just here for show
+        opts.on("-l", "--log /path/to/logfile", "Path to the log file", "Defaults to log/[environment].log") do |path|
+          DaemonKit.configuration.log_path = path
         end
 
         opts.separator ""
         opts.separator "Advanced configurations:"
         opts.on("--config ATTRIBUTE=VALUE",
                 "Change values of the daemon-kit Configuration instance",
-                "Example: log_dir=/path/to/log-directory") do
-          # Nothing, just here for show
+                "Example: log_dir=/path/to/log-directory") do |config|
+
+          k, v = config.split('=')
+
+          # Call the writer if we have a reader
+          DaemonKit.configuration.send("#{k}=", v) if DaemonKit.respond_to?( k )
         end
 
         opts.separator ""
@@ -156,7 +90,18 @@ module DaemonKit
     end
 
     def parse( argv )
+      @command, argv = self.extract_command( argv )
+
       @parser.parse!( argv )
+    end
+
+    # Parse the provided argument array for a given command, or
+    # return the default command and the remaining arguments
+    def extract_command( argv )
+      # extract command or set default
+      cmd = self.class.commands.include?( argv[0] ) ? argv.shift : self.class.default_command
+
+      return cmd.to_sym, argv
     end
   end
 end
