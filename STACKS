@@ -61,7 +61,6 @@ Questions/Issues:
 
 TODO:
 
-  * Move DaemonKit::Application symantics into the initializer
   * Rework DaemonKit::Application to be the daemon base class
   * Determine cli utility names
     - Generator (daemon-gen)
@@ -77,3 +76,4 @@ COMPLETED:
   * Logging slice
   * umask slice
   * Environment loading slice
+  * Move DaemonKit::Application symantics into the initializer
