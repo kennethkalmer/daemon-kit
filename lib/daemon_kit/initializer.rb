@@ -73,6 +73,11 @@ module DaemonKit
         Configuration.stack.run!( 'before_daemonize' )
 
         # Daemonize
+        self.daemonize if DaemonKit.configuration.daemonize?
+        self.chroot
+        self.clean_fd
+        self.redirect_io
+        self.reopen_logs
 
         Configuration.stack.run!( 'after_daemonize' )
 
@@ -127,6 +132,104 @@ module DaemonKit
       }
 
       trace_log.close
+    end
+
+    # Daemonize the process
+    def self.daemonize
+      @pid_file = PidFile.new( DaemonKit.configuration.pid_file )
+      @pid_file.ensure_stopped!
+
+      if RUBY_VERSION < "1.9"
+        exit if fork
+        Process.setsid
+        exit if fork
+      else
+        Process.daemon( true, true )
+      end
+
+      @pid_file.write!
+
+      # TODO: Convert into shutdown hook
+      at_exit { @pid_file.cleanup }
+    end
+
+    # Release the old working directory and insure a sensible umask
+    # TODO: Make chroot directory configurable
+    def self.chroot
+      Dir.chdir '/'
+      File.umask 0000
+    end
+
+    # Make sure all file descriptors are closed (with the exception
+    # of STDIN, STDOUT & STDERR)
+    def self.clean_fd
+      ObjectSpace.each_object(IO) do |io|
+        unless [STDIN, STDOUT, STDERR].include?(io)
+          begin
+            unless io.closed?
+              io.close
+            end
+          rescue ::Exception
+          end
+        end
+      end
+    end
+
+    # Redirect our IO
+    # TODO: make this configurable
+    def self.redirect_io
+      begin
+        STDIN.reopen '/dev/null'
+      rescue ::Exception
+      end
+
+      if DaemonKit.configuration.daemonize?
+        STDOUT.reopen '/dev/null', 'a'
+        STDERR.reopen '/dev/null', 'a'
+      end
+    end
+
+    # http://gist.github.com/304739
+    #
+    # Stolen from Unicorn::Util
+    #
+    # This reopens ALL logfiles in the process that have been rotated
+    # using logrotate(8) (without copytruncate) or similar tools.
+    # A +File+ object is considered for reopening if it is:
+    #   1) opened with the O_APPEND and O_WRONLY flags
+    #   2) opened with an absolute path (starts with "/")
+    #   3) the current open file handle does not match its original open path
+    #   4) unbuffered (as far as userspace buffering goes, not O_SYNC)
+    # Returns the number of files reopened
+    def self.reopen_logs
+      nr = 0
+      append_flags = File::WRONLY | File::APPEND
+      #DaemonKit.logger.info "Rotating logs" if DaemonKit.logger && DaemonKit.logger.open?
+
+      #logs = [STDOUT, STDERR]
+      #logs.each do |fp|
+      ObjectSpace.each_object(File) do |fp|
+        next if fp.closed?
+        next unless (fp.sync && fp.path[0..0] == "/")
+        next unless (fp.fcntl(Fcntl::F_GETFL) & append_flags) == append_flags
+
+        begin
+          a, b = fp.stat, File.stat(fp.path)
+          next if a.ino == b.ino && a.dev == b.dev
+        rescue Errno::ENOENT
+        end
+
+        open_arg = 'a'
+        if fp.respond_to?(:external_encoding) && enc = fp.external_encoding
+          open_arg << ":#{enc.to_s}"
+          enc = fp.internal_encoding and open_arg << ":#{enc.to_s}"
+        end
+        #DaemonKit.logger.info "Rotating path: #{fp.path}" if DaemonKit.logger && DaemonKit.logger.open?
+        fp.reopen(fp.path, open_arg)
+        fp.sync = true
+        nr += 1
+      end # each_object
+      nr
     end
 
     def after_daemonize
@@ -248,6 +351,10 @@ module DaemonKit
 
     def environment
       ::DAEMON_ENV
+    end
+
+    def daemonize?
+      DaemonKit.arguments.command == 'start'
     end
 
     # The path to the current environment's file (<tt>development.rb</tt>, etc.). By
