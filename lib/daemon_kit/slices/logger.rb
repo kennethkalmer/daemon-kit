@@ -3,7 +3,7 @@ module DaemonKit
     class Logger
       include DaemonKit::Slice
 
-      def before_daemonize
+      def after_daemonize
 
         return if DaemonKit.logger
 
@@ -30,15 +30,12 @@ module DaemonKit
         }
       end
 
-      def after_daemonize
-        DaemonKit.logger.close
-      end
-
       private
 
       def configuration
         DaemonKit.configuration
       end
+
     end
   end
 end

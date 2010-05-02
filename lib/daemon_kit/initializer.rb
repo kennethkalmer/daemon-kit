@@ -304,7 +304,7 @@ module DaemonKit
     private
 
     def set_trap( signal )
-      DaemonKit.logger.info "Setting up trap for #{signal}"
+      DaemonKit.logger.info "Setting up trap for #{signal}" if DaemonKit.logger
       @signal_traps[ signal ] = []
       Signal.trap( signal, Proc.new { self.run_traps( signal ) } )
     end
