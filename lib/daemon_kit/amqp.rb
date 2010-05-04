@@ -1,4 +1,5 @@
 require 'yaml'
+require 'mq'
 
 module DaemonKit
   # Thin wrapper around the amqp gem, specifically designed to ease

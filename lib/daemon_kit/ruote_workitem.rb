@@ -7,10 +7,10 @@ module DaemonKit
 
     class << self
 
-      # = Process incoming commands via an AMQP queue
+       # = Process incoming commands via an AMQP queue
       #
       # Expects a JSON workitem from ruote that has these fields set in
-      # attributes key:
+      # fields key:
       #
       #   {
       #     'reply_queue'    => 'queue to send replies to',
@@ -90,8 +90,7 @@ module DaemonKit
 
       def reply_via_amqp( response )
         DaemonKit.logger.debug("Replying to engine via AMQP with #{response.inspect}")
-
-        ::MQ.queue( response['reply_queue'] ).publish( response.to_json )
+        ::MQ.queue( response['params']['reply_queue'] ).publish( response.to_json )
 
         response
       end
@@ -111,7 +110,7 @@ module DaemonKit
     end
 
     def fei
-      @workitem['flow_expression_id']
+      @workitem['fei']
     end
 
     def short_fei
@@ -119,8 +118,8 @@ module DaemonKit
         '(' + [
                'fei', self.fei['owfe_version'], self.fei['engine_id'],
                self.fei['workflow_definition_url'], self.fei['workflow_definition_name'],
-               self.fei['workflow_definition_revision'], self.fei['workflow_instance_id'],
-               self.fei['expression_name'], self.fei['expression_id']
+               self.fei['workflow_definition_revision'], self.fei['wfid'],
+               self.fei['expression_name'], self.fei['expid']
               ].join(' ') + ')'
     end
 
@@ -136,16 +135,30 @@ module DaemonKit
       @workitem['participant_name']
     end
 
-    def attributes
-      @workitem['attributes']
+    def has_field?(a)
+  
+      self.fields.keys.include?( a )
+      
     end
 
+    def fields
+
+      @workitem['fields'] ||= @workitem['attributes']
+
+    end
+
+    # backwards compatible..
+
+    alias :attributes :fields
+    alias :has_attribute? :has_field?
+
+
     def []( key )
-      self.attributes[ key ]
+      self.fields[ key ]
     end
 
     def []=( key, value )
-      self.attributes[ key ] = value
+      self.fields[ key ] = value
     end
 
     def to_json
@@ -156,9 +169,9 @@ module DaemonKit
     # has timed out or not. This method will only ever work if you used the
     # +:timeout: parameter was set for the expression.
     def timed_out?
-      key = fei['workflow_instance_id'] + '__' + fei['expression_id']
+      key = fei['wfid'] + '__' + fei['expid']
 
-      if self.attributes["__timeouts__"] && timeout = self.attributes["__timeouts__"][ key ]
+      if self.fields["__timeouts__"] && timeout = self.fields["__timeouts__"][ key ]
         return Time.at( timeout.last ) < Time.now
       end
 
@@ -166,8 +179,8 @@ module DaemonKit
     end
 
     def method_missing( method_name, *args )
-      if self.attributes.keys.include?( method_name.to_s )
-        return self.attributes[ method_name.to_s ]
+      if self.fields.keys.include?( method_name.to_s )
+        return self.fields[ method_name.to_s ]
       end
 
       super
