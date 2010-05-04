@@ -52,7 +52,7 @@ module DaemonKit
         if target.nil? || method.nil?
           msg = "Missing target/method in command parameter, or command parameter missing"
           DaemonKit.logger.error( msg )
-          work["daemon_kit"] = { "error" => msg }
+          work["fields"]["__error__"] = msg
 
         elsif target.public_methods.include?( method )
           target.perform( method, work )
@@ -60,7 +60,7 @@ module DaemonKit
         else
           msg = "Workitem cannot be processes: #{method} not exposed by #{target.inspect}"
           DaemonKit.logger.error( msg )
-          work["daemon_kit"] = { "error" => msg }
+          work["fields"]["__error__"] = msg
         end
 
         reply_to_engine( transport, work )
@@ -81,7 +81,7 @@ module DaemonKit
           raise DaemonKit::MissingParticipant, msg
         end
 
-        return instance, method
+        return instance, method.to_sym
       end
 
       def reply_to_engine( transport, response )
@@ -136,15 +136,11 @@ module DaemonKit
     end
 
     def has_field?(a)
-  
       self.fields.keys.include?( a )
-      
     end
 
     def fields
-
       @workitem['fields'] ||= @workitem['attributes']
-
     end
 
     # backwards compatible..
