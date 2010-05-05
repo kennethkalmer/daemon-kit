@@ -52,15 +52,16 @@ module DaemonKit
         if target.nil? || method.nil?
           msg = "Missing target/method in command parameter, or command parameter missing"
           DaemonKit.logger.error( msg )
-          work["fields"]["__error__"] = msg
+          work["__error__"] = msg
 
-        elsif target.public_methods.include?( method )
-          target.perform( method, work )
+        elsif target.public_methods.map { |m| m.to_s }.include?( method ) # 1.8.x => [ 'foo' ]
+          target.perform( method, work )                                  # 1.9.x => [ :foo ]
 
         else
-          msg = "Workitem cannot be processes: #{method} not exposed by #{target.inspect}"
+          msg = "Workitem cannot be processes: '#{method}' not exposed by #{target.inspect}"
           DaemonKit.logger.error( msg )
-          work["fields"]["__error__"] = msg
+          p [ :work, work.inspect ]
+          work["__error__"] = msg
         end
 
         reply_to_engine( transport, work )
@@ -81,7 +82,7 @@ module DaemonKit
           raise DaemonKit::MissingParticipant, msg
         end
 
-        return instance, method.to_sym
+        return instance, method
       end
 
       def reply_to_engine( transport, response )

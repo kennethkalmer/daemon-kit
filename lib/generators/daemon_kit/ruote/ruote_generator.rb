@@ -3,8 +3,8 @@ module DaemonKit
     class RuoteGenerator < Base
 
       def update_gemfile
-        append_file 'Gemfile', "gem 'amqp' # Only needed if running the AMQP participant/listener pair"
-        append_file 'Gemfile', "gem 'json' # Can be replaced with json_pure"
+        append_file 'Gemfile', "gem 'amqp' # Only needed if running the AMQP participant/listener pair\n"
+        append_file 'Gemfile', "gem 'json' # Can be replaced with json_pure\n"
       end
 
       def create_configs
