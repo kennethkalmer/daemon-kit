@@ -10,7 +10,8 @@ class Thor
     # destination<String>:: Relative path to the destination root
     # data<String>:: Data to add to the file. Can be given as a block.
     # config<Hash>:: give :verbose => false to not log the status and the flag
-    #                for injection (:after or :before).
+    #                for injection (:after or :before) or :force => true for 
+    #                insert two or more times the same content.
     # 
     # ==== Examples
     #
@@ -55,7 +56,7 @@ class Thor
           replacement + '\0'
         end
 
-        replace!(/#{flag}/, content)
+        replace!(/#{flag}/, content, config[:force])
       end
 
       def revoke!
@@ -69,7 +70,7 @@ class Thor
           /(#{Regexp.escape(replacement)})(.*)(#{flag})/m
         end
 
-        replace!(regexp, content)
+        replace!(regexp, content, true)
       end
 
       protected
@@ -88,11 +89,13 @@ class Thor
 
         # Adds the content to the file.
         #
-        def replace!(regexp, string)
+        def replace!(regexp, string, force)
           unless base.options[:pretend]
             content = File.binread(destination)
-            content.gsub!(regexp, string)
-            File.open(destination, 'wb') { |file| file.write(content) }
+            if force || !content.include?(replacement)
+              content.gsub!(regexp, string)
+              File.open(destination, 'wb') { |file| file.write(content) }
+            end
           end
         end
 

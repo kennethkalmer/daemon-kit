@@ -1,8 +1,9 @@
+require 'thor/base'
+
 # Thor has a special class called Thor::Group. The main difference to Thor class
 # is that it invokes all tasks at once. It also include some methods that allows
 # invocations to be done at the class method, which are not available to Thor
 # tasks.
-#
 class Thor::Group
   class << self
     # The descrition for this Thor::Group. If none is provided, but a source root
@@ -24,8 +25,8 @@ class Thor::Group
     # Start works differently in Thor::Group, it simply invokes all tasks
     # inside the class.
     #
-    def start(given_args=ARGV, config={})
-      super do
+    def start(original_args=ARGV, config={})
+      super do |given_args|
         if Thor::HELP_MAPPINGS.include?(given_args.first)
           help(config[:shell])
           return
@@ -218,14 +219,16 @@ class Thor::Group
       [item]
     end
 
+    def handle_argument_error(task, error) #:nodoc:
+      raise error, "#{task.name.inspect} was called incorrectly. Are you sure it has arity equals to 0?"
+    end
+
     protected
 
       # The banner for this class. You can customize it if you are invoking the
       # thor class by another ways which is not the Thor::Runner.
-      #
       def banner
-        base = $thor_runner ? "thor" : File.basename($0.split(" ").first)
-        "#{base} #{self_task.formatted_usage(self, false)}"
+        "#{banner_base} #{self_task.formatted_usage(self, false)}"
       end
 
       # Represents the whole class as a task.
@@ -250,22 +253,19 @@ class Thor::Group
   # Shortcut to invoke with padding and block handling. Use internally by
   # invoke and invoke_from_option class methods.
   def _invoke_for_class_method(klass, task=nil, *args, &block) #:nodoc:
-    shell.padding += 1
-
-    result = if block_given?
-      case block.arity
-      when 3
-        block.call(self, klass, task)
-      when 2
-        block.call(self, klass)
-      when 1
-        instance_exec(klass, &block)
+    with_padding do
+      if block
+        case block.arity
+        when 3
+          block.call(self, klass, task)
+        when 2
+          block.call(self, klass)
+        when 1
+          instance_exec(klass, &block)
+        end
+      else
+        invoke klass, task, *args
       end
-    else
-      invoke klass, task, *args
     end
-
-    shell.padding -= 1
-    result
   end
 end

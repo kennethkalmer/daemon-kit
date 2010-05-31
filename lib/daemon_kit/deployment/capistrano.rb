@@ -68,6 +68,11 @@ _cset(:run_method)        { fetch(:use_sudo, true) ? :sudo : :run }
 _cset(:latest_release) { exists?(:deploy_timestamped) ? release_path : current_release }
 
 # =========================================================================
+# Variables for bundler
+# =========================================================================
+_cset(:use_bundler, true)
+
+# =========================================================================
 # These are helper methods that will be available to your recipes.
 # =========================================================================
 
@@ -198,11 +203,16 @@ namespace :deploy do
     control software you are using (it defaults to :subversion), and the \
     :deploy_via variable to the strategy you want to use to deploy (it \
     defaults to :checkout).
+
+    Your bundles will also be installed/updated as part of this step. \
+    You can disable bundler on remote reployments with the :user_bundler \
+    variable.
   DESC
   task :update_code, :except => { :no_release => true } do
     on_rollback { run "rm -rf #{release_path}; true" }
     strategy.deploy!
     finalize_update
+    bundler.bundle_new_release if fetch(:use_bundler, true)
   end
 
   desc <<-DESC
@@ -398,6 +408,8 @@ namespace :deploy do
   task :check, :except => { :no_release => true } do
     dependencies = strategy.check!
 
+    depend( :remote, :gem, "bundler", ">= 0.9.5" ) if fetch(:use_bundler, true)
+
     other = fetch(:dependencies, {})
     other.each do |location, types|
       types.each do |type, calls|
@@ -480,3 +492,25 @@ namespace :deploy do
     end
   end
 end
+
+namespace :bundler do
+  task :create_symlink, :roles => :app do
+    shared_dir = File.join(shared_path, 'bundle')
+    release_dir = File.join(current_release, '.bundle')
+    run("mkdir -p #{shared_dir} && ln -s #{shared_dir} #{release_dir}")
+  end
+
+  task :bundle_new_release, :roles => :app do
+    bundler.create_symlink
+    run "cd #{release_path} && bundle install --without test"
+  end
+
+  task :lock, :roles => :app do
+    run "cd #{current_release} && bundle lock;"
+  end
+
+  task :unlock, :roles => :app do
+    run "cd #{current_release} && bundle unlock;"
+  end
+end
+

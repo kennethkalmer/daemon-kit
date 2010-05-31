@@ -1,4 +1,4 @@
-require 'thor'
+require 'thor/group'
 
 module DaemonKit
   module Generators

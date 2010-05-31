@@ -1,5 +1,5 @@
 # TODO: Don't always depend on bundled thor
-$:.unshift File.dirname(__FILE__) + '/vendor/thor-0.12.3/lib'
+$:.unshift File.dirname(__FILE__) + '/vendor/thor-0.13.6/lib'
 
 require 'daemon_kit/generators/base'
 

@@ -3,14 +3,13 @@ class Thor
   # under Ruby's license.
   #
   class Options < Arguments #:nodoc:
-    LONG_RE     = /^(--\w+[-\w+]*)$/
+    LONG_RE     = /^(--\w+(?:-\w+)*)$/
     SHORT_RE    = /^(-[a-z])$/i
-    EQ_RE       = /^(--\w+[-\w+]*|-[a-z])=(.*)$/i
+    EQ_RE       = /^(--\w+(?:-\w+)*|-[a-z])=(.*)$/i
     SHORT_SQ_RE = /^-([a-z]{2,})$/i # Allow either -x -v or -xv style for single char args
     SHORT_NUM   = /^(-[a-z])#{NUMERIC}$/i
 
     # Receives a hash and makes it switches.
-    #
     def self.to_switches(options)
       options.map do |key, value|
         case value
@@ -28,12 +27,18 @@ class Thor
       end.join(" ")
     end
 
-    # Takes a hash of Thor::Option objects.
-    #
-    def initialize(options={})
-      options = options.values
+    # Takes a hash of Thor::Option and a hash with defaults.
+    def initialize(hash_options={}, defaults={})
+      options = hash_options.values
       super(options)
-      @shorts, @switches = {}, {}
+
+      # Add defaults
+      defaults.each do |key, value|
+        @assigns[key.to_s] = value
+        @non_assigned_required.delete(hash_options[key])
+      end
+
+      @shorts, @switches, @unknown = {}, {}, []
 
       options.each do |option|
         @switches[option.switch_name] = option
@@ -61,16 +66,24 @@ class Thor
           end
 
           switch = normalize_switch(switch)
-          next unless option = switch_option(switch)
-
+          option = switch_option(switch)
           @assigns[option.human_name] = parse_peek(switch, option)
+        elsif current_is_switch_formatted?
+          @unknown << shift
         else
           shift
         end
       end
 
       check_requirement!
-      @assigns
+
+      assigns = Thor::CoreExt::HashWithIndifferentAccess.new(@assigns)
+      assigns.freeze
+      assigns
+    end
+
+    def check_unknown!
+      raise UnknownArgumentError, "Unknown switches '#{@unknown.join(', ')}'" unless @unknown.empty?
     end
 
     protected
@@ -84,6 +97,19 @@ class Thor
           when SHORT_SQ_RE
             $1.split('').any? { |f| switch?("-#{f}") }
         end
+      end
+
+      def switch_formatted?(arg)
+        case arg
+        when LONG_RE, SHORT_RE, EQ_RE, SHORT_NUM, SHORT_SQ_RE
+          true
+        else
+          false
+        end
+      end
+
+      def current_is_switch_formatted?
+        switch_formatted? peek
       end
 
       def switch?(arg)
@@ -122,15 +148,16 @@ class Thor
       # Parse the value at the peek analyzing if it requires an input or not.
       #
       def parse_peek(switch, option)
-        unless current_is_value?
+        if current_is_switch_formatted? || last?
           if option.boolean?
             # No problem for boolean types
           elsif no_or_skip?(switch)
             return nil # User set value to nil
           elsif option.string? && !option.required?
-            return option.human_name # Return the option name
+            # Return the default if there is one, else the human name
+            return option.default || option.human_name
           else
-            raise MalformattedArgumentError, "no value provided for option '#{switch}'"
+            raise MalformattedArgumentError, "No value provided for option '#{switch}'"
           end
         end
 

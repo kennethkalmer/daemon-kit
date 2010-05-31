@@ -1,3 +1,7 @@
+require 'thor'
+require 'thor/group'
+require 'thor/core_ext/file_binary_read'
+
 require 'fileutils'
 require 'open-uri'
 require 'yaml'
@@ -5,15 +9,14 @@ require 'digest/md5'
 require 'pathname'
 
 class Thor::Runner < Thor #:nodoc:
-  map "-T" => :list, "-i" => :install, "-u" => :update
+  map "-T" => :list, "-i" => :install, "-u" => :update, "-v" => :version
 
   # Override Thor#help so it can give information about any class and any method.
   #
   def help(meth=nil)
     if meth && !self.respond_to?(meth)
       initialize_thorfiles(meth)
-      klass, task = Thor::Util.namespace_to_thor_class_and_task(meth)
-      # Send mapping -h because it works with Thor::Group too
+      klass, task = Thor::Util.find_class_and_task_by_namespace(meth)
       klass.start(["-h", task].compact, :shell => self.shell)
     else
       super
@@ -26,13 +29,13 @@ class Thor::Runner < Thor #:nodoc:
   def method_missing(meth, *args)
     meth = meth.to_s
     initialize_thorfiles(meth)
-    klass, task = Thor::Util.namespace_to_thor_class_and_task(meth)
+    klass, task = Thor::Util.find_class_and_task_by_namespace(meth)
     args.unshift(task) if task
-    klass.start(args, :shell => shell)
+    klass.start(args, :shell => self.shell)
   end
 
   desc "install NAME", "Install an optionally named Thor file into your system tasks"
-  method_options :as => :string, :relative => :boolean
+  method_options :as => :string, :relative => :boolean, :force => :boolean
   def install(name)
     initialize_thorfiles
 
@@ -41,10 +44,10 @@ class Thor::Runner < Thor #:nodoc:
     begin
       if File.directory?(File.expand_path(name))
         base, package = File.join(name, "main.thor"), :directory
-        contents      = open(base).read
+        contents      = open(base) {|input| input.read }
       else
         base, package = name, :file
-        contents      = open(name).read
+        contents      = open(name) {|input| input.read }
       end
     rescue OpenURI::HTTPError
       raise Error, "Error opening URI '#{name}'"
@@ -55,7 +58,9 @@ class Thor::Runner < Thor #:nodoc:
     say "Your Thorfile contains:"
     say contents
 
-    return false if no?("Do you wish to continue [y/N]?")
+    unless options["force"]
+      return false if no?("Do you wish to continue [y/N]?")
+    end
 
     as = options["as"] || begin
       first_line = contents.split("\n")[0]
@@ -91,6 +96,12 @@ class Thor::Runner < Thor #:nodoc:
     end
 
     thor_yaml[as][:filename] # Indicate success
+  end
+
+  desc "version", "Show Thor version"
+  def version
+    require 'thor/version'
+    say "Thor #{Thor::VERSION}"
   end
 
   desc "uninstall NAME", "Uninstall a named Thor module"

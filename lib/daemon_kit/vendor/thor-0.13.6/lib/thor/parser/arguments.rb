@@ -16,8 +16,9 @@ class Thor
       return arguments, args[Range.new(arguments.size, -1)]
     end
 
-    def self.parse(base, args)
-      new(base).parse(args)
+    def self.parse(*args)
+      to_parse = args.pop
+      new(*args).parse(to_parse)
     end
 
     # Takes an array of Thor::Argument objects.
@@ -49,6 +50,10 @@ class Thor
     end
 
     private
+
+      def last?
+        @pile.empty?
+      end
 
       def peek
         @pile.first
@@ -116,7 +121,7 @@ class Thor
         return shift if peek.is_a?(Numeric)
 
         unless peek =~ NUMERIC && $& == peek
-          raise MalformattedArgumentError, "expected numeric value for '#{name}'; got #{peek.inspect}"
+          raise MalformattedArgumentError, "Expected numeric value for '#{name}'; got #{peek.inspect}"
         end
 
         $&.index('.') ? shift.to_f : shift.to_i
@@ -137,7 +142,7 @@ class Thor
           end.join("', '")
 
           class_name = self.class.name.split('::').last.downcase
-          raise RequiredArgumentMissingError, "no value provided for required #{class_name} '#{names}'"
+          raise RequiredArgumentMissingError, "No value provided for required #{class_name} '#{names}'"
         end
       end
 
