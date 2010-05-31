@@ -43,7 +43,7 @@ module DaemonKit
       end
 
       def create_root_files
-        copy_file 'README'
+        template 'README.tt', 'README'
         copy_file 'Rakefile'
         copy_file 'Gemfile'
       end

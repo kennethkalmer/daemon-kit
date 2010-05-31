@@ -1,0 +1,58 @@
+daemon-kit README
+================
+
+daemon-kit has generated a skeleton Ruby daemon for you to build on. Please read
+through this file to ensure you get going quickly.
+
+Directories
+===========
+
+bin/
+  <%= app_name %> - Stub executable to control your daemon with
+
+config/
+  Environment configuration files
+
+lib/
+  Place for your libraries
+
+libexec/
+  <%= app_name %>.rb - Your daemon code
+
+log/
+  Log files based on the environment name
+
+spec/
+  rspec's home
+
+tasks/
+  Place for rake tasks
+
+vendor/
+  Place for unpacked gems and DaemonKit
+
+tmp/
+  Scratch folder
+
+
+Logging
+=======
+
+One of the biggest issues with writing daemons are getting insight into what your
+daemons are doing. Logging with daemon-kit is simplified as DaemonKit creates log
+files per environment in log.
+
+On all environments except production the log level is set to DEBUG, but you can
+toggle the log level by sending the running daemon SIGUSR1 and SIGUSR2 signals.
+SIGUSR1 will toggle between DEBUG and INFO levels, SIGUSR2 will blatantly set the
+level to DEBUG.
+
+Bundler
+=======
+
+daemon-kit uses bundler to ease the nightmare of dependency loading in Ruby 
+projects. daemon-kit and its generators all create/update the Gemfile in the
+root of the daemon. You can satisfy the project's dependencies by running
+`bundle install` from within the project root.
+
+For more information on bundler, please see http://github.com/carlhuda/bundler
