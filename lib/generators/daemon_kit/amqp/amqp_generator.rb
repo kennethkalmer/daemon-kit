@@ -3,7 +3,7 @@ module DaemonKit
     class AmqpGenerator < Base
 
       def update_gemfile
-        append_file 'Gemfile', %q(gem 'amqp')
+        append_file 'Gemfile', "gem 'amqp'\n"
       end
 
       def create_config_files

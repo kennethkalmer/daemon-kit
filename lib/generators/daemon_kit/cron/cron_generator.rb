@@ -3,7 +3,7 @@ module DaemonKit
     class CronGenerator < Base
 
       def update_gemfile
-        append_file 'Gemfile', "gem 'rufus-scheduler', '>= 2.0.3'"
+        append_file 'Gemfile', "gem 'rufus-scheduler', '>= 2.0.3'\n"
       end
 
       def create_initializers

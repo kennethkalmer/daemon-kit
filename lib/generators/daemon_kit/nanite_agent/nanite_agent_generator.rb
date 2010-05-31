@@ -3,7 +3,7 @@ module DaemonKit
     class NaniteAgentGenerator < Base
 
       def update_gemfile
-        append_file 'Gemfile', "gem 'nanite'"
+        append_file 'Gemfile', "gem 'nanite'\n"
       end
 
       def create_config

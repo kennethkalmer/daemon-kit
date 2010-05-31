@@ -3,7 +3,7 @@ module DaemonKit
     class XmppGenerator < Base
 
       def update_gemfile
-        append_file 'Gemfile', "gem 'blather'"
+        append_file 'Gemfile', "gem 'blather'\n"
       end
 
       def create_config
