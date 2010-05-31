@@ -14,6 +14,7 @@ begin
     gemspec.authors = ['kenneth.kalmer@gmail.com']
     gemspec.post_install_message = IO.read('PostInstall.txt')
     gemspec.extra_rdoc_files.include '*.txt'
+    gemspec.files.include("lib/generators/**/*", "lib/daemon_kit/vendor/**/*")
 
     gemspec.add_dependency 'eventmachine', '>=0.12.10'
     gemspec.add_development_dependency 'rspec'
