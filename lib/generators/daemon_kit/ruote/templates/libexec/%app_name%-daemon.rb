@@ -26,6 +26,10 @@ DaemonKit::RuoteParticipants.configure do |config|
   # Register your classes as pseudo-participants, with work being delegated
   # according to the 'command' parameter passed in the process definition
   config.register Sample
+
+  # Subscribe to additional workitem queues not specified in ruote.yml, like
+  # queues named after hostnames, etc...
+  # config.subscribe_to 'hostname'
 end
 
 DaemonKit::RuoteParticipants.run do
