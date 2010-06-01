@@ -81,6 +81,7 @@ module DaemonKit
       run_amqp! if @transports.include?( :amqp )
     end
 
+    # Subscribe to additional queues not specified in ruote.yml
     def subscribe_to( queue )
       @runtime_queues << queue
     end
@@ -90,9 +91,7 @@ module DaemonKit
     def run_amqp!
       AMQP.run do
         mq = ::MQ.new
-        queues = @configuration['amqp']['queues'].to_a
-        queues.concat @runtime_queues
-        queues.uniq!
+        queues = @configuration['amqp']['queues'].to_a | @runtime_queues
 
         queues.each do |q|
           DaemonKit.logger.debug("Subscribing to #{q} for workitems")
