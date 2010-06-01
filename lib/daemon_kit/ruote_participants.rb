@@ -35,6 +35,7 @@ module DaemonKit
     def initialize
       @transports = []
       @participants = {}
+      @runtime_queues = []
 
       @configuration = Config.load('ruote')
     end
@@ -80,12 +81,18 @@ module DaemonKit
       run_amqp! if @transports.include?( :amqp )
     end
 
+    def subscribe_to( queue )
+      @runtime_queues << queue
+    end
+
     private
 
     def run_amqp!
       AMQP.run do
         mq = ::MQ.new
         queues = @configuration['amqp']['queues'].to_a
+        queues.concat @runtime_queues
+        queues.uniq!
 
         queues.each do |q|
           DaemonKit.logger.debug("Subscribing to #{q} for workitems")
