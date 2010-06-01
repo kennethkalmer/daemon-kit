@@ -84,7 +84,7 @@ module DaemonKit
     def subscribe_to( queue )
       DaemonKit.logger.debug("Subscribing to #{q} for workitems")
 
-      cmdq = MQ.new.queue( q, :durable => true )
+      cmdq = mq.queue( q, :durable => true )
       cmdq.subscribe( :ack => true ) do |header, message|
         safely do
           DaemonKit.logger.debug("Received workitem: #{message.inspect}")
@@ -102,6 +102,7 @@ module DaemonKit
 
     def run_amqp!
       AMQP.run do
+        mq = ::MQ.new
         queues = @configuration['amqp']['queues'].to_a
 
         queues.each { |q| subscribe_to(q) }
