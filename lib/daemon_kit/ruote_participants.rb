@@ -80,24 +80,6 @@ module DaemonKit
       run_amqp! if @transports.include?( :amqp )
     end
 
-    # Subscribe to additional queues for workitems
-    def subscribe_to( queue )
-      DaemonKit.logger.debug("Subscribing to #{q} for workitems")
-
-      cmdq = mq.queue( q, :durable => true )
-      cmdq.subscribe( :ack => true ) do |header, message|
-        safely do
-          DaemonKit.logger.debug("Received workitem: #{message.inspect}")
-
-          RuoteWorkitem.process( :amqp, message )
-
-          DaemonKit.logger.debug("Processed workitem.")
-
-          header.ack
-        end
-      end
-    end
-
     private
 
     def run_amqp!
@@ -105,7 +87,22 @@ module DaemonKit
         mq = ::MQ.new
         queues = @configuration['amqp']['queues'].to_a
 
-        queues.each { |q| subscribe_to(q) }
+        queues.each do |q|
+          DaemonKit.logger.debug("Subscribing to #{q} for workitems")
+
+          cmdq = mq.queue( q, :durable => true )
+          cmdq.subscribe( :ack => true ) do |header, message|
+            safely do
+              DaemonKit.logger.debug("Received workitem: #{message.inspect}")
+
+              RuoteWorkitem.process( :amqp, message )
+
+              DaemonKit.logger.debug("Processed workitem.")
+
+              header.ack
+            end
+          end
+        end
       end
     end
 
