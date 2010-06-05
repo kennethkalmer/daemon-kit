@@ -144,6 +144,8 @@ module DaemonKit
 
       def format_exception( exception )
         lines = Backtrace.parse( exception.backtrace )
+        exception_message= URI.escape( exception.message, %q{"'<>&} )
+        
 
         <<-EOF
 <?xml version="1.0" encoding="UTF-8"?>
@@ -156,7 +158,7 @@ module DaemonKit
   </notifier>
   <error>
     <class>#{exception.class.name}</class>
-    <message>#{exception.message}</message>
+    <message>#{exception_message}</message>
     <backtrace>
       #{Backtrace.parse( exception.backtrace ).lines.inject('') { |string,line| string << line.to_xml }}
     </backtrace>
