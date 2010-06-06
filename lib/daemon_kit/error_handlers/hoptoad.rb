@@ -144,8 +144,12 @@ module DaemonKit
 
       def format_exception( exception )
         lines = Backtrace.parse( exception.backtrace )
-        exception_message= URI.escape( exception.message, %q{"'<>&} )
-        
+        exception_message= exception.message
+        exception_message.gsub!("\"","&quot;")
+        exception_message.gsub!("'","&apos;")
+        exception_message.gsub!("&","&amp;")
+        exception_message.gsub!("<","&lt;")
+        exception_message.gsub!(">","&gt;")
 
         <<-EOF
 <?xml version="1.0" encoding="UTF-8"?>
