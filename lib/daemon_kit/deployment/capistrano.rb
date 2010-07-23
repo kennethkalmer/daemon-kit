@@ -408,7 +408,7 @@ namespace :deploy do
   task :check, :except => { :no_release => true } do
     dependencies = strategy.check!
 
-    depend( :remote, :gem, "bundler", ">= 0.9.5" ) if fetch(:use_bundler, true)
+    depend( :remote, :gem, "bundler", ">= 0.9.26" ) if fetch(:use_bundler, true)
 
     other = fetch(:dependencies, {})
     other.each do |location, types|
@@ -502,7 +502,7 @@ namespace :bundler do
 
   task :bundle_new_release, :roles => :app do
     bundler.create_symlink
-    run "cd #{release_path} && bundle install --without test"
+    run "cd #{release_path} && bundle install .bundle --without test"
   end
 
   task :lock, :roles => :app do
