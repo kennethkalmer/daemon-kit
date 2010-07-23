@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{daemon-kit}
-  s.version = "0.1.8rc2"
+  s.version = "0.1.8rc3"
 
   s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
   s.authors = ["kenneth.kalmer@gmail.com"]
-  s.date = %q{2010-04-14}
+  s.date = %q{2010-07-23}
   s.default_executable = %q{daemon-kit}
   s.description = %q{daemon-kit aims to simplify creating Ruby daemons by providing a sound application skeleton (through a generator), task specific generators (jabber bot, etc) and robust environment management code.}
   s.email = %q{kenneth.kalmer@gmail.com}
@@ -75,37 +75,37 @@ Gem::Specification.new do |s|
      "lib/daemon_kit/tasks/god.rake",
      "lib/daemon_kit/tasks/log.rake",
      "lib/daemon_kit/tasks/monit.rake",
-     "lib/daemon_kit/vendor/thor-0.12.3/CHANGELOG.rdoc",
-     "lib/daemon_kit/vendor/thor-0.12.3/LICENSE",
-     "lib/daemon_kit/vendor/thor-0.12.3/README.rdoc",
-     "lib/daemon_kit/vendor/thor-0.12.3/Thorfile",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/actions.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/actions/create_file.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/actions/directory.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/actions/empty_directory.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/actions/file_manipulation.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/actions/inject_into_file.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/base.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/core_ext/file_binary_read.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/core_ext/hash_with_indifferent_access.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/core_ext/ordered_hash.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/error.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/group.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/invocation.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/parser.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/parser/argument.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/parser/arguments.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/parser/option.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/parser/options.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/rake_compat.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/runner.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/shell.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/shell/basic.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/shell/color.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/task.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/util.rb",
-     "lib/daemon_kit/vendor/thor-0.12.3/lib/thor/version.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/CHANGELOG.rdoc",
+     "lib/daemon_kit/vendor/thor-0.13.6/LICENSE",
+     "lib/daemon_kit/vendor/thor-0.13.6/README.rdoc",
+     "lib/daemon_kit/vendor/thor-0.13.6/Thorfile",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/actions.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/actions/create_file.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/actions/directory.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/actions/empty_directory.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/actions/file_manipulation.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/actions/inject_into_file.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/base.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/core_ext/file_binary_read.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/core_ext/hash_with_indifferent_access.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/core_ext/ordered_hash.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/error.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/group.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/invocation.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/parser.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/parser/argument.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/parser/arguments.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/parser/option.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/parser/options.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/rake_compat.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/runner.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/shell.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/shell/basic.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/shell/color.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/task.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/util.rb",
+     "lib/daemon_kit/vendor/thor-0.13.6/lib/thor/version.rb",
      "lib/daemon_kit/xmpp.rb",
      "lib/generators/daemon_kit/amqp/USAGE",
      "lib/generators/daemon_kit/amqp/amqp_generator.rb",
@@ -115,7 +115,7 @@ Gem::Specification.new do |s|
      "lib/generators/daemon_kit/app/USAGE",
      "lib/generators/daemon_kit/app/app_generator.rb",
      "lib/generators/daemon_kit/app/templates/Gemfile",
-     "lib/generators/daemon_kit/app/templates/README",
+     "lib/generators/daemon_kit/app/templates/README.tt",
      "lib/generators/daemon_kit/app/templates/Rakefile",
      "lib/generators/daemon_kit/app/templates/bin/daemon.tt",
      "lib/generators/daemon_kit/app/templates/config/arguments.rb",
@@ -220,7 +220,7 @@ To get started quickly run 'daemon-kit' without any arguments
 }
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{Opinionated framework for Ruby daemons}
   s.test_files = [
     "spec/abstract_logger_spec.rb",
@@ -247,7 +247,7 @@ To get started quickly run 'daemon-kit' without any arguments
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<eventmachine>, [">= 0.12.10"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
       s.add_development_dependency(%q<cucumber>, [">= 0"])
