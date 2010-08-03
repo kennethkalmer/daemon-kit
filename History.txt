@@ -8,6 +8,7 @@
 * Fix various argument handling bugs
 * Removed support for exception emails
 * Improved log rotation support [mperham]
+* Initial 1.9.2 support
 
 == 0.1.7.12 2009-12-04
 
