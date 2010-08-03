@@ -31,8 +31,13 @@ end
 #end
 #
 #DaemonKit::Cron.scheduler.cron "0 22 * * 1-5" do
-#  log.info "activating security system..."
+#  DaemonKit.logger.info "activating security system..."
 #  activate_security_system()
+#end
+#
+# Example error handling (NOTE: all exceptions in scheduled tasks are logged)
+#DaemonKit::Cron.handle_exception do |job, exception|
+#  DaemonKit.logger.error "Caught exception in job #{job.job_id}: '#{exception}'"
 #end
 
 DaemonKit::Cron.scheduler.every("1m") do
