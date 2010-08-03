@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/config/boot'
+require File.expand_path('../config/boot',  __FILE__)
 
 require 'rake'
 require 'daemon_kit/tasks'
