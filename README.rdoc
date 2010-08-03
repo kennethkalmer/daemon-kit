@@ -66,8 +66,8 @@ The ruote[http://openwfe.rubyforge.org] remote participant generator speeds up t
 
 == Requirements
 
-* Ruby 1.8.6 or later (developed on 1.9.1)
-* eventmachine-0.12.8[http://rubyeventmachine.com]
+* Ruby 1.8.7 or later (developed on REE/1.9.1)
+* eventmachine-0.12.10[http://rubyeventmachine.com]
 * rspec (for writing/running your specs)
 
 == Generator Requirements
@@ -93,6 +93,10 @@ Currently recommended to stick to the git repo:
 Stable versions, when released are available directly from Gemcutter:
 
   $ gem install daemon-kit
+
+== Upgrading
+
+When upgrading daemons generated from earlier versions of daemon-kit, it is easier in most cases to re-generate the daemon. Since 0.1.8 the generators use Thor, which allows you to review a diff of each file before deciding to overwrite it.
 
 == Further reading
 

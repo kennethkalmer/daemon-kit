@@ -1,4 +1,4 @@
-== 0.1.18 (WIP)
+== 0.1.18 2010-08-03
 
 * Generators rewritten to use Thor
 * Evented XMPP now handled by blather
@@ -9,6 +9,8 @@
 * Removed support for exception emails
 * Improved log rotation support [mperham]
 * Initial 1.9.2 support
+* Exception handling for scheduled tasks (cron)
+* Updates for ruote-amqp versions 2.1 and later
 
 == 0.1.7.12 2009-12-04
 
