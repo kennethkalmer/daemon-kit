@@ -9,8 +9,8 @@ require 'eventmachine'
 require File.dirname(__FILE__) + '/daemon_kit/core_ext'
 require File.dirname(__FILE__) + '/daemon_kit/exceptions'
 
-$:.unshift( File.dirname(__FILE__).to_absolute_path ) unless
-  $:.include?( File.dirname(__FILE__).to_absolute_path )
+$LOAD_PATH.unshift( File.dirname(__FILE__).to_absolute_path ) unless
+  $LOAD_PATH.include?( File.dirname(__FILE__).to_absolute_path )
 
 module DaemonKit
   VERSION = '0.1.8rc3'
@@ -36,6 +36,7 @@ module DaemonKit
   autoload :XMPP,                   'daemon_kit/xmpp'
 
   class << self
+
     def logger
       @logger
     end

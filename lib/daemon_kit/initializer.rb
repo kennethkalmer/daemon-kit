@@ -3,13 +3,9 @@ require 'pathname'
 DAEMON_ENV = (ENV['DAEMON_ENV'] || 'development').dup unless defined?(DAEMON_ENV)
 
 # Absolute paths to the daemon_kit libraries added to $:
-incdir = ( File.dirname(__FILE__) + '/..' )
-absincdir = if RUBY_PLATFORM =~ /(:?mswin|mingw)/
-              File.expand_path( incdir )
-            else
-              File.expand_path( Pathname.new( incdir ).realpath.to_s )
-            end
-$:.unshift absincdir unless $:.include?( absincdir )
+require File.dirname(__FILE__) + '/core_ext'
+$LOAD_PATH.unshift( File.expand_path('../', __FILE__).to_absolute_path ) unless
+  $LOAD_PATH.include?( File.expand_path('../', __FILE__).to_absolute_path )
 
 require 'daemon_kit'
 
