@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{daemon-kit}
-  s.version = "0.1.8"
+  s.version = "0.1.8.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["kenneth.kalmer@gmail.com"]
-  s.date = %q{2010-08-03}
+  s.date = %q{2010-08-04}
   s.default_executable = %q{daemon-kit}
   s.description = %q{daemon-kit aims to simplify creating Ruby daemons by providing a sound application skeleton (through a generator), task specific generators (jabber bot, etc) and robust environment management code.}
   s.email = %q{kenneth.kalmer@gmail.com}
@@ -40,7 +40,6 @@ Gem::Specification.new do |s|
      "daemon-kit.gemspec",
      "lib/daemon_kit.rb",
      "lib/daemon_kit/abstract_logger.rb",
-     "lib/daemon_kit/amqp.rb",
      "lib/daemon_kit/application.rb",
      "lib/daemon_kit/arguments.rb",
      "lib/daemon_kit/commands/console.rb",
@@ -54,6 +53,7 @@ Gem::Specification.new do |s|
      "lib/daemon_kit/cron.rb",
      "lib/daemon_kit/cucumber/world.rb",
      "lib/daemon_kit/deployment/capistrano.rb",
+     "lib/daemon_kit/dk_amqp.rb",
      "lib/daemon_kit/em.rb",
      "lib/daemon_kit/error_handlers/base.rb",
      "lib/daemon_kit/error_handlers/hoptoad.rb",

@@ -13,7 +13,7 @@ $LOAD_PATH.unshift( File.dirname(__FILE__).to_absolute_path ) unless
   $LOAD_PATH.include?( File.dirname(__FILE__).to_absolute_path )
 
 module DaemonKit
-  VERSION = '0.1.8'
+  VERSION = '0.1.8.1'
 
   autoload :Initializer,    'daemon_kit/initializer'
   autoload :Application,    'daemon_kit/application'
