@@ -28,7 +28,7 @@ module DaemonKit
 
   autoload :Cron,                   'daemon_kit/cron'
   autoload :Jabber,                 'daemon_kit/jabber'
-  autoload :AMQP,                   'daemon_kit/amqp'
+  autoload :AMQP,                   'daemon_kit/dk_amqp'
   autoload :Nanite,                 'daemon_kit/nanite'
   autoload :RuoteParticipants,      'daemon_kit/ruote_participants'
   autoload :RuoteWorkitem,          'daemon_kit/ruote_workitem'
