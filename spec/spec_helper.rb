@@ -1,6 +1,5 @@
 require 'rubygems'
-gem 'rspec'
-require 'spec'
+require 'rspec'
 
 require 'mocha'
 require 'fileutils'
@@ -11,7 +10,7 @@ DAEMON_ROOT = "#{File.dirname(__FILE__)}/../tmp"
 $:.unshift( File.dirname(__FILE__) + '/../lib' )
 require 'daemon_kit'
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
   # == Mock Framework
   #
   # RSpec uses it's own mocking framework by default. If you prefer to
