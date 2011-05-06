@@ -36,6 +36,7 @@ module DaemonKit
       @transports = []
       @participants = {}
       @runtime_queues = []
+      @amqp_reply_queue = 'ruote_workitems'
 
       @configuration = Config.load('ruote')
     end
@@ -52,6 +53,12 @@ module DaemonKit
     # the AMQPParticipant/AMQPListener pair in ruote.
     def use( transport )
       @transports << transport
+    end
+
+    # Set the name of the AMQP queue that a remote RuoteAMQP::Receiver is listening
+    # to (defaults to 'ruote_workitems')
+    def amqp_reply_queue( name )
+      @amqp_reply_queue = name
     end
 
     # Register classes as pseudo-participants. Two styles of registration are
@@ -101,7 +108,7 @@ module DaemonKit
             safely do
               DaemonKit.logger.debug("Received workitem: #{message.inspect}")
 
-              RuoteWorkitem.process( :amqp, message )
+              RuoteWorkitem.process( :amqp, @amqp_reply_queue, message )
 
               DaemonKit.logger.debug("Processed workitem.")
 

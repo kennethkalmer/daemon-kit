@@ -36,7 +36,7 @@ module DaemonKit
       # the error information:
       #
       #   daemon_kit.error
-      def process( transport, workitem )
+      def process( transport, from, workitem )
         # keep it singleton
         @instance ||= new
 
@@ -64,7 +64,7 @@ module DaemonKit
           work["__error__"] = msg
         end
 
-        reply_to_engine( transport, work )
+        reply_to_engine( transport, from, work )
       end
 
       # Extract the class and method name from the workitem, then pick the matching
@@ -85,13 +85,13 @@ module DaemonKit
         return instance, method
       end
 
-      def reply_to_engine( transport, response )
-        send( "reply_via_#{transport}", response )
+      def reply_to_engine( transport, from, response )
+        send( "reply_via_#{transport}", from, response )
       end
 
-      def reply_via_amqp( response )
+      def reply_via_amqp( destination_queue, response )
         DaemonKit.logger.debug("Replying to engine via AMQP with #{response.inspect}")
-        ::MQ.queue( response['params']['reply_queue'] ).publish( response.to_json )
+        ::MQ.queue( destination_queue, :durable => true ).publish( response.to_json )
 
         response
       end
