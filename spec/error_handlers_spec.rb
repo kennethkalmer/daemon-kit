@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/spec_helper'
 describe DaemonKit::Safety do
 end
 
-describe DaemonKit::ErrorHandlers::Mail do
+describe "DaemonKit::ErrorHandlers::Mail" do
   it "should send an email report" do
     conf = Object.new
     conf.stubs(:daemon_name).returns('test')
