@@ -15,10 +15,6 @@ begin
     gemspec.post_install_message = IO.read('PostInstall.txt')
     gemspec.extra_rdoc_files.include '*.txt'
     gemspec.files.include("lib/generators/**/*", "lib/daemon_kit/vendor/**/*")
-
-    gemspec.add_dependency 'eventmachine', '>=0.12.10'
-    gemspec.add_development_dependency 'rspec'
-    gemspec.add_development_dependency 'cucumber'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
