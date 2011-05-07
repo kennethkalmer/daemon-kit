@@ -32,6 +32,7 @@ GEM
     rspec-expectations (2.5.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.5.0)
+    safely (0.3.0)
     term-ansicolor (1.0.5)
 
 PLATFORMS
@@ -44,3 +45,4 @@ DEPENDENCIES
   jeweler (>= 1.5.2)
   mocha (>= 0.9.12)
   rspec (~> 2.5)
+  safely
