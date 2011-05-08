@@ -104,7 +104,7 @@ module DaemonKit
 
       include_core_lib
       load_postdaemonize_configs
-      configure_backtraces
+      configure_safely
 
       set_process_name
 
@@ -203,8 +203,10 @@ module DaemonKit
       end
     end
 
-    def configure_backtraces
+    def configure_safely
       Thread.abort_on_exception = true
+
+      Safely::Strategy::Log.logger = DaemonKit.logger
 
       Safely::Backtrace.trace_directory = File.join( DAEMON_ROOT, "log" )
       Safely::Backtrace.enable!
