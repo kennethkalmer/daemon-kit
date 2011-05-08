@@ -19,8 +19,4 @@ DaemonKit::Initializer.run do |config|
 
   # Log backraces when a thread/daemon dies (Recommended)
   # config.backtraces = true
-
-  # Configure the safety net (see DaemonKit::Safety)
-  # config.safety_net.handler = :hoptoad
-  # config.safety_net.hoptoad.api_key = ''
 end

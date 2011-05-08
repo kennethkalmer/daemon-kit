@@ -9,4 +9,7 @@ source :gemcutter
 # daemon-kit
 gem 'daemon-kit'
 
+# safely (http://github.com/kennethkalmer/safely)
+gem 'safely'
+
 # For more information on bundler, please visit http://gembundler.com

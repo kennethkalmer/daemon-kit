@@ -8,6 +8,7 @@ $LOAD_PATH.unshift( File.expand_path('../', __FILE__).to_absolute_path ) unless
   $LOAD_PATH.include?( File.expand_path('../', __FILE__).to_absolute_path )
 
 require 'daemon_kit'
+require 'safely'
 
 module DaemonKit
 
@@ -74,7 +75,7 @@ module DaemonKit
         end
       end
 
-      log_exceptions if DaemonKit.configuration.backtraces && !clean
+      Safely::Backtrace.safe_shutdown! if DaemonKit.configuration.backtraces && clean
 
       DaemonKit.logger.warn "Shutting down #{DaemonKit.configuration.daemon_name}"
 
@@ -203,37 +204,16 @@ module DaemonKit
     end
 
     def configure_backtraces
-      Thread.abort_on_exception = configuration.backtraces
+      Thread.abort_on_exception = true
+
+      Safely::Backtrace.trace_directory = File.join( DAEMON_ROOT, "log" )
+      Safely::Backtrace.enable!
     end
 
     def set_process_name
       $0 = configuration.daemon_name
     end
 
-    def self.log_exceptions
-      trace_file = File.join( DaemonKit.root, 'log', "backtrace-#{Time.now.strftime('%Y%m%d%H%M%S')}-#{Process.pid}.log" )
-      trace_log = Logger.new( trace_file )
-
-      # Find the last exception
-      e = nil
-      ObjectSpace.each_object {|o|
-        if ::Exception === o
-          e = o
-        end
-      }
-
-      trace_log.info "*** Below you'll find the most recent exception thrown, this will likely (but not certainly) be the exception that made #{DaemonKit.configuration.daemon_name} exit abnormally ***"
-      trace_log.error e
-
-      trace_log.info "*** Below you'll find all the exception objects in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***"
-      ObjectSpace.each_object {|o|
-        if ::Exception === o
-          trace_log.error o
-        end
-      }
-
-      trace_log.close
-    end
   end
 
   # Holds our various configuration values
@@ -268,8 +248,8 @@ module DaemonKit
     # Use the force kill patch? Give the number of seconds
     configurable :force_kill_wait
 
-    # Should be log backtraces
-    configurable :backtraces, false
+    # Should we log backtraces
+    configurable :backtraces, true
 
     # Configurable umask
     configurable :umask, 0022
@@ -282,9 +262,6 @@ module DaemonKit
 
     # Collection of signal traps
     attr_reader :signal_traps
-
-    # Our safety net (#Safety) instance
-    attr_accessor :safety_net
 
     # :nodoc: Shutdown hooks
     attr_reader :shutdown_hooks
@@ -300,8 +277,6 @@ module DaemonKit
       self.log_path   ||= default_log_path
 
       self.force_kill_wait = false
-
-      self.safety_net = DaemonKit::Safety.instance
 
       @signal_traps = {}
       @shutdown_hooks = []
