@@ -1,3 +1,10 @@
+== 0.1.9 (WIP)
+
+* Depend on the 'safely' gem for the safely method and logging backtraces
+* Fixed compatibility with ruote-amqp 2.2.0
+* AMQP fixes by @marcbowes
+* Updated to rspec 2 (various contributors)
+
 == 0.1.18.1 2010-08-04
 
 * Fixed issue with our own amqp.rb file causing havoc on Ruby 1.8.7

@@ -19,7 +19,6 @@ module DaemonKit
   autoload :Application,    'daemon_kit/application'
   autoload :Arguments,      'daemon_kit/arguments'
   autoload :Config,         'daemon_kit/config'
-  autoload :Safety,         'daemon_kit/safety'
   autoload :PidFile,        'daemon_kit/pid_file'
   autoload :AbstractLogger, 'daemon_kit/abstract_logger'
   autoload :EM,             'daemon_kit/em'
