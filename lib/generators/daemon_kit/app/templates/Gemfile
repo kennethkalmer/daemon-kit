@@ -11,5 +11,7 @@ gem 'daemon-kit'
 
 # safely (http://github.com/kennethkalmer/safely)
 gem 'safely'
+# gem 'toadhopper' # For reporting exceptions to hoptoad
+# gem 'mail' # For reporting exceptions via mail
 
 # For more information on bundler, please visit http://gembundler.com
