@@ -23,9 +23,7 @@ set :git_enable_submodules, 1
 # No sudo
 set :use_sudo, false
 
-# File list in the config_files setting will be copied from the
-# 'deploy_to' directory into config, overwriting files from the repo
-# with the same name
+# See `cap -e deploy:copy_configs`
 set :config_files, %w{}
 
 # List any work directories here that you need persisted between
