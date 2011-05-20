@@ -265,7 +265,7 @@ namespace :deploy do
     fetch(:config_files, []).each do |f|
       master_config_file = "#{deploy_to}/config/#{f}"
 
-      run "if [ -f #{master_config_file} ]; then ln -nsf #{master_config_file} #{release_path}/config/#{f}; fi"
+      run "if [ -f #{master_config_file} ]; then ln -nsf #{master_config_file} #{current_releaes}/config/#{f}; fi"
     end
   end
 
