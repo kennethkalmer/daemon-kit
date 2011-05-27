@@ -17,21 +17,21 @@ GEM
     git (1.2.5)
     hoe (2.9.4)
       rake (>= 0.8.7)
-    jeweler (1.5.2)
+    jeweler (1.6.0)
       bundler (~> 1.0.0)
       git (>= 1.2.5)
       rake
     json (1.5.1)
     mocha (0.9.12)
     rake (0.8.7)
-    rspec (2.5.0)
-      rspec-core (~> 2.5.0)
-      rspec-expectations (~> 2.5.0)
-      rspec-mocks (~> 2.5.0)
-    rspec-core (2.5.1)
-    rspec-expectations (2.5.0)
+    rspec (2.6.0)
+      rspec-core (~> 2.6.0)
+      rspec-expectations (~> 2.6.0)
+      rspec-mocks (~> 2.6.0)
+    rspec-core (2.6.3)
+    rspec-expectations (2.6.0)
       diff-lcs (~> 1.1.2)
-    rspec-mocks (2.5.0)
+    rspec-mocks (2.6.0)
     safely (0.3.0)
     term-ansicolor (1.0.5)
 
@@ -40,9 +40,9 @@ PLATFORMS
 
 DEPENDENCIES
   SyslogLogger
-  cucumber (>= 0.10.0)
+  cucumber (~> 0.10.0)
   eventmachine (>= 0.12.10)
-  jeweler (>= 1.5.2)
-  mocha (>= 0.9.12)
-  rspec (~> 2.5)
+  jeweler (~> 1.6.0)
+  mocha (~> 0.9.12)
+  rspec (~> 2.6)
   safely
