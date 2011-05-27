@@ -245,17 +245,18 @@ namespace :deploy do
   end
 
   desc <<-DESC
-    Copies any shared configuration files from :deploy_to/config into \
+    Symlinks any shared configuration files from :deploy_to/config into \
     the current release's config directory. Original files, if present, \
-    are renamed to the same name with .orig appended.
+    will be overwritten.
 
     Specify a list of files by setting :config_files to an array in your \
     deployment configuration.
   DESC
   task :copy_configs do
     fetch(:config_files, []).each do |f|
-      run "[ -f #{release_path}/config/#{f} ]; mv #{release_path}/config/#{f} #{release_path}/config/#{f}.orig"
-      run "[ -f #{deploy_to}/config/#{f} ]; cp #{deploy_to}/config/#{f} #{release_path}/config/#{f}"
+      master_config_file = "#{deploy_to}/config/#{f}"
+
+      run "if [ -f #{master_config_file} ]; then ln -nsf #{master_config_file} #{current_release}/config/#{f}; fi"
     end
   end
 
