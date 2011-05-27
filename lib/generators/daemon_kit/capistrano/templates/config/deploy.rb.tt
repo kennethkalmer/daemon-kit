@@ -44,6 +44,9 @@ before "deploy:update_code", "deploy:check"
 # Setup log rotation support with every deploy (safe)
 #after 'deploy:symlink', 'deploy:logrotate'
 
+# Switch me off if you don't want Bundler integration
+require "bundler/capistrano"
+
 # Create some tasks related to deployment
 namespace :deploy do
 
