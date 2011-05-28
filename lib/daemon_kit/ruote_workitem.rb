@@ -91,7 +91,7 @@ module DaemonKit
 
       def reply_via_amqp( destination_queue, response )
         DaemonKit.logger.debug("Replying to engine via AMQP with #{response.inspect}")
-        ::MQ.queue( destination_queue, :durable => true ).publish( response.to_json )
+        ::AMQP::Channel.queue( destination_queue, :durable => true ).publish( response.to_json )
 
         response
       end

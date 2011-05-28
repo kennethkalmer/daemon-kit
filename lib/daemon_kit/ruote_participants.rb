@@ -97,7 +97,7 @@ module DaemonKit
 
     def run_amqp!
       AMQP.run do
-        mq = ::MQ.new
+        mq = ::AMQP::Channel.new
         queues = @configuration['amqp']['queues'].to_a | @runtime_queues
 
         queues.each do |q|
