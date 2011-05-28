@@ -4,6 +4,7 @@
 * Fixed compatibility with ruote-amqp 2.2.0
 * AMQP fixes by @marcbowes
 * Updated to rspec 2 (various contributors)
+* Up to AMQP gem 0.7.1 or later
 
 == 0.1.18.1 2010-08-04
 
