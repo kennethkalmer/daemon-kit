@@ -54,7 +54,7 @@ The cron generator creates a simple daemon that leverages the rufus-scheduler[ht
 
 === AMQP Consumer Generator
 
-The AMQP generator creates a simple daemon that has all the stub code and configuration in place to help you write AMQP consumers quickly and effectively. The generated daemon relies on the presence of the amqp[http://github.com/tmm1/amqp] gem.
+The AMQP generator creates a simple daemon that has all the stub code and configuration in place to help you write AMQP consumers quickly and effectively. The generated daemon relies on the presence of the amqp[http://github.com/ruby-amqp/amqp] gem.
 
 === Nanite Agent Generator
 
