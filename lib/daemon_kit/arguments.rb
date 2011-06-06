@@ -57,7 +57,7 @@ module DaemonKit
       # #Configuration instance are listed below:
       #
       #   -e value or --env value => environment
-      #   --pid pidfile           => pid_file
+      #   --pidfile pidfile           => pid_file
       #   -l path or --log path   => /path/to/log/file
       #
       def configuration( argv )
@@ -83,7 +83,7 @@ module DaemonKit
             next
           end
 
-          if argv[i] == "--pidfile"
+          if argv[i] == "--pidfile" || argv[i] == "--pid"
             argv.delete_at( i )
             configs << "pid_file=#{argv.delete_at(i)}"
             next
