@@ -1,7 +1,7 @@
 = Daemon Kit
 
-* http://kit.rubyforge.org/daemon-kit/rdoc/
-* http://kit.rubyforge.org/daemon-kit (coming soon)
+* https://github.com/kennethkalmer/daemon-kit/wiki
+* http://rdoc.info/github/kennethkalmer/daemon-kit
 * http://groups.google.com/group/daemon-kit (daemon-kit@googlegroups.com)
 * #daemon-kit on Freenode
 
