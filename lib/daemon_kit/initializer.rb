@@ -108,7 +108,7 @@ module DaemonKit
 
       set_process_name
 
-      DaemonKit.logger.info( "DaemonKit (#{DaemonKit::VERSION}) booted, now running #{DaemonKit.configuration.daemon_name}" )
+      DaemonKit.logger.info( "DaemonKit (#{DaemonKit.version}) booted, now running #{DaemonKit.configuration.daemon_name}" )
 
       if DaemonKit.configuration.user || DaemonKit.configuration.group
         euid = Process.euid
@@ -174,7 +174,7 @@ module DaemonKit
 
       DaemonKit.logger = logger
 
-      DaemonKit.logger.info "DaemonKit (#{DaemonKit::VERSION}) booting in #{DAEMON_ENV} mode"
+      DaemonKit.logger.info "DaemonKit (#{DaemonKit.version}) booting in #{DAEMON_ENV} mode"
 
       configuration.trap("USR1") {
         DaemonKit.logger.level = DaemonKit.logger.debug? ? :info : :debug

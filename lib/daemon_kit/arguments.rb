@@ -147,7 +147,7 @@ module DaemonKit
 
         opts.separator "Common options:"
         opts.on("-v", "--version", "Show version information and exit") do
-          puts "daemon-kit #{DaemonKit::VERSION} (http://github.com/kennethkalmer/daemon-kit)"
+          puts "daemon-kit #{DaemonKit.version} (http://github.com/kennethkalmer/daemon-kit)"
           exit
         end
 

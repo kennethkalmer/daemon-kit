@@ -19,8 +19,8 @@ describe DaemonKit::Configuration do
   end
 
   it "should set a default umask" do
-    File.umask.should_not be(0)
-    File.umask.should be(18)
+    File.umask.should_not eq(0)
+    File.umask.should eq(18)
   end
 
 end
