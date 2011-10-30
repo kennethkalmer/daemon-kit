@@ -1,3 +1,5 @@
+require "daemon_kit/version"
+
 # Seems we need to load openssl before em or there are failures all around.
 # But we need to consider that people might not have ssl in the first place.
 begin
@@ -13,7 +15,6 @@ $LOAD_PATH.unshift( File.dirname(__FILE__).to_absolute_path ) unless
   $LOAD_PATH.include?( File.dirname(__FILE__).to_absolute_path )
 
 module DaemonKit
-  VERSION = '0.1.8.2'
 
   autoload :Initializer,    'daemon_kit/initializer'
   autoload :Application,    'daemon_kit/application'

@@ -1,3 +1,10 @@
+PATH
+  remote: .
+  specs:
+    daemon-kit (0.1.8.2)
+      eventmachine (>= 0.12.10)
+      safely (>= 0.3.1)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -14,16 +21,13 @@ GEM
     eventmachine (0.12.10)
     gherkin (2.3.5)
       json (>= 1.4.6)
-    git (1.2.5)
     hoe (2.9.4)
       rake (>= 0.8.7)
-    jeweler (1.6.0)
-      bundler (~> 1.0.0)
-      git (>= 1.2.5)
-      rake
     json (1.5.1)
     mocha (0.9.12)
     rake (0.8.7)
+    rdoc (3.11)
+      json (~> 1.4)
     rspec (2.6.0)
       rspec-core (~> 2.6.0)
       rspec-expectations (~> 2.6.0)
@@ -32,7 +36,7 @@ GEM
     rspec-expectations (2.6.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.6.0)
-    safely (0.3.0)
+    safely (0.3.1)
     term-ansicolor (1.0.5)
 
 PLATFORMS
@@ -40,9 +44,10 @@ PLATFORMS
 
 DEPENDENCIES
   SyslogLogger
+  bundler
   cucumber (~> 0.10.0)
-  eventmachine (>= 0.12.10)
-  jeweler (~> 1.6.0)
+  daemon-kit!
   mocha (~> 0.9.12)
+  rake
+  rdoc
   rspec (~> 2.6)
-  safely

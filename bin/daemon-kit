@@ -8,7 +8,7 @@ rescue LoadError
 end
 
 if %w(-v --version).include? ARGV.first
-  puts "#{File.basename($0)} #{DaemonKit::VERSION} (http://github.com/kennethkalmer/daemon-kit)"
+  puts "#{File.basename($0)} #{DaemonKit.version} (http://github.com/kennethkalmer/daemon-kit)"
   exit(0)
 end
 

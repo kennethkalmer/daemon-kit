@@ -33,6 +33,6 @@ ENV['DAEMON_ENV'] = case ARGV.first
     ARGV.first || ENV['DAEMON_ENV'] || 'development'
 end
 
-puts "Loading #{ENV['DAEMON_ENV']} environment (daemon-kit #{DaemonKit::VERSION})"
+puts "Loading #{ENV['DAEMON_ENV']} environment (daemon-kit #{DaemonKit.version})"
 
 exec "#{options[:irb]} #{libs} --simple-prompt"
