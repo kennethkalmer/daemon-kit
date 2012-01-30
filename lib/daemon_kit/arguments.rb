@@ -83,6 +83,12 @@ module DaemonKit
             next
           end
 
+          if argv[i] == "--instance"
+            argv.delete_at( i )
+            configs << "instance=#{argv.delete_at(i)}"
+            next
+          end
+
           if argv[i] == "--pidfile" || argv[i] == "--pid"
             argv.delete_at( i )
             configs << "pid_file=#{argv.delete_at(i)}"
@@ -127,7 +133,11 @@ module DaemonKit
           # Nothing, just here for show
         end
 
-        opts.on("--pidfile PATH", "Path to the pidfile", "Defaults to log/#{DaemonKit.configuration.daemon_name}.pid") do
+        opts.on("--instance N", "Process instance number", "Defaults to 1") do
+          # Nothing, just here for show
+        end
+
+        opts.on("--pidfile PATH", "Path to the pidfile", "Defaults to log/#{DaemonKit.configuration.daemon_name}.N.pid") do
           # Nothing, just here for show
         end
 
