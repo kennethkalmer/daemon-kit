@@ -241,6 +241,9 @@ module DaemonKit
     # Duplicate log data to stdout
     attr_accessor :log_stdout
 
+    # Process instance number, defaults to 1
+    attr_accessor :instance
+
     # Path to the pid file, defaults to 'log/<daemon_name>.pid'
     attr_accessor :pid_file
 
@@ -322,8 +325,12 @@ module DaemonKit
       @shutdown_hooks << ( proc || block )
     end
 
-    def pid_file
-      @pid_file ||= "#{File.dirname(self.log_path)}/#{self.daemon_name}.pid"
+    def pid_file( instance )
+      @pid_file ||= "#{File.dirname(self.log_path)}/#{self.daemon_name}.#{instance}.pid"
+    end
+
+    def instance
+      @instance ||= 1
     end
 
     # Set the log level

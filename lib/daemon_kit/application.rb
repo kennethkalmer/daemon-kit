@@ -32,7 +32,7 @@ module DaemonKit
         self.chroot
         self.clean_fd
         self.redirect_io( true )
-
+        
         DaemonKit.configuration.log_stdout = true
 
         require file
@@ -50,7 +50,7 @@ module DaemonKit
       end
 
       def stop
-        @pid_file = PidFile.new( DaemonKit.configuration.pid_file )
+        @pid_file = PidFile.new( DaemonKit.configuration.pid_file( DaemonKit.configuration.instance ) )
 
         unless @pid_file.running?
           @pid_file.cleanup
@@ -153,7 +153,7 @@ module DaemonKit
 
       # Daemonize the process
       def daemonize
-        @pid_file = PidFile.new( DaemonKit.configuration.pid_file )
+        @pid_file = PidFile.new( DaemonKit.configuration.pid_file( DaemonKit.configuration.instance ) )
         @pid_file.ensure_stopped!
 
         if RUBY_VERSION < "1.9"
