@@ -1,6 +1,6 @@
 begin
-  require 'spec'
-  require 'spec/rake/spectask'
+  require 'rspec'
+  require 'rspec/core/rake_task'
 rescue LoadError
   puts <<-EOS
 To use rspec for testing you must install rspec gem:
@@ -9,12 +9,12 @@ EOS
 end
 
 begin
-  require 'spec/rake/spectask'
+  require 'rspec/core/rake_task'
 
   desc "Run the specs under spec/"
-  Spec::Rake::SpecTask.new do |t|
-    t.spec_opts = ['--options', "spec/spec.opts"]
-    t.spec_files = FileList['spec/**/*_spec.rb']
+  RSpec::Core::RakeTask.new do |t|
+    t.rspec_opts = ['--options', "spec/spec.opts"]
+    t.files = FileList['spec/**/*_spec.rb']
   end
 rescue NameError, LoadError
   # No loss, warning printed already
