@@ -14,7 +14,6 @@ begin
   desc "Run the specs under spec/"
   RSpec::Core::RakeTask.new do |t|
     t.rspec_opts = ['--options', "spec/spec.opts"]
-    t.files = FileList['spec/**/*_spec.rb']
   end
 rescue NameError, LoadError
   # No loss, warning printed already
