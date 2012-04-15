@@ -17,17 +17,15 @@ end
 # daemon won't work as advertised.
 
 # Run an event-loop for processing
-DaemonKit::AMQP.run do
+DaemonKit::AMQP.run do |connection|
   # Inside this block we're running inside the reactor setup by the
   # amqp gem. Any code in the examples (from the gem) would work just
   # fine here.
 
   # Uncomment this for connection keep-alive
-  # AMQP.conn.connection_status do |status|
+  # connection.on_tcp_connection_loss do |client, settings|
   #   DaemonKit.logger.debug("AMQP connection status changed: #{status}")
-  #   if status == :disconnected
-  #     AMQP.conn.reconnect(true)
-  #   end
+  #   client.reconnect(false, 1)
   # end
 
   amq = AMQP::Channel.new
