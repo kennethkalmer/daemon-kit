@@ -1,7 +1,0 @@
-
-For more information on daemon-kit, see http://kit.rubyforge.org/daemon-kit
-
-For usage options, run:
-
-$ daemon-kit -h
-

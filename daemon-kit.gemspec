@@ -10,7 +10,9 @@ Gem::Specification.new do |gem|
   gem.post_install_message = %q{
 For more information on daemon-kit, see http://kit.rubyforge.org/daemon-kit
 
-To get started quickly run 'daemon-kit' without any arguments
+For usage options, run:
+
+$ daemon-kit -h
 
 
 }
@@ -27,7 +29,6 @@ To get started quickly run 'daemon-kit' without any arguments
                           "Deployment.txt",
                           "History.txt",
                           "Logging.txt",
-                          "PostInstall.txt",
                           "README.rdoc",
                           "RuoteParticipants.txt",
                           "TODO.txt",
