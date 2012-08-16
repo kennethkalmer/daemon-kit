@@ -1,11 +1,10 @@
 DAEMON_ENV = 'test' unless defined?( DAEMON_ENV )
 
 begin
-  require 'spec'
+  require 'rspec'
 rescue LoadError
   require 'rubygems'
-  gem 'rspec'
-  require 'spec'
+  require 'rspec'
 end
 
 require File.dirname(__FILE__) + '/../config/environment'
