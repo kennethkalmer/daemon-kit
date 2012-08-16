@@ -27,6 +27,11 @@ begin
   RSpec::Core::RakeTask.new do |t|
     t.rspec_opts = ['--options', "spec/spec.opts"]
   end
+
+  # Want other tests/tasks run by default?
+  # Add them to the list
+  task :default => [:spec] #, :features]
+
 rescue LoadError, NameError
   puts "Unable to define the rake spec task"
 end
