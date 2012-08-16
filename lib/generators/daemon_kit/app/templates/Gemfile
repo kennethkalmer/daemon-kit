@@ -3,6 +3,8 @@
 # 'bundle install' to get them all installed. Daemon-kit's capistrano
 # deployment will ensure that the bundle required by your daemon is properly
 # installed.
+#
+# For more information on bundler, please visit http://gembundler.com
 
 source :gemcutter
 
@@ -13,5 +15,3 @@ gem 'daemon-kit'
 gem 'safely'
 # gem 'toadhopper' # For reporting exceptions to hoptoad
 # gem 'mail' # For reporting exceptions via mail
-
-# For more information on bundler, please visit http://gembundler.com
