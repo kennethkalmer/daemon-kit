@@ -34,6 +34,7 @@ $ daemon-kit -h
                           "TODO.txt",
                          ]
 
+  gem.add_dependency(%q<thor>)
   gem.add_development_dependency(%q<bundler>)
   gem.add_development_dependency(%q<rake>)  
   gem.add_development_dependency(%q<rdoc>)

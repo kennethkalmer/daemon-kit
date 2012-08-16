@@ -4,6 +4,7 @@ PATH
     daemon-kit (0.1.8.2)
       eventmachine (>= 0.12.10)
       safely (>= 0.3.1)
+      thor
 
 GEM
   remote: http://rubygems.org/
@@ -38,6 +39,7 @@ GEM
     rspec-mocks (2.6.0)
     safely (0.3.1)
     term-ansicolor (1.0.5)
+    thor (0.16.0)
 
 PLATFORMS
   ruby
