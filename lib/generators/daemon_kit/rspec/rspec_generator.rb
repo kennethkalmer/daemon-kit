@@ -2,6 +2,10 @@ module DaemonKit
   module Generators
     class SpecGenerator < Base
 
+      def update_gemfile
+        append_file 'Gemfile', "gem 'rspec'\n"
+      end
+
       def create_specs
         directory 'spec'
       end
