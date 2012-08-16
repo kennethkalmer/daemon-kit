@@ -4,6 +4,11 @@ module DaemonKit
 
       def update_gemfile
         append_file 'Gemfile', "group :development, :test do\n  gem 'rspec'\nend\n"
+        append_file 'Gemfile', <<-GEM
+group :development, :test do
+  gem 'rspec'
+end
+GEM
       end
 
       def create_specs
