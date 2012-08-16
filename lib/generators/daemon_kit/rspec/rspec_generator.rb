@@ -6,6 +6,7 @@ module DaemonKit
         append_file 'Gemfile', "group :development, :test do\n  gem 'rspec'\nend\n"
         append_file 'Gemfile', <<-GEM
 group :development, :test do
+  gem 'rake'
   gem 'rspec'
 end
 GEM
