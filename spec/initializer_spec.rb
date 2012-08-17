@@ -18,6 +18,10 @@ describe DaemonKit::Configuration do
     @configuration.log_level.should_not be_nil
   end
 
+  it "should have a default pid file" do
+    @configuration.pid_file.should_not be_nil
+  end
+
   it "should set a default umask" do
     File.umask.should_not eq(0)
     File.umask.should eq(18)

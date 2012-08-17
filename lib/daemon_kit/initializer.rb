@@ -245,7 +245,7 @@ module DaemonKit
     attr_accessor :instance
 
     # Path to the pid file, defaults to 'log/<daemon_name>.pid'
-    attr_accessor :pid_file
+    attr_writer :pid_file
 
     # The application name
     configurable :daemon_name, :locked => true
@@ -325,7 +325,7 @@ module DaemonKit
       @shutdown_hooks << ( proc || block )
     end
 
-    def pid_file( instance )
+    def pid_file( instance = nil )
       @pid_file ||= "#{File.dirname(self.log_path)}/#{self.daemon_name}.#{instance}.pid"
     end
 
