@@ -34,6 +34,13 @@ vendor/
 tmp/
   Scratch folder
 
+Rake Tasks
+==========
+
+Note that the Rakefile does not load the `config/environments.rb` file, so if you have
+environment-specific tasks (such as tests), you will need to call rake with the environment:
+
+    DAEMON_ENV=staging bundle exec rake -T
 
 Logging
 =======
