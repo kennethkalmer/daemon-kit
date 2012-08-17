@@ -65,13 +65,13 @@ module DaemonKit
 
         i = 0
         while i < argv.size
-          if argv[i] == "--config"
+          if argv[i] == "-c" || argv[i] == "--config"
             argv.delete_at( i )
             configs << argv.delete_at(i)
             next
           end
 
-          if argv[i] == "-e" || argv[i] == "--env"
+          if argv[i] == "-e" || argv[i] == "--env" || argv[i] == "--environment"
             argv.delete_at( i )
             configs << "environment=#{argv.delete_at(i)}"
             next
@@ -83,13 +83,13 @@ module DaemonKit
             next
           end
 
-          if argv[i] == "--instance"
+          if argv[i] == "-i" || argv[i] == "--instance"
             argv.delete_at( i )
             configs << "instance=#{argv.delete_at(i)}"
             next
           end
 
-          if argv[i] == "--pidfile" || argv[i] == "--pid"
+          if argv[i] == "-p" || argv[i] == "--pidfile" || argv[i] == "--pid"
             argv.delete_at( i )
             configs << "pid_file=#{argv.delete_at(i)}"
             next
@@ -129,27 +129,27 @@ module DaemonKit
         arg_file = File.join( DaemonKit.root, 'config', 'arguments.rb' )
         eval(IO.read(arg_file), binding, arg_file) if File.exists?( arg_file )
 
-        opts.on("-e", "--env ENVIRONMENT", "Environment for the process", "Defaults to development") do
+        opts.on("-e", "--env", "--environment ENV", "Environment for the process", "  Default: development") do
           # Nothing, just here for show
         end
 
-        opts.on("--instance N", "Process instance number", "Defaults to 1") do
+        opts.on("-i", "--instance N", "Process instance number", "  Default: 1") do
           # Nothing, just here for show
         end
 
-        opts.on("--pidfile PATH", "Path to the pidfile", "Defaults to log/#{DaemonKit.configuration.daemon_name}.N.pid") do
+        opts.on("-p", "--pid", "--pidfile PATH", "Path to the pidfile", "  Default: log/#{DaemonKit.configuration.daemon_name}.N.pid") do
           # Nothing, just here for show
         end
 
-        opts.on("-l", "--log /path/to/logfile", "Path to the log file", "Defaults to log/[environment].log") do
+        opts.on("-l", "--log PATH", "Path to the log file", "  Default: log/[environment].log") do
           # Nothing, just here for show
         end
 
         opts.separator ""
         opts.separator "Advanced configurations:"
-        opts.on("--config ATTRIBUTE=VALUE",
+        opts.on("-c", "--config ATTRIBUTE=VALUE",
                 "Change values of the daemon-kit Configuration instance",
-                "Example: log_dir=/path/to/log-directory") do
+                "  Example: log_dir=/path/to/log-directory") do
           # Nothing, just here for show
         end
 
