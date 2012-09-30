@@ -15,6 +15,7 @@ Supported generators:
 
 * XMPP bot (evented)
 * AMQP consumer (evented)
+* SQS consumer
 * Nanite agent
 * Cron-style daemon
 * ruote remote participants
