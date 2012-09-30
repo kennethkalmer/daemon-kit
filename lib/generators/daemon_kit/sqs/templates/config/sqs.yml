@@ -1,0 +1,20 @@
+# SQS client configuration file
+
+# Variables in this file are passed directly into AWS::SQS.new.
+# Please refer to the aws-sdk configuration for the most up-to-date
+# list of options. If your credentials are available as environment
+# variables or you're on an EC2 instance configured with an IAM role,
+# you can simply delete the access/secret keys.
+
+defaults: &defaults
+  access_key_id: your-access-key
+  secret_access_key: your-secret-key
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
