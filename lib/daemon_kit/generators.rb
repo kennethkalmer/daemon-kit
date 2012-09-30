@@ -5,6 +5,7 @@ module DaemonKit
     autoload :AppGenerator,         'generators/daemon_kit/app/app_generator'
     autoload :CucumberGenerator,    'generators/daemon_kit/cucumber/cucumber_generator'
     autoload :AmqpGenerator,        'generators/daemon_kit/amqp/amqp_generator'
+    autoload :SqsGenerator,         'generators/daemon_kit/sqs/sqs_generator'
     autoload :CronGenerator,        'generators/daemon_kit/cron/cron_generator'
     autoload :CapistranoGenerator,  'generators/daemon_kit/capistrano/capistrano_generator'
     autoload :NaniteAgentGenerator, 'generators/daemon_kit/nanite_agent/nanite_agent_generator'

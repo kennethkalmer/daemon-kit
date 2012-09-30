@@ -16,6 +16,8 @@ module DaemonKit
   # Any of the keys can be called as methods as well.
   class Config
 
+    require "yaml"
+    
     class << self
 
       # Load the +config+.yml file from DAEMON_ROOT/config

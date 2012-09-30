@@ -1,10 +1,17 @@
-== 0.1.9 (WIP)
+== 0.2.0 2012-09-30
 
 * Depend on the 'safely' gem for the safely method and logging backtraces
 * Fixed compatibility with ruote-amqp 2.2.0
-* AMQP fixes by @marcbowes
+* AMQP fixes by @marcbowes (version, reconnect)
 * Updated to rspec 2 (various contributors)
-* Up to AMQP gem 0.7.1 or later
+* Various documentation fixes by @ktrix
+* Remove vendored Thor
+* Various load/require fixes by @ktrix
+* SQS generator by @marcbowes
+
+== 0.1.8.2 2011-05-18
+
+* Convert to use Bundler
 
 == 0.1.18.1 2010-08-04
 
