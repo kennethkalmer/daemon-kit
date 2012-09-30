@@ -26,11 +26,11 @@ end
 # this configuration.
 
 # Run an event-loop for processing
-DaemonKit::SQS.run do |client|
-  # Inside this block you have access to an AWS::SQS client
+DaemonKit::SQS.run do |sqs|
+  # Inside this block you have access to an AWS::SQS
 
-  queue = client.queues['test']
-  queue.subscribe do |msg|
+  queue = sqs.queues[sqs.queues.url_for('test')]
+  queue.poll do |msg|
     # msg may be nil if long-polling is disabled or the poll expires -
     # in either case, this is an indication that the queue is (almost)
     # empty

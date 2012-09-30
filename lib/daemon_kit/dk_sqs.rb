@@ -25,11 +25,11 @@ module DaemonKit
     end
 
     def run(config = {}, &block)
-      sqs_config = @config.extend_hash(config)
+      sqs_config = @config.merge(config)
       DaemonKit.logger.debug("AWS::SQS.new(#{sqs_config.inspect})")
-      client = ::AWS::SQS.new(sqs_config)
-      DaemonKit.logger.debug("# => #{client.inspect}")
-      block.call(client)
+      sqs = ::AWS::SQS.new(sqs_config)
+      DaemonKit.logger.debug("# => #{sqs.client.inspect}")
+      block.call(sqs)
     end
   end
 end
