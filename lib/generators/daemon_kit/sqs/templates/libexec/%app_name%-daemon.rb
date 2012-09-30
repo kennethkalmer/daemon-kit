@@ -21,9 +21,9 @@ end
 # At the time of writing, the (aws-sdk) gem will attempt to use
 # environment variables or the EC2 metadata service to auto-configure
 # itself. If this is not the case, you can pass configuration options
-# into DaemonKit::SQS which will be passed on to the underlying
-# AWS::SQS client. If a 'config/sqs.yml' file is present, we will use
-# it to configure the gem accordingly.
+# into DaemonKit::SQS.run which will be passed on to the underlying
+# AWS::SQS client. By default, we use the 'config/sqs.yml' file to do
+# this configuration.
 
 # Run an event-loop for processing
 DaemonKit::SQS.run do |client|
