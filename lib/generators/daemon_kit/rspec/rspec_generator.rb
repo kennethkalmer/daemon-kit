@@ -3,13 +3,9 @@ module DaemonKit
     class SpecGenerator < Base
 
       def update_gemfile
-        append_file 'Gemfile', "group :development, :test do\n  gem 'rspec'\nend\n"
-        append_file 'Gemfile', <<-GEM
-group :development, :test do
-  gem 'rake'
-  gem 'rspec'
-end
-GEM
+        append_file 'Gemfile' do
+          %Q{group :development, :test do\n  gem 'rake'\n  gem 'rspec' \nend}
+        end
       end
 
       def create_specs
