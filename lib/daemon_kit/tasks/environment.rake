@@ -1,7 +1,7 @@
 task :environment do
   $daemon_kit_rake_task = true
 
-  require 'config/environment'
+  require './config/environment'
   DaemonKit::Application.running!
 end
 
