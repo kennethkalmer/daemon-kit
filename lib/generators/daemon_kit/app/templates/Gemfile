@@ -6,7 +6,7 @@
 #
 # For more information on bundler, please visit http://gembundler.com
 
-source :gemcutter
+source 'https://rubygems.org'
 
 # daemon-kit
 gem 'daemon-kit'
