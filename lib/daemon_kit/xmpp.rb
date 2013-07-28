@@ -34,7 +34,9 @@ module DaemonKit
         @config.jabber_id
       end
 
-      setup jid, @config.password
+      # host & port allow nil, defaults to the jabber id host and default port
+      # so if those keys are not present in the config, its ok.
+      setup jid, @config.password, @config.host, @config.port
 
       when_ready do
         configure_roster!
