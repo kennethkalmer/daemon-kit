@@ -23,6 +23,7 @@ $ daemon-kit -h
   gem.name          = "daemon-kit"
   gem.require_paths = ["lib"]
   gem.version       = DaemonKit.version
+  gem.license = 'MIT'
 
   gem.extra_rdoc_files = [
                           "Configuration.txt",
