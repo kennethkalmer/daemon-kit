@@ -30,14 +30,14 @@ $ daemon-kit -h
                           "Deployment.txt",
                           "History.txt",
                           "Logging.txt",
-                          "README.rdoc",
+                          "README.md",
                           "RuoteParticipants.txt",
                           "TODO.txt",
                          ]
 
   gem.add_dependency(%q<thor>)
   gem.add_development_dependency(%q<bundler>)
-  gem.add_development_dependency(%q<rake>)  
+  gem.add_development_dependency(%q<rake>)
   gem.add_development_dependency(%q<rdoc>)
   gem.add_development_dependency(%q<rspec>, ["~> 2.6"])
   gem.add_development_dependency(%q<cucumber>, ["~> 0.10.0"])

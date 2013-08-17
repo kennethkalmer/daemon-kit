@@ -1,11 +1,14 @@
-= Daemon Kit
+# Daemon Kit
+
+[![Code Climate](https://codeclimate.com/github/kennethkalmer/daemon-kit.png)](https://codeclimate.com/github/kennethkalmer/daemon-kit)
+[![Gem Version](https://badge.fury.io/rb/daemon-kit.png)](http://badge.fury.io/rb/daemon-kit)
 
 * https://github.com/kennethkalmer/daemon-kit/wiki
 * http://rdoc.info/github/kennethkalmer/daemon-kit
 * http://groups.google.com/group/daemon-kit (daemon-kit@googlegroups.com)
-* #daemon-kit on Freenode
+* \#daemon-kit on Freenode
 
-== Description
+## Description
 
 Daemon Kit aims to simplify creating Ruby daemons by providing a sound application skeleton (through a generator), task specific generators (jabber bot, etc) and robust environment management code.
 
@@ -20,86 +23,96 @@ Supported generators:
 * Cron-style daemon
 * ruote remote participants
 
-== Features/Problems
+## Features/Problems
 
 * Build it
 * Review TODO.txt
 
-== Synopsis
+## Synopsis
 
+```
   $ daemon-kit -h
+```
 
 Get some help
 
+```
   $ daemon-kit [/path/to/your/daemon] [options]
+```
 
 The above command generates a skeleton daemon environment for you to adapt.
 
+```
   $ daemon-kit [/path/to/your/daemon] -i xmpp
+```
 
 Use the 'xmpp' generator instead of the default one.
 
-== Generators
+## Generators
 
 Currently six generators exist: default, xmpp, amqp, cron, nanite & ruote
 
 The default generator creates a simple daemon with an infinite loop inside that you can adapt.
 
-=== XMPP Generator
+### XMPP Generator
 
-The jabber generator creates a simple daemon that leverages the blather[http://blather.squishtech.com/] gem to process inbound messages. The daemon will manage the roster and other little tasks, leaving you to provide the hooks for processing messages, presence notifications and subscription request.
+The jabber generator creates a simple daemon that leverages the [blather](http://blather.squishtech.com/) gem to process inbound messages. The daemon will manage the roster and other little tasks, leaving you to provide the hooks for processing messages, presence notifications and subscription request.
 
-=== Cron Generator
+### Cron Generator
 
-The cron generator creates a simple daemon that leverages the rufus-scheduler[http://github.com/jmettraux/rufus-scheduler] gem to create a simple cron-lie daemon. Please be aware that this daemon could never be a replacement for the battle-tested cron[http://www.gentoo.org/doc/en/cron-guide.xml] utility shipped standard with most *nix distributions.
+The cron generator creates a simple daemon that leverages the [rufus-scheduler](http://github.com/jmettraux/rufus-scheduler) gem to create a simple cron-lie daemon. Please be aware that this daemon could never be a replacement for the battle-tested cron[http://www.gentoo.org/doc/en/cron-guide.xml] utility shipped standard with most *nix distributions.
 
-=== AMQP Consumer Generator
+### AMQP Consumer Generator
 
-The AMQP generator creates a simple daemon that has all the stub code and configuration in place to help you write AMQP consumers quickly and effectively. The generated daemon relies on the presence of the amqp[http://github.com/ruby-amqp/amqp] gem.
+The AMQP generator creates a simple daemon that has all the stub code and configuration in place to help you write AMQP consumers quickly and effectively. The generated daemon relies on the presence of the [amqp](http://github.com/ruby-amqp/amqp) gem.
 
-=== Nanite Agent Generator
+### Nanite Agent Generator
 
-The nanite[http://github.com/ezmobius/nanite] agent generator gets you up and running with nanite agents very quickly.
+The [nanite](http://github.com/ezmobius/nanite) agent generator gets you up and running with nanite agents very quickly.
 
-=== ruote Remote Participants
+### ruote Remote Participants
 
-The ruote[http://openwfe.rubyforge.org] remote participant generator speeds up the development of workflow participants that run outside of the Ruby process that houses the engine. Daemon-kit handles all the communication and delegation logic, allowing you to focus purely on your participant's activities.
+The [ruote](http://openwfe.rubyforge.org) remote participant generator speeds up the development of workflow participants that run outside of the Ruby process that houses the engine. Daemon-kit handles all the communication and delegation logic, allowing you to focus purely on your participant's activities.
 
-== Requirements
+## Requirements
 
 * Ruby 1.8.7 or later (developed on REE/1.9.1)
-* eventmachine-0.12.10[http://rubyeventmachine.com]
+* [eventmachine-0.12.10](http://rubyeventmachine.com)
 * rspec (for writing/running your specs)
 
-== Generator Requirements
+## Generator Requirements
 
 Depending on the generator you choose for your daemon, it might require additional gems to run.
 
-* xmpp - blather[http://blather.squishtech.com/]
-* cron - rufus-scheduler[http://github.com/jmettraux/rufus-scheduler] (at least version 2.0.0)
-* amqp - amqp[http://github.com/tmm1/amqp]
-* nanite - nanite[http://github.com/ezmobius/nanite]
-* ruote - none, although ruote[http://openwfe.rubyforge.org] should probably be running somewhere
+* xmpp - [blather](http://blather.squishtech.com/)
+* cron - [rufus-scheduler](http://github.com/jmettraux/rufus-scheduler) (at least version 2.0.0)
+* amqp - [amqp](http://github.com/tmm1/amqp)
+* nanite - [nanite](http://github.com/ezmobius/nanite)
+* ruote - none, although [ruote](http://openwfe.rubyforge.org) should probably be running somewhere
 
-The generators are all written using Thor[http://rdoc.info/rdoc/wycats/thor], which is bundled with daemon-kit and not needed for running any of the generators.
+The generators are all written using [Thor](http://rdoc.info/rdoc/wycats/thor), which is bundled with daemon-kit and not needed for running any of the generators.
 
-== Install
+## Install
 
 Currently recommended to stick to the git repo:
 
+```
   $ git clone git://github.com/kennethkalmer/daemon-kit.git
   $ rake build
   $ gem install pkg/daemon-kit-X.X.X.gem
+```
 
-Stable versions, when released are available directly from Gemcutter:
+Stable versions, when released are available directly from Rubygems:
 
+```
   $ gem install daemon-kit
+```
 
-== Upgrading
+## Upgrading
 
 When upgrading daemons generated from earlier versions of daemon-kit, it is easier in most cases to re-generate the daemon. Since 0.1.8 the generators use Thor, which allows you to review a diff of each file before deciding to overwrite it.
 
-== Further reading
+## Further reading
 
 * Configuration.txt
 * Deployment.txt
@@ -107,7 +120,7 @@ When upgrading daemons generated from earlier versions of daemon-kit, it is easi
 * RuoteParticipants.txt
 * http://www.opensourcery.co.za/tag/daemon-kit/
 
-== License
+## License
 
 (The MIT License)
 
