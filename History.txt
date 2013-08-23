@@ -1,3 +1,7 @@
+== 0.3.0 (In progress)
+
+* Removed nanite support, nanite hasn't released in years.
+
 == 0.2.0 2012-09-30
 
 * Depend on the 'safely' gem for the safely method and logging backtraces

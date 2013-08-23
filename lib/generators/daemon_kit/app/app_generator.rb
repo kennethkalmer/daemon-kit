@@ -1,7 +1,7 @@
 module DaemonKit
   module Generators
     class AppGenerator < Base
-      INSTALLERS = %w( default amqp sqs cron nanite_agent ruote xmpp )
+      INSTALLERS = %w( default amqp sqs cron ruote xmpp )
       DEPLOYERS  = %w( capistrano )
       TEST_FRAMEWORKS = %w( none rspec test_unit )
       add_shebang_option!
@@ -97,8 +97,6 @@ module DaemonKit
           invoke DaemonKit::Generators::SqsGenerator
         when 'cron'
           invoke DaemonKit::Generators::CronGenerator
-        when 'nanite_agent'
-          invoke DaemonKit::Generators::NaniteAgentGenerator
         when 'ruote'
           invoke DaemonKit::Generators::RuoteGenerator
         when 'xmpp'
