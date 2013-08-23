@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    daemon-kit (0.2.3)
+    daemon-kit (0.3.0.dev)
       eventmachine (>= 0.12.10)
       i18n
       rubigen
