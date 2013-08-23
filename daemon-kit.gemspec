@@ -45,6 +45,5 @@ $ daemon-kit -h
   gem.add_development_dependency(%q<SyslogLogger>)
   gem.add_runtime_dependency(%q<eventmachine>, [">= 0.12.10"])
   gem.add_runtime_dependency(%q<safely>, [">= 0.3.1"])
-  gem.add_runtime_dependency(%q<rubigen>)
   gem.add_runtime_dependency(%q<i18n>)
 end
