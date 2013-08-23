@@ -20,7 +20,7 @@ Supported generators:
 * XMPP bot (evented)
 * AMQP consumer (evented)
 * SQS consumer
-* Nanite agent
+* Nanite agent (requires < 0.3)
 * Cron-style daemon
 * ruote remote participants
 
@@ -51,7 +51,7 @@ Use the 'xmpp' generator instead of the default one.
 
 ## Generators
 
-Currently six generators exist: default, xmpp, amqp, cron, nanite & ruote
+Currently five generators exist: default, xmpp, amqp, cron, ruote. Prior to version 0.3 there was a nanite generator too.
 
 The default generator creates a simple daemon with an infinite loop inside that you can adapt.
 
@@ -66,10 +66,6 @@ The cron generator creates a simple daemon that leverages the [rufus-scheduler](
 ### AMQP Consumer Generator
 
 The AMQP generator creates a simple daemon that has all the stub code and configuration in place to help you write AMQP consumers quickly and effectively. The generated daemon relies on the presence of the [amqp](http://github.com/ruby-amqp/amqp) gem.
-
-### Nanite Agent Generator
-
-The [nanite](http://github.com/ezmobius/nanite) agent generator gets you up and running with nanite agents very quickly.
 
 ### ruote Remote Participants
 
@@ -88,7 +84,6 @@ Depending on the generator you choose for your daemon, it might require addition
 * xmpp - [blather](http://blather.squishtech.com/)
 * cron - [rufus-scheduler](http://github.com/jmettraux/rufus-scheduler) (at least version 2.0.0)
 * amqp - [amqp](http://github.com/tmm1/amqp)
-* nanite - [nanite](http://github.com/ezmobius/nanite)
 * ruote - none, although [ruote](http://openwfe.rubyforge.org) should probably be running somewhere
 
 The generators are all written using [Thor](http://rdoc.info/rdoc/wycats/thor), which is bundled with daemon-kit and not needed for running any of the generators.
