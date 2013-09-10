@@ -40,7 +40,6 @@ $ daemon-kit -h
   gem.add_development_dependency(%q<rdoc>)
   gem.add_development_dependency(%q<rspec>, ["~> 2.6"])
   gem.add_development_dependency(%q<cucumber>, ["~> 0.10.0"])
-  gem.add_development_dependency(%q<mocha>, ["~> 0.9.12"])
   gem.add_development_dependency(%q<SyslogLogger>)
   gem.add_development_dependency(%q<genspec>, ["~> 0.2.8"])
 

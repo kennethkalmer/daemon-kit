@@ -25,7 +25,7 @@ describe DaemonKit::AbstractLogger do
   it "should be able to log to STDOUT as well" do
     @logger.copy_to_stdout = true
 
-    STDOUT.expects(:puts).with(regexp_matches(/test/))
+    STDOUT.should_receive(:puts).with(/test/)
 
     @logger.debug "test"
     IO.readlines( @log_file ).last.should match(/test/)
