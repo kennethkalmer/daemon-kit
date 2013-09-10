@@ -3,7 +3,7 @@ module DaemonKit
     class SqsGenerator < Base
 
       def update_gemfile
-        append_file 'Gemfile', "gem 'aws-sdk'\n"
+        append_file 'Gemfile', "\ngem 'aws-sdk'\n"
       end
 
       def create_config_files
