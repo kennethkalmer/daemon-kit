@@ -35,14 +35,15 @@ $ daemon-kit -h
                           "TODO.txt",
                          ]
 
-  gem.add_dependency(%q<thor>)
   gem.add_development_dependency(%q<bundler>)
   gem.add_development_dependency(%q<rake>)
   gem.add_development_dependency(%q<rdoc>)
   gem.add_development_dependency(%q<rspec>, ["~> 2.6"])
   gem.add_development_dependency(%q<cucumber>, ["~> 0.10.0"])
-  gem.add_development_dependency(%q<mocha>, ["~> 0.9.12"])
   gem.add_development_dependency(%q<SyslogLogger>)
+  gem.add_development_dependency(%q<genspec>, ["~> 0.2.8"])
+
+  gem.add_dependency(%q<thor>)
   gem.add_runtime_dependency(%q<eventmachine>, [">= 0.12.10"])
   gem.add_runtime_dependency(%q<safely>, [">= 0.3.1"])
   gem.add_runtime_dependency(%q<i18n>)

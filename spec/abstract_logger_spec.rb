@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/spec_helper'
+require 'spec_helper'
 
 describe DaemonKit::AbstractLogger do
 
@@ -25,7 +25,7 @@ describe DaemonKit::AbstractLogger do
   it "should be able to log to STDOUT as well" do
     @logger.copy_to_stdout = true
 
-    STDOUT.expects(:puts).with(regexp_matches(/test/))
+    STDOUT.should_receive(:puts).with(/test/)
 
     @logger.debug "test"
     IO.readlines( @log_file ).last.should match(/test/)
@@ -67,7 +67,7 @@ describe DaemonKit::AbstractLogger do
     IO.readlines( @log_file ).last.should match(/\[ANY\].*Unknown test/)
   end
 
-  it "should log the caller file and line number" do
+  pending "should log the caller file and line number" do
     f = File.basename(__FILE__)
     l = __LINE__ + 2
 
