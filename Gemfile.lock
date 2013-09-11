@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    daemon-kit (0.3.0.dev)
+    daemon-kit (0.3.0.rc1)
       eventmachine (>= 0.12.10)
       i18n
       safely (>= 0.3.1)
