@@ -4,7 +4,7 @@ require 'stringio'
 require 'rspec'
 
 DAEMON_ENV  = "test"
-DAEMON_ROOT = "#{File.dirname(__FILE__)}/../tmp"
+DAEMON_ROOT = File.expand_path('../../tmp/daemon', __FILE__)
 
 $:.unshift( File.dirname(__FILE__) + '/../lib' )
 require 'daemon_kit'
@@ -22,4 +22,13 @@ RSpec.configure do |config|
   # config.mock_with :mocha
   # config.mock_with :flexmock
   # config.mock_with :rr
+
+  config.before(:all) do
+    FileUtils.rm_rf("#{DAEMON_ROOT}/*")
+    FileUtils.mkdir_p( DAEMON_ROOT )
+  end
+
+  config.after(:all) do
+    FileUtils.rm_rf("#{DAEMON_ROOT}/*")
+  end
 end
