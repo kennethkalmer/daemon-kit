@@ -12,6 +12,10 @@ if %w(-v --version).include? ARGV.first
   exit(0)
 end
 
+if ARGV.empty?
+  ARGV.push '--help'
+end
+
 require 'daemon_kit/generators'
 require 'generators/daemon_kit/app/app_generator'
 
