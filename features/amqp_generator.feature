@@ -7,6 +7,10 @@ Feature: AMQP generator provides some additional infrastructure
       | config/amqp.yml |
       | config/pre-daemonize/amqp.rb |
       | libexec/vuvuzela-daemon.rb |
+    And the file "Gemfile" should contain:
+    """
+    gem 'amqp'
+    """
 
   Scenario: Using AMQP generator on an existing daemon
     Given I have an existing daemon called "vuvuzela"
@@ -17,3 +21,7 @@ Feature: AMQP generator provides some additional infrastructure
       | config/amqp.yml |
       | config/pre-daemonize/amqp.rb |
       | libexec/vuvuzela-daemon.rb |
+    And the file "Gemfile" should contain:
+    """
+    gem 'amqp'
+    """

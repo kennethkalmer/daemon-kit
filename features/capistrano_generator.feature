@@ -8,6 +8,11 @@ Feature: Capistrano generator provides some additional infrastructure
       | config/deploy.rb |
       | config/deploy/staging.rb |
       | config/deploy/production.rb |
+    And the file "Gemfile" should contain:
+    """
+    gem 'capistrano'
+    gem 'capistrano-ext'
+    """
 
   Scenario: Using AMQP generator on an existing daemon
     Given I have an existing daemon called "vuvuzela"
@@ -18,3 +23,8 @@ Feature: Capistrano generator provides some additional infrastructure
       | config/deploy.rb |
       | config/deploy/staging.rb |
       | config/deploy/production.rb |
+    And the file "Gemfile" should contain:
+    """
+    gem 'capistrano'
+    gem 'capistrano-ext'
+    """
