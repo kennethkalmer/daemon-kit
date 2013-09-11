@@ -39,9 +39,9 @@ $ daemon-kit -h
   gem.add_development_dependency(%q<rake>)
   gem.add_development_dependency(%q<rdoc>)
   gem.add_development_dependency(%q<rspec>, ["~> 2.6"])
-  gem.add_development_dependency(%q<cucumber>, ["~> 0.10.0"])
+  gem.add_development_dependency(%q<cucumber>, ["~> 1.3.8"])
+  gem.add_development_dependency(%q<aruba>, ["~> 0.5.3"])
   gem.add_development_dependency(%q<SyslogLogger>)
-  gem.add_development_dependency(%q<genspec>, ["~> 0.2.8"])
 
   gem.add_dependency(%q<thor>)
   gem.add_runtime_dependency(%q<eventmachine>, [">= 0.12.10"])

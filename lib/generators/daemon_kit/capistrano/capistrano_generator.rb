@@ -4,7 +4,7 @@ module DaemonKit
 
       def update_gemfile
         append_file 'Gemfile', "\ngem 'capistrano'\n"
-        append_file 'Gemfile', "\ngem 'capistrano-ext'\n"
+        append_file 'Gemfile', "gem 'capistrano-ext'\n"
       end
 
       def create_capfile
