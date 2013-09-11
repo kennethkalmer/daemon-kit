@@ -2,8 +2,16 @@ Feature: Generating a new daemon
 
   daemon-kit offers an application generator to get you started.
 
-  Scenario: Generator offers help
+  Scenario: Generator offers help when no arguments are provided
     When I run `daemon-kit`
+    Then the output should contain:
+    """
+    Usage:
+      daemon-kit app APP_PATH
+      """
+
+  Scenario: Generator offers help when asked
+    When I run `daemon-kit --help`
     Then the output should contain:
     """
     Usage:
@@ -12,25 +20,26 @@ Feature: Generating a new daemon
 
   Scenario: Generating a default daemon
     When I run `daemon-kit vuvuzela`
+    And I cd to "vuvuzela"
     Then the following files should exist:
-      | vuvuzela/README |
-      | vuvuzela/Rakefile |
-      | vuvuzela/bin/vuvuzela |
-      | vuvuzela/config/arguments.rb |
-      | vuvuzela/config/boot.rb |
-      | vuvuzela/config/environments/development.rb |
-      | vuvuzela/config/environments/test.rb |
-      | vuvuzela/config/environments/production.rb |
-      | vuvuzela/config/pre-daemonize/readme |
-      | vuvuzela/config/post-daemonize/readme |
-      | vuvuzela/lib/vuvuzela.rb |
-      | vuvuzela/libexec/vuvuzela-daemon.rb |
-      | vuvuzela/script/console |
-      | vuvuzela/script/destroy |
-      | vuvuzela/script/generate |
-      | vuvuzela/spec/spec_helper.rb |
+      | README |
+      | Rakefile |
+      | bin/vuvuzela |
+      | config/arguments.rb |
+      | config/boot.rb |
+      | config/environments/development.rb |
+      | config/environments/test.rb |
+      | config/environments/production.rb |
+      | config/pre-daemonize/readme |
+      | config/post-daemonize/readme |
+      | lib/vuvuzela.rb |
+      | libexec/vuvuzela-daemon.rb |
+      | script/console |
+      | script/destroy |
+      | script/generate |
+      | spec/spec_helper.rb |
     And the following directories should exist:
-      | vuvuzela/log |
-      | vuvuzela/tasks |
-      | vuvuzela/vendor |
-      | vuvuzela/tmp |
+      | log |
+      | tasks |
+      | vendor |
+      | tmp |
