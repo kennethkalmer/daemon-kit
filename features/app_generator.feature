@@ -22,6 +22,7 @@ Feature: Generating a new daemon
     When I run `daemon-kit vuvuzela`
     And I cd to "vuvuzela"
     Then the following files should exist:
+      | Gemfile |
       | README |
       | Rakefile |
       | bin/vuvuzela |
