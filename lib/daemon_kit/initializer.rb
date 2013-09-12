@@ -8,8 +8,6 @@ $LOAD_PATH.unshift( File.expand_path('../', __FILE__).to_absolute_path ) unless
   $LOAD_PATH.include?( File.expand_path('../', __FILE__).to_absolute_path )
 
 require 'daemon_kit'
-require 'safely'
-
 module DaemonKit
 
   class << self
@@ -206,10 +204,17 @@ module DaemonKit
     def configure_safely
       Thread.abort_on_exception = true
 
-      Safely::Strategy::Log.logger = DaemonKit.logger
+      if defined? Safely
+        DaemonKit.logger.info "Configuring safely for exception handling"
+        Safely::Strategy::Log.logger = DaemonKit.logger
 
-      Safely::Backtrace.trace_directory = File.join( DAEMON_ROOT, "log" )
-      Safely::Backtrace.enable!
+        Safely::Backtrace.trace_directory = File.join( DAEMON_ROOT, "log" )
+        Safely::Backtrace.enable!
+
+      else
+        DaemonKit.logger.info "Safely not available, remember to implement good exception handling"
+
+      end
     end
 
     def set_process_name

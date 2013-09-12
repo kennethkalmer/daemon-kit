@@ -105,7 +105,8 @@ module DaemonKit
 
           cmdq = mq.queue( q, :durable => true )
           cmdq.subscribe( :ack => true ) do |header, message|
-            safely do
+
+            receiver = lambda do |header, message|
               DaemonKit.logger.debug("Received workitem: #{message.inspect}")
 
               RuoteWorkitem.process( :amqp, @amqp_reply_queue, message )
@@ -114,6 +115,15 @@ module DaemonKit
 
               header.ack
             end
+
+            if defined? Safely
+              safely { receiver.call( header, message ) }
+
+            else
+              receiver.call( header, message )
+
+            end
+
           end
         end
       end
