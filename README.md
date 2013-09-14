@@ -3,6 +3,7 @@
 [![Code Climate](https://codeclimate.com/github/kennethkalmer/daemon-kit.png)](https://codeclimate.com/github/kennethkalmer/daemon-kit)
 [![Gem Version](https://badge.fury.io/rb/daemon-kit.png)](http://badge.fury.io/rb/daemon-kit)
 [![Build Status](https://travis-ci.org/kennethkalmer/daemon-kit.png)](https://travis-ci.org/kennethkalmer/daemon-kit)
+[![Coverage Status](https://coveralls.io/repos/kennethkalmer/daemon-kit/badge.png)](https://coveralls.io/r/kennethkalmer/daemon-kit)
 
 * https://github.com/kennethkalmer/daemon-kit/wiki
 * http://rdoc.info/github/kennethkalmer/daemon-kit
