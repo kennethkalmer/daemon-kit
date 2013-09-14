@@ -80,6 +80,10 @@ module DaemonKit
       exit if do_exit
     end
 
+    def self.safely_available?
+      defined? Safely
+    end
+
     def initialize( configuration )
       @configuration = configuration
     end
@@ -204,11 +208,7 @@ module DaemonKit
     def configure_exception_handling
       Thread.abort_on_exception = true
 
-      configure_safely if safely_available?
-    end
-
-    def safely_available?
-      defined? Safely
+      configure_safely if self.class.safely_available?
     end
 
     def configure_safely

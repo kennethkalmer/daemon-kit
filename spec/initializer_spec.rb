@@ -16,14 +16,14 @@ describe DaemonKit::Initializer do
     end
 
     it "should not configure safely if the gem isn't available" do
-      subject.stub(:safely_available?).and_return( false )
+      DaemonKit::Initializer.stub(:safely_available?).and_return( false )
       subject.should_not_receive( :configure_safely )
 
       subject.configure_exception_handling
     end
 
     it "should configure safely if the gem is available" do
-      subject.stub(:safely_available?).and_return( true )
+      DaemonKit::Initializer.stub(:safely_available?).and_return( true )
       subject.should_receive( :configure_safely )
 
       subject.configure_exception_handling
