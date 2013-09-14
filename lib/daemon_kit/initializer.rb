@@ -8,8 +8,6 @@ $LOAD_PATH.unshift( File.expand_path('../', __FILE__).to_absolute_path ) unless
   $LOAD_PATH.include?( File.expand_path('../', __FILE__).to_absolute_path )
 
 require 'daemon_kit'
-require 'safely'
-
 module DaemonKit
 
   class << self
@@ -75,11 +73,17 @@ module DaemonKit
         end
       end
 
-      Safely::Backtrace.safe_shutdown! if DaemonKit.configuration.backtraces && clean
+      if safely_available?
+        Safely::Backtrace.safe_shutdown! if DaemonKit.configuration.backtraces && clean
+      end
 
       DaemonKit.logger.warn "Shutting down #{DaemonKit.configuration.daemon_name}"
 
       exit if do_exit
+    end
+
+    def self.safely_available?
+      defined? Safely
     end
 
     def initialize( configuration )
@@ -104,7 +108,7 @@ module DaemonKit
 
       include_core_lib
       load_postdaemonize_configs
-      configure_safely
+      configure_exception_handling
 
       set_process_name
 
@@ -203,9 +207,14 @@ module DaemonKit
       end
     end
 
-    def configure_safely
+    def configure_exception_handling
       Thread.abort_on_exception = true
 
+      configure_safely if self.class.safely_available?
+    end
+
+    def configure_safely
+      DaemonKit.logger.info "Configuring safely for exception handling"
       Safely::Strategy::Log.logger = DaemonKit.logger
 
       Safely::Backtrace.trace_directory = File.join( DAEMON_ROOT, "log" )
