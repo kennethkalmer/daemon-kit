@@ -1,3 +1,9 @@
+begin
+  require 'coveralls'
+  Coveralls.wear_merged!
+rescue LoadError
+end
+
 require 'fileutils'
 require 'stringio'
 

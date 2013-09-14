@@ -13,3 +13,5 @@ matrix:
     - rvm: 1.8.7
     - rvm: ree
 before_install: umask 0022
+gemfile:
+  - gemfiles/Gemfile.ci

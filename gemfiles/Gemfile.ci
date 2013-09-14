@@ -1,0 +1,8 @@
+source 'https://rubygems.org'
+
+# Specify your gem's dependencies in daemon-kit.gemspec
+gemspec path: '../'
+
+group :development do
+  gem 'coveralls', require: false
+end
