@@ -73,7 +73,9 @@ module DaemonKit
         end
       end
 
-      Safely::Backtrace.safe_shutdown! if DaemonKit.configuration.backtraces && clean
+      if safely_available?
+        Safely::Backtrace.safe_shutdown! if DaemonKit.configuration.backtraces && clean
+      end
 
       DaemonKit.logger.warn "Shutting down #{DaemonKit.configuration.daemon_name}"
 

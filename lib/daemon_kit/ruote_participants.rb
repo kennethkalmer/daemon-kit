@@ -116,7 +116,7 @@ module DaemonKit
               header.ack
             end
 
-            if defined? Safely
+            if DaemonKit::Initializer.safely_available?
               safely { receiver.call( header, message ) }
 
             else
