@@ -102,7 +102,7 @@ module DaemonKit
 
       include_core_lib
       load_postdaemonize_configs
-      configure_safely
+      configure_exception_handling
 
       set_process_name
 
@@ -201,20 +201,22 @@ module DaemonKit
       end
     end
 
-    def configure_safely
+    def configure_exception_handling
       Thread.abort_on_exception = true
 
-      if defined? Safely
-        DaemonKit.logger.info "Configuring safely for exception handling"
-        Safely::Strategy::Log.logger = DaemonKit.logger
+      configure_safely if safely_available?
+    end
 
-        Safely::Backtrace.trace_directory = File.join( DAEMON_ROOT, "log" )
-        Safely::Backtrace.enable!
+    def safely_available?
+      defined? Safely
+    end
 
-      else
-        DaemonKit.logger.info "Safely not available, remember to implement good exception handling"
+    def configure_safely
+      DaemonKit.logger.info "Configuring safely for exception handling"
+      Safely::Strategy::Log.logger = DaemonKit.logger
 
-      end
+      Safely::Backtrace.trace_directory = File.join( DAEMON_ROOT, "log" )
+      Safely::Backtrace.enable!
     end
 
     def set_process_name
