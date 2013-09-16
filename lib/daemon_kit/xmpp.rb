@@ -1,5 +1,6 @@
 require 'blather/client/client'
 require 'blather/client/dsl'
+require 'blather/version'
 
 module DaemonKit
   # Thin wrapper around the blather DSL
@@ -9,6 +10,10 @@ module DaemonKit
     class << self
 
       def run( &block )
+        if Blather::VERSION < '0.8.0'
+          DaemonKit.logger.warn "Blather version to old, please upgrade to 0.8.x"
+        end
+
         DaemonKit.trap('INT') { ::EM.stop }
         DaemonKit.trap('TERM') { ::EM.stop }
 
@@ -53,9 +58,9 @@ module DaemonKit
     def configure_roster!
       DaemonKit.logger.debug 'Configuring roster'
 
-      my_roster.each do |(jid, item)|
-        unless contacts.include?( jid )
-          DaemonKit.logger.debug "Removing #{jid} from roster"
+      my_roster.each do |item|
+        unless valid_contact?( item.jid )
+          DaemonKit.logger.debug "Removing #{item.jid} from roster"
 
           my_roster.delete( item.jid )
           next
@@ -68,7 +73,7 @@ module DaemonKit
         my_roster.add( Blather::JID.new( jid ) )
       end
 
-      my_roster.each do |(jid,item)|
+      my_roster.each do |item|
         item.subscription = :both
         item.ask = :subscribe
       end
@@ -83,7 +88,11 @@ module DaemonKit
     end
 
     def contacts
-      @config.masters + @config.supporters
+      @config.masters | ( @config.supporters || [] )
+    end
+
+    def valid_contact?( jid )
+      contacts.include?( jid.stripped.to_s )
     end
 
     def run
