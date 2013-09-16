@@ -54,7 +54,7 @@ module DaemonKit
       DaemonKit.logger.debug 'Configuring roster'
 
       my_roster.each do |item|
-        unless contacts.include?( item.jid )
+        unless valid_contact?( item.jid )
           DaemonKit.logger.debug "Removing #{item.jid} from roster"
 
           my_roster.delete( item.jid )
@@ -83,7 +83,11 @@ module DaemonKit
     end
 
     def contacts
-      @config.masters + @config.supporters
+      @config.masters | ( @config.supporters || [] )
+    end
+
+    def valid_contact?( jid )
+      contacts.include?( jid.stripped.to_s )
     end
 
     def run
