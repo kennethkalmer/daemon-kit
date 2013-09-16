@@ -82,7 +82,7 @@ The [ruote](http://openwfe.rubyforge.org) remote participant generator speeds up
 
 Depending on the generator you choose for your daemon, it might require additional gems to run.
 
-* xmpp - [blather](http://blather.squishtech.com/)
+* xmpp - [blather](http://blather.squishtech.com/) ~> 0.8.7
 * cron - [rufus-scheduler](http://github.com/jmettraux/rufus-scheduler) (at least version 2.0.0)
 * amqp - [amqp](http://github.com/tmm1/amqp)
 * ruote - none, although [ruote](http://openwfe.rubyforge.org) should probably be running somewhere

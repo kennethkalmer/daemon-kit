@@ -1,5 +1,6 @@
 require 'blather/client/client'
 require 'blather/client/dsl'
+require 'blather/version'
 
 module DaemonKit
   # Thin wrapper around the blather DSL
@@ -9,6 +10,10 @@ module DaemonKit
     class << self
 
       def run( &block )
+        if Blather::VERSION < '0.8.0'
+          DaemonKit.logger.warn "Blather version to old, please upgrade to 0.8.x"
+        end
+
         DaemonKit.trap('INT') { ::EM.stop }
         DaemonKit.trap('TERM') { ::EM.stop }
 
