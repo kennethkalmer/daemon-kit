@@ -68,7 +68,10 @@ describe DaemonKit::Configuration do
   end
 
   it "should have a default pid file" do
-    subject.pid_file.should_not be_nil
+    subject.stub(:default_log_path).and_return('/var/log/daemon.log')
+    subject.stub(:daemon_name).and_return('spec-daemon')
+
+    subject.pid_file.should == "/var/log/spec-daemon.1.pid"
   end
 
   it "should set a default umask" do

@@ -334,8 +334,9 @@ module DaemonKit
       @shutdown_hooks << ( proc || block )
     end
 
-    def pid_file( instance = nil )
-      @pid_file ||= "#{File.dirname(self.log_path)}/#{self.daemon_name}.#{instance}.pid"
+    def pid_file( instance = instance )
+      @pid_file ||=
+        File.join( File.dirname(self.default_log_path), "#{self.daemon_name}.#{instance}.pid" )
     end
 
     def instance
@@ -353,6 +354,10 @@ module DaemonKit
     def run_traps( signal )
       DaemonKit.logger.info "Running signal traps for #{signal}"
       self.signal_traps[ signal ].each { |trap| trap.call }
+    end
+
+    def default_log_path
+      File.join(root_path, 'log', "#{environment}.log")
     end
 
     private
@@ -410,10 +415,6 @@ module DaemonKit
 
     def default_load_paths
       [ 'lib' ]
-    end
-
-    def default_log_path
-      File.join(root_path, 'log', "#{environment}.log")
     end
 
     def default_log_level
