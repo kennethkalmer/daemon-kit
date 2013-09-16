@@ -7,8 +7,12 @@
 
 source 'https://rubygems.org'
 
+<% if options.edge? -%>
+gem 'daemon-kit', :github => 'kennethkalmer/daemon-kit'
+<% else -%>
 # Live on the edge instead: gem 'daemon-kit', :github => 'kennethkalmer/daemon-kit'
 gem 'daemon-kit'
+<% end -%>
 
 #
 # safely (http://github.com/kennethkalmer/safely)

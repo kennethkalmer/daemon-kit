@@ -20,6 +20,9 @@ module DaemonKit
       class_option :cucumber, :type => :boolean, :aliases => '-c', :default => false,
                    :desc => "Install cucumber support"
 
+      class_option :edge, :type => :boolean, :default => false,
+                   :desc => "Let the initial Gemfile track kennethkalmer/daemon-kit instead of rubygems"
+
       def initialize( *args )
         super
 
@@ -45,7 +48,7 @@ module DaemonKit
       def create_root_files
         template 'README.tt', 'README'
         copy_file 'Rakefile'
-        copy_file 'Gemfile'
+        template 'Gemfile.tt', 'Gemfile'
       end
 
       def create_bin_files
