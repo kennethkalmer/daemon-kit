@@ -45,8 +45,11 @@ module DaemonKit
         FileUtils.cd( destination_root )
       end
 
-      def create_root_files
+      def create_readme
         template 'README.tt', 'README'
+      end
+
+      def create_root_files
         copy_file 'Rakefile'
         template 'Gemfile.tt', 'Gemfile'
       end
