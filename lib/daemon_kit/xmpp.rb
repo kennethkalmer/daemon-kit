@@ -53,9 +53,9 @@ module DaemonKit
     def configure_roster!
       DaemonKit.logger.debug 'Configuring roster'
 
-      my_roster.each do |(jid, item)|
-        unless contacts.include?( jid )
-          DaemonKit.logger.debug "Removing #{jid} from roster"
+      my_roster.each do |item|
+        unless contacts.include?( item.jid )
+          DaemonKit.logger.debug "Removing #{item.jid} from roster"
 
           my_roster.delete( item.jid )
           next
@@ -68,7 +68,7 @@ module DaemonKit
         my_roster.add( Blather::JID.new( jid ) )
       end
 
-      my_roster.each do |(jid,item)|
+      my_roster.each do |item|
         item.subscription = :both
         item.ask = :subscribe
       end
