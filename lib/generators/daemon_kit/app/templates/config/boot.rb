@@ -10,20 +10,12 @@ module DaemonKit
   class << self
     def boot!
       unless booted?
-        pick_boot.run
+        GemBoot.new.run
       end
     end
 
     def booted?
       defined? DaemonKit::Initializer
-    end
-
-    def pick_boot
-      (vendor_kit? ? VendorBoot : GemBoot).new
-    end
-
-    def vendor_kit?
-      File.exists?( "#{DAEMON_ROOT}/vendor/daemon-kit" )
     end
   end
 
@@ -31,12 +23,6 @@ module DaemonKit
     def run
       load_initializer
       DaemonKit::Initializer.run
-    end
-  end
-
-  class VendorBoot < Boot
-    def load_initializer
-      require "#{DAEMON_ROOT}/vendor/daemon-kit/lib/daemon_kit/initializer"
     end
   end
 

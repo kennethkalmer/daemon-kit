@@ -29,7 +29,7 @@ tasks/
   Place for rake tasks
 
 vendor/
-  Place for unpacked gems and DaemonKit
+  Place for third-party code that can't be bundled via the Gemfile
 
 tmp/
   Scratch folder
