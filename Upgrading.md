@@ -1,6 +1,17 @@
 Some important upgrading information
 ====================================
 
+Upgrading to 0.3.0
+------------------
+
+From 0.2 there hasn't been any signifant changes. 0.3.0.rc2 made some changes
+to the way a daemon boots, so after updating you'll need to run:
+
+    $ rake daemon_kit:upgrade
+
+We recommend running this task on a clean repo, or branch, so you can review
+the changes using your favourite diff tool.
+
 Upgrading to 0.1.9
 ------------------
 
