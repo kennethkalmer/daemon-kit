@@ -31,11 +31,6 @@ set :config_files, %w{}
 # into the root directory of the deployment.
 set :shared_children, %w{log tmp}
 
-# Record our dependencies
-unless File.directory?( "#{DaemonKit.root}/vendor/daemon_kit" )
-  depend :remote, :gem, "daemon-kit", ">=#{DaemonKit.version}"
-end
-
 # Hook into capistrano's events
 before "deploy:update_code", "deploy:check"
 

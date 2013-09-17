@@ -1,5 +1,4 @@
-# If you need to 'vendor your gems' for deploying your daemons, bundler is a
-# great option. Update this Gemfile with any additional dependencies and run
+# Update this Gemfile with any additional dependencies and run
 # 'bundle install' to get them all installed. Daemon-kit's capistrano
 # deployment will ensure that the bundle required by your daemon is properly
 # installed.
@@ -8,8 +7,12 @@
 
 source 'https://rubygems.org'
 
-# daemon-kit
+<% if options.edge? -%>
+gem 'daemon-kit', :github => 'kennethkalmer/daemon-kit'
+<% else -%>
+# Live on the edge instead: gem 'daemon-kit', :github => 'kennethkalmer/daemon-kit'
 gem 'daemon-kit'
+<% end -%>
 
 #
 # safely (http://github.com/kennethkalmer/safely)
@@ -19,3 +22,4 @@ gem 'safely' # Optional, but recommended.
 
 # gem 'toadhopper' # For reporting exceptions to hoptoad
 # gem 'mail' # For reporting exceptions via mail
+

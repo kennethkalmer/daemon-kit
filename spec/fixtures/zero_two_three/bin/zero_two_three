@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+#
+# Stub executable for zero_two_three
+#
+
+require File.expand_path('../../config/environment',  __FILE__)
+
+DaemonKit::Application.exec( DAEMON_ROOT + '/libexec/zero_two_three-daemon.rb' )

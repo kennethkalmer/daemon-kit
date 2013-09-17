@@ -8,7 +8,7 @@ Directories
 ===========
 
 bin/
-  <%= app_name %> - Stub executable to control your daemon with
+  zero_two_three - Stub executable to control your daemon with
 
 config/
   Environment configuration files
@@ -17,7 +17,7 @@ lib/
   Place for your libraries
 
 libexec/
-  <%= app_name %>.rb - Your daemon code
+  zero_two_three.rb - Your daemon code
 
 log/
   Log files based on the environment name
@@ -29,7 +29,7 @@ tasks/
   Place for rake tasks
 
 vendor/
-  Place for third-party code that can't be bundled via the Gemfile
+  Place for unpacked gems and DaemonKit
 
 tmp/
   Scratch folder

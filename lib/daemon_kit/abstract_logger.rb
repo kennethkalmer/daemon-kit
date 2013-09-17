@@ -160,7 +160,6 @@ module DaemonKit
     def clean_trace( trace )
       trace = trace.map { |l| l.gsub(DAEMON_ROOT, '') }
       trace = trace.reject { |l| l =~ /gems\/daemon[\-_]kit/ }
-      trace = trace.reject { |l| l =~ /vendor\/daemon[\-_]kit/ }
       trace
     end
 

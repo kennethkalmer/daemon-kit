@@ -44,3 +44,8 @@ Feature: Generating a new daemon
       | tasks |
       | vendor |
       | tmp |
+
+  Scenario: Generating an 'edge' daemon
+    When I run `daemon-kit vuvuzela --edge`
+    And I cd to "vuvuzela"
+    Then the Gemfile should point to edge daemon-kit
