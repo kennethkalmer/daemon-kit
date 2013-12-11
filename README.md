@@ -62,7 +62,7 @@ The jabber generator creates a simple daemon that leverages the [blather](http:/
 
 ### Cron Generator
 
-The cron generator creates a simple daemon that leverages the [rufus-scheduler](http://github.com/jmettraux/rufus-scheduler) gem to create a simple cron-lie daemon. Please be aware that this daemon could never be a replacement for the battle-tested cron[http://www.gentoo.org/doc/en/cron-guide.xml] utility shipped standard with most *nix distributions.
+The cron generator creates a simple daemon that leverages the [rufus-scheduler](http://github.com/jmettraux/rufus-scheduler) gem to create a simple cron-like daemon. Please be aware that this daemon could never be a replacement for the battle-tested cron[http://www.gentoo.org/doc/en/cron-guide.xml] utility shipped standard with most *nix distributions.
 
 ### AMQP Consumer Generator
 
