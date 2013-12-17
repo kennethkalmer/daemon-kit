@@ -46,5 +46,4 @@ $ daemon-kit -h
 
   gem.add_dependency(%q<thor>)
   gem.add_runtime_dependency(%q<eventmachine>, [">= 0.12.10"])
-  gem.add_runtime_dependency(%q<i18n>)
 end
