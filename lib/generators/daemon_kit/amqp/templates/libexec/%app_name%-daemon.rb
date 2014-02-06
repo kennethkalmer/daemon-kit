@@ -24,7 +24,7 @@ DaemonKit::AMQP.run do |connection|
 
   # Uncomment this for connection keep-alive
   # connection.on_tcp_connection_loss do |client, settings|
-  #   DaemonKit.logger.debug("AMQP connection status changed: #{status}")
+  #   DaemonKit.logger.debug("AMQP connection status changed: #{client.status}")
   #   client.reconnect(false, 1)
   # end
 
