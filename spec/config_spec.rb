@@ -41,6 +41,14 @@ describe DaemonKit::Config do
       FileUtils.mkdir_p( DAEMON_ROOT + "/config" )
       FileUtils.cp( File.dirname(__FILE__) + '/fixtures/env.yml', DAEMON_ROOT + '/config/' )
       FileUtils.cp( File.dirname(__FILE__) + '/fixtures/noenv.yml', DAEMON_ROOT + '/config/' )
+      FileUtils.cp( File.dirname(__FILE__) + '/fixtures/erb.yml', DAEMON_ROOT + '/config/' )
+    end
+
+    it "should render ERB interpolation before loading config" do
+      ENV.should_receive(:[]).with("foo").and_return("bar")
+      config = DaemonKit::Config.load('erb')
+
+      config.string.should == 'bar'
     end
 
     it "should parse env keys correctly" do
