@@ -29,7 +29,9 @@ module DaemonKit
 
         raise ArgumentError, "Can't find #{path}" unless File.exists?( path )
 
-        new( YAML.load_file( path ) )
+        config_content = ERB.new(File.read(path)).result(binding)
+
+        new( YAML.load( config_content ) )
       end
 
       # Return the +config+.yml file as a raw hash.
