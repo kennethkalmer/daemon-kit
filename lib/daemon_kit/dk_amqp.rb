@@ -27,13 +27,16 @@ module DaemonKit
     end
 
     def run(&block)
-      # Ensure graceful shutdown of the connection to the broker
-      DaemonKit.trap('INT') { ::AMQP.stop { ::EM.stop } }
-      DaemonKit.trap('TERM') { ::AMQP.stop { ::EM.stop } }
-
       # Start our event loop and AMQP client
       DaemonKit.logger.debug("AMQP.start(#{@config.inspect})")
-      ::AMQP.start(@config, &block)
+      ::AMQP.start(@config) do |connection|
+        # Ensure graceful shutdown of the connection to the broker
+        hook = Proc.new { connection.close { EventMachine.stop } }
+        DaemonKit.trap('INT', hook)
+        DaemonKit.trap('TERM', hook)
+
+        yield connection
+      end
     end
   end
 end
