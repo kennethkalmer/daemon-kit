@@ -446,7 +446,7 @@ namespace :deploy do
     the :use_sudo variable to false.
   DESC
   task :start do
-    try_runner "DAEMON_ENV=#{fetch(:daemon_env)} BUNDLE_GEMFILE=#{current_path}/Gemfile bundle exec #{current_path}/bin/#{application} start"
+    try_runner "cd #{current_path} && DAEMON_ENV=#{fetch(:daemon_env)} BUNDLE_GEMFILE=#{current_path}/Gemfile bundle exec ./bin/#{application} start"
   end
 
   desc <<-DESC
@@ -458,7 +458,7 @@ namespace :deploy do
     the :use_sudo variable to false.
   DESC
   task :stop do
-    try_runner "DAEMON_ENV=#{fetch(:daemon_env)} BUNDLE_GEMFILE=#{current_path}/Gemfile bundle exec #{current_path}/bin/#{application} stop"
+    try_runner "cd #{current_path} && DAEMON_ENV=#{fetch(:daemon_env)} BUNDLE_GEMFILE=#{current_path}/Gemfile bundle exec ./bin/#{application} stop"
   end
 
   namespace :pending do

@@ -9,8 +9,9 @@ DAEMON_ROOT = "<%= DaemonKit.root %>"
 God.watch do |w|
   w.name = '<%= DaemonKit.configuration.daemon_name %>'
   w.interval = 30.seconds
-  w.start = "/usr/bin/env DAEMON_ENV=<%= DaemonKit.env %> #{DAEMON_ROOT}/bin/<%= DaemonKit.configuration.daemon_name %> start"
-  w.stop = "/usr/bin/env DAEMON_ENV=<%= DaemonKit.env %> #{DAEMON_ROOT}/bin/<%= DaemonKit.configuration.daemon_name %> stop"
+  w.dir   = DAEMON_ROOT
+  w.start = "/usr/bin/env DAEMON_ENV=<%= DaemonKit.env %> ./bin/<%= DaemonKit.configuration.daemon_name %> start"
+  w.stop  = "/usr/bin/env DAEMON_ENV=<%= DaemonKit.env %> ./bin/<%= DaemonKit.configuration.daemon_name %> stop"
   w.start_grace = 10.seconds
   w.stop_grace = 10.seconds
   w.pid_file = "<%= DaemonKit.configuration.pid_file %>"
