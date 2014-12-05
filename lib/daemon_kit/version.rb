@@ -1,7 +1,7 @@
 module DaemonKit
 
   def version
-    '0.3.1'
+    '0.4.0.dev'
   end
 
   module_function :version
