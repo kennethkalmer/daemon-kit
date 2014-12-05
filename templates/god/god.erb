@@ -55,14 +55,15 @@ God.watch do |w|
   end
 end
 
-God::Contacts::Email.server_settings = {
-  :address => "smtp.gmail.com",
-  :port => 587,
-  :domain => "localhost",
-  :authentication => :plain,
-  :user_name => "you@gmail.com",
-  :password => "secret"
-}
+God::Contacts::Email.defaults do |d|
+  d.delivery_method = :smtp
+  d.server_host = 'smtp.gmail.com'
+  d.server_port = 587
+  d.server_auth = :login
+  d.server_domain = 'example.com'
+  d.server_user = 'user@example.com'
+  d.server_password = 'password'
+end
 
 God.contact(:email) do |c|
   c.name = 'sysadmin'
