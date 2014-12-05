@@ -1,6 +1,31 @@
-## 0.3.0 (In progress)
+## Unreleased
+
+## 0.3.1 2014-07-21
+
+* Removed the dependency on the i18n gem
+* Locked rufus-scheduler dependency to 2.0.x #79
+* Pass YAML files through ERB #80
+* Ensure proper shutdown of AMQP connections #84
+
+## 0.3.0 2014-05-15
+
+* No changes, released final version
+
+## 0.3.0.rc2 2013-09-23
+
+* (safely)[kennethkalmer/safely] usage is now optional, although included by default (#73)
+* XMPP abstractions fixed and now requires Blather ~> 0.8.0
+* Removed support for "freezing" daemon-kit into vendor/daemon-kit
+* Added new "--edge" generator, creating a Gemfile that depends on daemon-kit's Github repo
+
+## 0.3.0.rc1 2013-09-11
 
 * Removed nanite support, nanite hasn't released in years.
+* Switched generators from Rubigen to Thor
+* Added Travis builds
+* Added Relish documentation for us
+* Switched example specs to use "pending" instead of "violated"
+* Running `daemon-kit` without arguments now shows help
 
 ## 0.2.0 2012-09-30
 
