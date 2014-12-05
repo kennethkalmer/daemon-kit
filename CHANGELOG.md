@@ -13,7 +13,7 @@
 
 ## 0.3.0.rc2 2013-09-23
 
-* (safely)[kennethkalmer/safely] usage is now optional, although included by default (#73)
+* [safely](https://github.com/kennethkalmer/safely) usage is now optional, although included by default. #73
 * XMPP abstractions fixed and now requires Blather ~> 0.8.0
 * Removed support for "freezing" daemon-kit into vendor/daemon-kit
 * Added new "--edge" generator, creating a Gemfile that depends on daemon-kit's Github repo
