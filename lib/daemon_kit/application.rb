@@ -30,9 +30,8 @@ module DaemonKit
       # Run the daemon in the foreground without daemonizing
       def run( file )
         self.chroot
-        self.clean_fd
         self.redirect_io( true )
-        
+
         DaemonKit.configuration.log_stdout = true
 
         require file
@@ -43,7 +42,6 @@ module DaemonKit
         self.drop_privileges
         self.daemonize
         self.chroot
-        self.clean_fd
         self.redirect_io
 
         require file
@@ -175,21 +173,6 @@ module DaemonKit
       def chroot
         Dir.chdir '/'
         File.umask 0000
-      end
-
-      # Make sure all file descriptors are closed (with the exception
-      # of STDIN, STDOUT & STDERR)
-      def clean_fd
-        ObjectSpace.each_object(IO) do |io|
-          unless [STDIN, STDOUT, STDERR].include?(io)
-            begin
-              unless io.closed?
-                io.close
-              end
-            rescue ::Exception
-            end
-          end
-        end
       end
 
       # Redirect our IO
