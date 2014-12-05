@@ -1,4 +1,12 @@
-## Unreleased
+# Changelog
+
+DaemonKit endures to use semantic versioning, at least since the 0.3.0 release.
+Below is a curated list of important changes/fixes/improvements. You can use
+GitHub's excellent compare view to get the nitty gritty details.
+
+## 0.4.0 Unreleased
+
+* No longer close IO we don't own when daemonizing. [#85](https://github.com/kennethkalmer/daemon-kit/issues/85)
 
 ## 0.3.1 2014-07-21
 
