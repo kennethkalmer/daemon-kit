@@ -28,7 +28,7 @@ $ daemon-kit -h
   gem.extra_rdoc_files = [
                           "Configuration.txt",
                           "Deployment.txt",
-                          "History.txt",
+                          "CHANGELOG.md",
                           "Logging.txt",
                           "README.md",
                           "RuoteParticipants.txt",
