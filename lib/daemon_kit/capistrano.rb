@@ -1,6 +1,6 @@
 namespace :load do
   task :defaults do
-    set :daemon_kit_default_hooks, -> { true }
+    set :daemon_default_hooks, -> { true }
     set :daemon_cmd, -> { "./bin/#{fetch(:application)}" }
     set :daemon_pid, -> { File.join(shared_path, 'log', "#{fetch(:application)}.pid") }
     set :daemon_env, "production"
