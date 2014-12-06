@@ -9,6 +9,9 @@ namespace :load do
     # Rbenv and RVM integration
     # set :rbenv_map_bins, fetch(:rbenv_map_bins).to_a.concat(%w{ puma pumactl })
     # set :rvm_map_bins, fetch(:rvm_map_bins).to_a.concat(%w{ puma pumactl })
+
+    # Our logs
+    set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp')
   end
 end
 
