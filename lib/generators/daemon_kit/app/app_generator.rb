@@ -2,7 +2,6 @@ module DaemonKit
   module Generators
     class AppGenerator < Base
       INSTALLERS = %w( default amqp sqs cron ruote xmpp )
-      DEPLOYERS  = %w( capistrano )
       TEST_FRAMEWORKS = %w( none rspec test_unit )
       add_shebang_option!
 
@@ -10,9 +9,6 @@ module DaemonKit
 
       class_option :installer, :type => :string, :aliases => '-i', :default => 'default',
                    :desc => "Pre-configured daemon to generate (options: #{INSTALLERS.join(', ')})"
-
-      class_option :deployer, :type => :string, :aliases => '-d',
-                   :desc => "Select an optional deployment mechanism (options: #{DEPLOYERS.join(', ')})"
 
       class_option :test_framework, :type => :string, :aliases => '-t', :default => 'rspec',
                    :desc => "Select your prefered test framework (options: #{TEST_FRAMEWORKS.join(', ')})"
@@ -107,15 +103,6 @@ module DaemonKit
           invoke DaemonKit::Generators::RuoteGenerator
         when 'xmpp'
           invoke DaemonKit::Generators::XmppGenerator
-        end
-      end
-
-      def create_deployment_config
-        return unless options[:deployer]
-
-        case options[:deployer]
-        when 'capistrano'
-          invoke DaemonKit::Generators::CapistranoGenerator
         end
       end
 
