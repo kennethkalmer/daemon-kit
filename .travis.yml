@@ -1,17 +1,24 @@
 language: ruby
+
 rvm:
-  - 2.0.0
+  - 2.2
+  - 2.1
+  - 2.0
   - 1.9.3
   - 1.9.2
   - rbx-19mode
   - 1.8.7
-  - ree
+
 matrix:
   allow_failures:
+    - rvm: 2.2
     - rvm: jruby-19mode
     - rvm: rbx-19mode
     - rvm: 1.8.7
-    - rvm: ree
+
 before_install: umask 0022
+
 gemfile:
   - gemfiles/Gemfile.ci
+
+sudo: false
