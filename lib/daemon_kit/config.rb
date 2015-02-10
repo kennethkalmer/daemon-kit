@@ -17,6 +17,7 @@ module DaemonKit
   class Config
 
     require "yaml"
+    require "erb"
     
     class << self
 
