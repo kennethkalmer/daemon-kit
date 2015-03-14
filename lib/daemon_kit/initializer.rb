@@ -334,9 +334,9 @@ module DaemonKit
       @shutdown_hooks << ( proc || block )
     end
 
-    def pid_file( instance = instance )
+    def pid_file( an_instance = instance )
       @pid_file ||=
-        File.join( File.dirname(self.default_log_path), "#{self.daemon_name}.#{instance}.pid" )
+        File.join( File.dirname(self.default_log_path), "#{self.daemon_name}.#{an_instance}.pid" )
     end
 
     def instance
