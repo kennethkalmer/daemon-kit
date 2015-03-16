@@ -4,9 +4,11 @@ DaemonKit endures to use semantic versioning, at least since the 0.3.0 release.
 Below is a curated list of important changes/fixes/improvements. You can use
 GitHub's excellent compare view to get the nitty gritty details.
 
-## 0.4.0 Unreleased
+## 0.3.2 2015-03-16
 
 * No longer close IO we don't own when daemonizing. [#85](https://github.com/kennethkalmer/daemon-kit/issues/85)
+* Fix missing ERB require. [#89](https://github.com/kennethkalmer/daemon-kit/issues/89)
+* Ruby 2.2 compat fix. [#91](https://github.com/kennethkalmer/daemon-kit/issues/91)
 
 ## 0.3.1 2014-07-21
 
