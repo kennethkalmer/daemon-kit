@@ -1,3 +1,4 @@
+require 'fcntl'
 require 'timeout'
 
 module DaemonKit
