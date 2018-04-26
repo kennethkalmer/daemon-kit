@@ -4,6 +4,11 @@ DaemonKit endures to use semantic versioning, at least since the 0.3.0 release.
 Below is a curated list of important changes/fixes/improvements. You can use
 GitHub's excellent compare view to get the nitty gritty details.
 
+## master
+
+* Bump development dependency versions for rspec & cucumber
+* Tweak Ruby versions we run against on Travis (only 2.0 and up)
+
 ## 0.3.3 2018-04-25
 
 * Require 'fcntl'. [#93](https://github.com/kennethkalmer/daemon-kit/pull/93)
