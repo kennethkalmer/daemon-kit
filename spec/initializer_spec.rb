@@ -12,7 +12,7 @@ describe DaemonKit::Initializer do
     it "should configure threads to abort on exceptions" do
       subject.configure_exception_handling
 
-      expect( Thread.abort_on_exception ).to be_true
+      expect( Thread.abort_on_exception ).to be true
     end
 
     it "should not configure safely if the gem isn't available" do

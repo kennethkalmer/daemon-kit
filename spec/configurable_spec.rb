@@ -23,7 +23,7 @@ describe DaemonKit::Configurable do
   it "should support overwriting unlocked defaults" do
     lambda {
       @foo.has_default = false
-      @foo.has_default.should be_false
+      @foo.has_default.should be false
     }.should_not raise_error
   end
 
